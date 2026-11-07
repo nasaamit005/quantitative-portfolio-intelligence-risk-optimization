@@ -1,0 +1,462 @@
+{
+  "project": "Quantitative Portfolio Intelligence & Risk Optimization Platform",
+  "stage": "1.16 - Automated Quantitative Reporting",
+  "generated_at_utc": "2026-11-04T08:24:43.821981+00:00",
+  "project_root": "C:\\Users\\dell\\Documents\\quantitative-portfolio-intelligence-risk-optimization",
+  "source_folders": [
+    "walk_forward_comparison",
+    "performance_analytics",
+    "stress_testing",
+    "robustness_analysis",
+    "black_litterman_optimization"
+  ],
+  "discovered_csv_files": 26,
+  "loaded_datasets": 26,
+  "failed_files": [],
+  "output_directory": "C:\\Users\\dell\\Documents\\quantitative-portfolio-intelligence-risk-optimization\\reports\\automated_reporting",
+  "datasets": [
+    {
+      "path": "reports/black_litterman_optimization/black_litterman_investor_views.csv",
+      "rows": 1,
+      "columns": [
+        "Unnamed: 0",
+        "MSFT",
+        "CAT",
+        "GOOGL",
+        "XOM",
+        "KO",
+        "JNJ",
+        "COST",
+        "AAPL",
+        "META",
+        "JPM",
+        "AMZN",
+        "NVDA"
+      ]
+    },
+    {
+      "path": "reports/black_litterman_optimization/black_litterman_posterior_covariance.csv",
+      "rows": 12,
+      "columns": [
+        "Ticker",
+        "MSFT",
+        "CAT",
+        "GOOGL",
+        "XOM",
+        "KO",
+        "JNJ",
+        "COST",
+        "AAPL",
+        "META",
+        "JPM",
+        "AMZN",
+        "NVDA"
+      ]
+    },
+    {
+      "path": "reports/black_litterman_optimization/black_litterman_returns.csv",
+      "rows": 12,
+      "columns": [
+        "ticker",
+        "equilibrium_excess_return",
+        "posterior_excess_return",
+        "posterior_total_return"
+      ]
+    },
+    {
+      "path": "reports/black_litterman_optimization/black_litterman_view_uncertainty.csv",
+      "rows": 1,
+      "columns": [
+        "Unnamed: 0",
+        "NVDA_vs_KO"
+      ]
+    },
+    {
+      "path": "reports/black_litterman_optimization/portfolio_performance.csv",
+      "rows": 6,
+      "columns": [
+        "Unnamed: 0",
+        "method",
+        "evaluation_basis",
+        "expected_annual_return",
+        "annual_volatility",
+        "sharpe_ratio"
+      ]
+    },
+    {
+      "path": "reports/black_litterman_optimization/portfolio_weights.csv",
+      "rows": 12,
+      "columns": [
+        "ticker",
+        "Minimum Volatility",
+        "Maximum Sharpe",
+        "HRP",
+        "Risk Parity",
+        "Black-Litterman"
+      ]
+    },
+    {
+      "path": "reports/black_litterman_optimization/risk_contributions.csv",
+      "rows": 60,
+      "columns": [
+        "Unnamed: 0",
+        "weight",
+        "marginal_risk",
+        "risk_contribution",
+        "risk_contribution_pct",
+        "method",
+        "ticker"
+      ]
+    },
+    {
+      "path": "reports/black_litterman_optimization/validation_summary.csv",
+      "rows": 30,
+      "columns": [
+        "Unnamed: 0",
+        "check",
+        "status",
+        "details"
+      ]
+    },
+    {
+      "path": "reports/performance_analytics/benchmark_calendar_year_returns.csv",
+      "rows": 11,
+      "columns": [
+        "strategy",
+        "year",
+        "annual_return",
+        "observations"
+      ]
+    },
+    {
+      "path": "reports/performance_analytics/benchmark_summary.csv",
+      "rows": 1,
+      "columns": [
+        "benchmark",
+        "observations",
+        "annualized_return",
+        "annualized_volatility",
+        "sharpe_ratio",
+        "sortino_ratio",
+        "max_drawdown",
+        "calmar_ratio",
+        "best_daily_return",
+        "worst_daily_return",
+        "positive_day_ratio",
+        "initial_capital",
+        "final_value",
+        "total_return",
+        "cost_treatment"
+      ]
+    },
+    {
+      "path": "reports/performance_analytics/calendar_year_returns.csv",
+      "rows": 55,
+      "columns": [
+        "strategy",
+        "year",
+        "annual_return",
+        "observations"
+      ]
+    },
+    {
+      "path": "reports/performance_analytics/drawdown_episodes.csv",
+      "rows": 1074,
+      "columns": [
+        "strategy",
+        "peak_date",
+        "peak_type",
+        "trough_date",
+        "recovery_date",
+        "drawdown",
+        "days_to_trough",
+        "days_to_recovery",
+        "recovered"
+      ]
+    },
+    {
+      "path": "reports/performance_analytics/performance_summary.csv",
+      "rows": 5,
+      "columns": [
+        "sharpe_rank",
+        "observations",
+        "annualized_return",
+        "annualized_volatility",
+        "sharpe_ratio",
+        "sortino_ratio",
+        "max_drawdown",
+        "calmar_ratio",
+        "best_daily_return",
+        "worst_daily_return",
+        "positive_day_ratio",
+        "benchmark_annualized_return",
+        "tracking_error",
+        "information_ratio",
+        "beta_vs_spy",
+        "annualized_capm_alpha",
+        "benchmark_correlation",
+        "benchmark_observations",
+        "strategy",
+        "final_value",
+        "total_return",
+        "total_trading_cost",
+        "total_turnover",
+        "rebalance_count"
+      ]
+    },
+    {
+      "path": "reports/performance_analytics/rolling_performance_metrics.csv",
+      "rows": 13615,
+      "columns": [
+        "date",
+        "strategy",
+        "rolling_annualized_volatility",
+        "rolling_sharpe_ratio",
+        "rolling_beta_vs_spy"
+      ]
+    },
+    {
+      "path": "reports/robustness_analysis/failed_robustness_experiments.csv",
+      "rows": 2,
+      "columns": [
+        "experiment",
+        "strategy",
+        "lookback_days",
+        "transaction_cost_bps",
+        "slippage_bps",
+        "rebalance_frequency",
+        "max_weight",
+        "initial_capital",
+        "risk_free_rate",
+        "test_start",
+        "test_end",
+        "observations",
+        "annualized_return",
+        "annualized_volatility",
+        "sharpe_ratio",
+        "sortino_ratio",
+        "max_drawdown",
+        "calmar_ratio",
+        "total_return",
+        "final_portfolio_value",
+        "total_trading_cost",
+        "total_turnover",
+        "rebalance_count",
+        "status",
+        "error"
+      ]
+    },
+    {
+      "path": "reports/robustness_analysis/market_regime_classification.csv",
+      "rows": 2975,
+      "columns": [
+        "date",
+        "universe_proxy_daily_return",
+        "universe_proxy_trailing_126d_return",
+        "universe_proxy_trailing_63d_volatility",
+        "volatility_threshold",
+        "market_regime"
+      ]
+    },
+    {
+      "path": "reports/robustness_analysis/market_regime_performance.csv",
+      "rows": 20,
+      "columns": [
+        "strategy",
+        "market_regime",
+        "observations",
+        "share_of_classified_observations",
+        "mean_daily_return",
+        "median_daily_return",
+        "hit_rate",
+        "conditional_annualized_return",
+        "annualized_volatility",
+        "sharpe_ratio",
+        "sample_status"
+      ]
+    },
+    {
+      "path": "reports/robustness_analysis/rolling_robustness_metrics.csv",
+      "rows": 13615,
+      "columns": [
+        "date",
+        "strategy",
+        "rolling_252d_return",
+        "rolling_annualized_volatility",
+        "rolling_sharpe_ratio"
+      ]
+    },
+    {
+      "path": "reports/robustness_analysis/sensitivity_experiment_results.csv",
+      "rows": 80,
+      "columns": [
+        "experiment",
+        "strategy",
+        "lookback_days",
+        "transaction_cost_bps",
+        "slippage_bps",
+        "rebalance_frequency",
+        "max_weight",
+        "initial_capital",
+        "risk_free_rate",
+        "test_start",
+        "test_end",
+        "observations",
+        "annualized_return",
+        "annualized_volatility",
+        "sharpe_ratio",
+        "sortino_ratio",
+        "max_drawdown",
+        "calmar_ratio",
+        "total_return",
+        "final_portfolio_value",
+        "total_trading_cost",
+        "total_turnover",
+        "rebalance_count",
+        "status",
+        "error"
+      ]
+    },
+    {
+      "path": "reports/robustness_analysis/strategy_robustness_scorecard.csv",
+      "rows": 5,
+      "columns": [
+        "strategy",
+        "mean_sharpe",
+        "median_sharpe",
+        "sharpe_std",
+        "mean_sharpe_rank",
+        "best_sharpe",
+        "worst_sharpe",
+        "mean_annualized_return",
+        "mean_max_drawdown",
+        "experiment_count",
+        "rank_observations",
+        "sharpe_range"
+      ]
+    },
+    {
+      "path": "reports/stress_testing/historical_stress_results.csv",
+      "rows": 15,
+      "columns": [
+        "strategy",
+        "historical_period",
+        "start_date",
+        "end_date",
+        "observations",
+        "cumulative_return",
+        "annualized_volatility",
+        "maximum_drawdown",
+        "worst_daily_return",
+        "historical_var_99",
+        "historical_cvar_99"
+      ]
+    },
+    {
+      "path": "reports/stress_testing/hypothetical_scenario_results.csv",
+      "rows": 160,
+      "columns": [
+        "strategy",
+        "scenario_type",
+        "scenario",
+        "portfolio_return",
+        "estimated_pnl",
+        "stressed_portfolio_value"
+      ]
+    },
+    {
+      "path": "reports/stress_testing/volatility_correlation_stress.csv",
+      "rows": 5,
+      "columns": [
+        "strategy",
+        "covariance_window_observations",
+        "covariance_window_start",
+        "covariance_window_end",
+        "volatility_multiplier",
+        "correlation_stress_weight",
+        "historical_annualized_volatility",
+        "stressed_annualized_volatility",
+        "volatility_increase",
+        "historical_parametric_var_99",
+        "stressed_parametric_var_99",
+        "historical_parametric_es_99",
+        "stressed_parametric_es_99",
+        "historical_var_capital_amount",
+        "stressed_var_capital_amount",
+        "historical_es_capital_amount",
+        "stressed_es_capital_amount"
+      ]
+    },
+    {
+      "path": "reports/walk_forward_comparison/strategy_comparison_summary.csv",
+      "rows": 5,
+      "columns": [
+        "sharpe_rank",
+        "strategy",
+        "lookback_days",
+        "test_observations",
+        "initial_capital",
+        "final_value",
+        "total_return",
+        "annualized_return",
+        "annualized_volatility",
+        "sharpe_ratio",
+        "max_drawdown",
+        "total_transaction_costs",
+        "total_turnover",
+        "rebalance_count",
+        "first_test_date",
+        "last_test_date"
+      ]
+    },
+    {
+      "path": "reports/walk_forward_comparison/strategy_daily_results.csv",
+      "rows": 13615,
+      "columns": [
+        "date",
+        "strategy",
+        "portfolio_value",
+        "gross_daily_return",
+        "net_daily_return",
+        "turnover",
+        "trading_cost",
+        "is_rebalance",
+        "weight_MSFT",
+        "weight_CAT",
+        "weight_GOOGL",
+        "weight_XOM",
+        "weight_KO",
+        "weight_JNJ",
+        "weight_COST",
+        "weight_AAPL",
+        "weight_META",
+        "weight_JPM",
+        "weight_AMZN",
+        "weight_NVDA",
+        "cumulative_return",
+        "running_peak",
+        "drawdown"
+      ]
+    },
+    {
+      "path": "reports/walk_forward_comparison/strategy_daily_weights.csv",
+      "rows": 13615,
+      "columns": [
+        "date",
+        "strategy",
+        "weight_MSFT",
+        "weight_CAT",
+        "weight_GOOGL",
+        "weight_XOM",
+        "weight_KO",
+        "weight_JNJ",
+        "weight_COST",
+        "weight_AAPL",
+        "weight_META",
+        "weight_JPM",
+        "weight_AMZN",
+        "weight_NVDA"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+<div class="table-wrap">
+    <table class="report-table">
+        <thead>
+            <tr>
+                {% for column in records[0].keys() %}
+                <th>{{ column.replace("_", " ")|title }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                {% for value in record.values() %}
+                <td>
+                    {% if value is none %}
+                        —
+                    {% elif value is number %}
+                        {{ "%.6g"|format(value) }}
+                    {% else %}
+                        {{ value }}
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

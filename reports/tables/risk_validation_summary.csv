@@ -1,0 +1,22 @@
+dataset,validation,status,detail
+us_equities,Instrument count,PASS,Expected 12; found 12.
+us_equities,Ticker consistency,PASS,Risk report tickers match return dataset tickers.
+us_equities,Observation counts,PASS,Expected 2975 observations per instrument.
+us_equities,Required risk metrics,PASS,All required risk metric columns are present.
+us_equities,Finite risk metrics,PASS,No NaN or infinite values in core risk metrics.
+us_equities,Non-negative volatility,PASS,Annualized volatility is non-negative.
+us_equities,Non-negative downside deviation,PASS,Downside deviation is non-negative.
+us_equities,Drawdown bounds,PASS,Maximum drawdown lies between -100% and 0%.
+us_equities,VaR and CVaR ordering,PASS,CVaR is at least as large as VaR at each confidence level.
+us_equities,Confidence-level ordering,PASS,99% VaR and CVaR are at least as large as their 95% equivalents.
+us_equities,Benchmark-relative metrics,PASS,"Beta, tracking error and information ratio are present."
+us_benchmarks,Instrument count,PASS,Expected 3; found 3.
+us_benchmarks,Ticker consistency,PASS,Risk report tickers match return dataset tickers.
+us_benchmarks,Observation counts,PASS,Expected 2975 observations per instrument.
+us_benchmarks,Required risk metrics,PASS,All required risk metric columns are present.
+us_benchmarks,Finite risk metrics,PASS,No NaN or infinite values in core risk metrics.
+us_benchmarks,Non-negative volatility,PASS,Annualized volatility is non-negative.
+us_benchmarks,Non-negative downside deviation,PASS,Downside deviation is non-negative.
+us_benchmarks,Drawdown bounds,PASS,Maximum drawdown lies between -100% and 0%.
+us_benchmarks,VaR and CVaR ordering,PASS,CVaR is at least as large as VaR at each confidence level.
+us_benchmarks,Confidence-level ordering,PASS,99% VaR and CVaR are at least as large as their 95% equivalents.

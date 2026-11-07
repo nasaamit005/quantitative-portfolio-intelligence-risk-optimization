@@ -1,0 +1,7 @@
+,method,evaluation_basis,expected_annual_return,annual_volatility,sharpe_ratio
+0,Minimum Volatility,Historical common estimates,0.15413478025567445,0.1440698235910958,0.7922185049633705
+1,Maximum Sharpe,Historical common estimates,0.3589616210599883,0.24321700641062832,1.31142811831784
+2,HRP,Historical common estimates,0.19298910981464923,0.15718235418148432,0.9733224229356334
+3,Risk Parity,Historical common estimates,0.21505501634857774,0.16918941293655276,1.0346688561075899
+4,Black-Litterman,Historical common estimates,0.20539516229658317,0.1732372350154282,0.9547321756887505
+5,Black-Litterman,Black-Litterman posterior estimates,0.11475732351748856,0.1771950227266515,0.421892908542992

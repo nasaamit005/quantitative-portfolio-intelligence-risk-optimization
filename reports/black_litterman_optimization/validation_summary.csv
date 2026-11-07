@@ -1,0 +1,31 @@
+,check,status,details
+0,Minimum Volatility: complete asset weights,PASS,All assets have portfolio weights
+1,Minimum Volatility: finite weights,PASS,All portfolio weights are finite
+2,Minimum Volatility: fully invested,PASS,Weight sum = 1.0000000000
+3,Minimum Volatility: long-only,PASS,Minimum weight = 0.00000000
+4,Minimum Volatility: maximum weight,PASS,Maximum weight = 0.32161010
+5,Maximum Sharpe: complete asset weights,PASS,All assets have portfolio weights
+6,Maximum Sharpe: finite weights,PASS,All portfolio weights are finite
+7,Maximum Sharpe: fully invested,PASS,Weight sum = 1.0000000000
+8,Maximum Sharpe: long-only,PASS,Minimum weight = 0.00000000
+9,Maximum Sharpe: maximum weight,PASS,Maximum weight = 0.39332160
+10,HRP: complete asset weights,PASS,All assets have portfolio weights
+11,HRP: finite weights,PASS,All portfolio weights are finite
+12,HRP: fully invested,PASS,Weight sum = 1.0000000000
+13,HRP: long-only,PASS,Minimum weight = 0.01826831
+14,HRP: maximum weight,PASS,Maximum weight = 0.22386665
+15,Risk Parity: complete asset weights,PASS,All assets have portfolio weights
+16,Risk Parity: finite weights,PASS,All portfolio weights are finite
+17,Risk Parity: fully invested,PASS,Weight sum = 1.0000000000
+18,Risk Parity: long-only,PASS,Minimum weight = 0.04677677
+19,Risk Parity: maximum weight,PASS,Maximum weight = 0.14171469
+20,Black-Litterman: complete asset weights,PASS,All assets have portfolio weights
+21,Black-Litterman: finite weights,PASS,All portfolio weights are finite
+22,Black-Litterman: fully invested,PASS,Weight sum = 1.0000000000
+23,Black-Litterman: long-only,PASS,Minimum weight = 0.00384569
+24,Black-Litterman: maximum weight,PASS,Maximum weight = 0.16282135
+25,Five optimization methods,PASS,Found 5 methods
+26,Posterior covariance dimensions,PASS,"Shape = (12, 12)"
+27,Posterior covariance positive definite,PASS,Minimum eigenvalue = 0.0168177033
+28,Performance metrics complete,PASS,All reported performance metrics are populated
+29,Risk contributions generated,PASS,Rows generated = 60

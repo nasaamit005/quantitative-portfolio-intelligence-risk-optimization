@@ -1,0 +1,10 @@
+check,status,details
+Asset count,PASS,12 assets
+Asset labels,PASS,HRP weights match the equity universe
+Finite weights,PASS,All weights are finite
+Fully invested,PASS,Weight sum = 1.0000000000
+No short positions,PASS,Minimum weight = 0.018268
+Maximum allocation,PASS,Maximum weight = 0.223867
+Positive portfolio volatility,PASS,Annualized volatility = 15.7182%
+Finite expected return,PASS,Annualized expected return = 19.2989%
+Finite Sharpe ratio,PASS,Sharpe ratio = 0.9733

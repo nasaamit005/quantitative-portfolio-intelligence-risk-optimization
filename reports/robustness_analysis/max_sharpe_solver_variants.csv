@@ -1,0 +1,13 @@
+window,observations,max_weight,starting_point,gradient,success,message,iterations,objective,sharpe_ratio,weight_sum,minimum_weight,maximum_weight,bound_violation,feasible
+126d_first_failure,126,0.5,equal_weight,numerical,False,Positive directional derivative for linesearch,17,-2.8251180486691947,2.8251180486691947,1.0000000000196865,0.0,0.44941723569242015,0.0,True
+126d_first_failure,126,0.5,equal_weight,analytical,True,Optimization terminated successfully,13,-2.8251180486610266,2.8251180486610266,1.0000000000000517,0.0,0.44941733682323814,0.0,True
+126d_first_failure,126,0.5,maximum_return,numerical,True,Optimization terminated successfully,8,-2.825118048660771,2.825118048660771,1.0000000000000315,0.0,0.44941720001267804,0.0,True
+126d_first_failure,126,0.5,maximum_return,analytical,True,Optimization terminated successfully,9,-2.8251180486616323,2.8251180486616323,1.0000000000001674,0.0,0.44941723755014296,0.0,True
+126d_second_failure,126,0.5,equal_weight,numerical,True,Optimization terminated successfully,14,-2.671568411193726,2.671568411193726,1.0000000000000335,0.0,0.4560543309861293,0.0,True
+126d_second_failure,126,0.5,equal_weight,analytical,False,Positive directional derivative for linesearch,16,-2.671568411350586,2.671568411350586,1.0000000004672291,0.0,0.4560543831576073,0.0,True
+126d_second_failure,126,0.5,maximum_return,numerical,True,Optimization terminated successfully,9,-2.6715684111944595,2.6715684111944595,1.0000000000002058,0.0,0.45605452908104527,0.0,True
+126d_second_failure,126,0.5,maximum_return,analytical,True,Optimization terminated successfully,9,-2.671568411194225,2.671568411194225,1.0000000000000104,0.0,0.45605453291337267,0.0,True
+252d_failure,252,0.3,equal_weight,numerical,True,Optimization terminated successfully,12,-1.3945175132217635,1.3945175132217635,1.000000000000009,0.0,0.3,0.0,True
+252d_failure,252,0.3,equal_weight,analytical,False,Positive directional derivative for linesearch,13,-1.3945175139134152,1.3945175139134152,0.9999999991163373,0.0,0.3,0.0,True
+252d_failure,252,0.3,maximum_return,numerical,True,Optimization terminated successfully,6,-1.394517513221484,1.394517513221484,1.0000000000000044,0.0,0.2999999999999905,0.0,True
+252d_failure,252,0.3,maximum_return,analytical,True,Optimization terminated successfully,6,-1.3945175132217935,1.3945175132217935,0.9999999999999736,0.0,0.3,0.0,True

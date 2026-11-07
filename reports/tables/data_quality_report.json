@@ -1,0 +1,259 @@
+[
+    {
+        "dataset": "us_equities",
+        "rows": 2976,
+        "columns": 60,
+        "first_date": "2015-01-02 00:00:00",
+        "last_date": "2026-11-02 00:00:00",
+        "duplicate_dates": 0,
+        "tickers": {
+            "MSFT": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "CAT": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "GOOGL": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "XOM": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "KO": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "JNJ": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "COST": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "AAPL": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "META": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "JPM": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "AMZN": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "NVDA": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            }
+        },
+        "total_missing_cells": 0,
+        "status": "PASS"
+    },
+    {
+        "dataset": "us_benchmarks",
+        "rows": 2976,
+        "columns": 15,
+        "first_date": "2015-01-02 00:00:00",
+        "last_date": "2026-11-02 00:00:00",
+        "duplicate_dates": 0,
+        "tickers": {
+            "^GSPC": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "^IXIC": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            },
+            "SPY": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2976,
+                "status": "PASS"
+            }
+        },
+        "total_missing_cells": 0,
+        "status": "PASS"
+    },
+    {
+        "dataset": "market_indicators",
+        "rows": 2978,
+        "columns": 10,
+        "first_date": "2015-01-02 00:00:00",
+        "last_date": "2026-11-02 00:00:00",
+        "duplicate_dates": 0,
+        "tickers": {
+            "^VIX": {
+                "missing_cells": 0,
+                "missing_rows": 0,
+                "missing_by_field": {
+                    "Open": 0,
+                    "High": 0,
+                    "Low": 0,
+                    "Close": 0,
+                    "Volume": 0
+                },
+                "valid_rows": 2978,
+                "status": "PASS"
+            },
+            "^TNX": {
+                "missing_cells": 15,
+                "missing_rows": 3,
+                "missing_by_field": {
+                    "Open": 3,
+                    "High": 3,
+                    "Low": 3,
+                    "Close": 3,
+                    "Volume": 3
+                },
+                "valid_rows": 2975,
+                "status": "PASS"
+            }
+        },
+        "total_missing_cells": 15,
+        "status": "PASS"
+    }
+]

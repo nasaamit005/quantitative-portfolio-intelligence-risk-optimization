@@ -1,0 +1,13 @@
+check,status,details
+Asset count,PASS,Expected 12 assets; found 12
+Equilibrium return labels,PASS,Equilibrium returns match asset universe
+Posterior return labels,PASS,Posterior returns match asset universe
+Finite equilibrium returns,PASS,All equilibrium returns are finite
+Finite posterior returns,PASS,All posterior returns are finite
+Posterior covariance dimensions,PASS,"Shape = (12, 12)"
+Posterior covariance symmetry,PASS,Posterior covariance is symmetric
+Posterior covariance positive definite,PASS,Minimum eigenvalue = 0.0168177033
+View uncertainty positive definite,PASS,Minimum view uncertainty eigenvalue = 0.0080230759
+Investor view labels,PASS,View uncertainty labels match investor views
+Equilibrium output consistency,PASS,Both equilibrium calculations agree
+Investor view influences posterior,PASS,Prior spread = 0.123311; posterior spread = 0.073325

@@ -1,0 +1,2 @@
+strategy,expected_annual_return,annualized_volatility,sharpe_ratio,risk_free_rate,asset_count,observations,risk_contribution_sum,maximum_risk_contribution_deviation
+Equal Risk Contribution,0.21505501634857774,0.16918941293655276,1.0346688561075899,0.04,12,2975,1.0,2.1510722080647637e-06

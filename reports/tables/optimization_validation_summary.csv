@@ -1,0 +1,12 @@
+validation,status,detail
+Frontier portfolio count,PASS,Found 30 portfolios; expected 30.
+Asset weight columns,PASS,Found 12 expected asset weight columns.
+Finite frontier values,PASS,All frontier numeric values must be finite.
+Portfolio weights sum to one,PASS,Weight-sum range: 1.00000000 to 1.00000000.
+No short positions,PASS,Minimum allocation: 0.00000000.
+Maximum allocation constraint,PASS,Maximum allocation: 0.50000000.
+Target return accuracy,PASS,Maximum difference: 4.09117185e-14.
+Positive portfolio volatility,PASS,Minimum volatility: 0.14407404.
+Increasing target returns,PASS,Target returns must increase across frontier portfolios.
+Minimum-volatility consistency,PASS,Standalone: 0.144064; frontier: 0.144074.
+Maximum-Sharpe consistency,PASS,Standalone: 1.314751; frontier: 1.314650.

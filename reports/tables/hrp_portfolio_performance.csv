@@ -1,0 +1,2 @@
+strategy,expected_annual_return,annualized_volatility,sharpe_ratio,risk_free_rate,asset_count,observations
+Hierarchical Risk Parity,0.19298910981464923,0.15718235418148432,0.9733224229356334,0.04,12,2975

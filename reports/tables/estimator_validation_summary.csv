@@ -1,0 +1,8 @@
+check,status,details
+Expected 12 equity assets,PASS,Found 12 assets
+Expected returns are finite,PASS,No NaN or infinite expected returns
+Covariance dimensions,PASS,"Found (12, 12)"
+Covariance values are finite,PASS,No NaN or infinite covariance values
+Covariance symmetry,PASS,Symmetry checked
+Covariance positive definite,PASS,Minimum eigenvalue: 1.6626367937e-02
+Asset labels aligned,PASS,Expected returns and covariance labels match

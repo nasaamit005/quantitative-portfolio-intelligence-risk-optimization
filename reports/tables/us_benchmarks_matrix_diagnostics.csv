@@ -1,0 +1,6 @@
+matrix,dimension,symmetric,minimum_eigenvalue,positive_definite,condition_number,finite_values
+pearson_correlation,3,True,0.0015298755844702155,True,1915.7834142699212,True
+spearman_correlation,3,True,0.001803464749537189,True,1610.5902809045397,True
+sample_covariance,3,True,1.869679418794209e-07,True,2226.293522587942,True
+annualized_covariance,3,True,4.7115921353609237e-05,True,2226.293522587812,True
+ledoit_wolf_covariance,3,True,0.0003101693178378981,True,336.4348704818705,True

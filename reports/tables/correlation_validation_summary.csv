@@ -1,0 +1,101 @@
+dataset,validation,status,details
+us_equities,pearson_correlation_matrix: dimension,PASS,"Expected 12x12; found (12, 12)."
+us_equities,pearson_correlation_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_equities,pearson_correlation_matrix: finite values,PASS,All matrix entries are finite.
+us_equities,pearson_correlation_matrix: symmetry,PASS,Matrix is symmetric.
+us_equities,pearson_correlation_matrix: positive semidefinite,PASS,Minimum eigenvalue: 0.3123377144.
+us_equities,pearson_correlation_matrix: positive definite,PASS,Minimum eigenvalue: 0.3123377144.
+us_equities,pearson_correlation_matrix: condition number,PASS,Condition number: 16.3196. Numerically well-conditioned under the configured warning threshold.
+us_equities,pearson_correlation_matrix: unit diagonal,PASS,All diagonal values equal 1.
+us_equities,pearson_correlation_matrix: correlation bounds,PASS,All correlations lie between -1 and +1.
+us_equities,spearman_correlation_matrix: dimension,PASS,"Expected 12x12; found (12, 12)."
+us_equities,spearman_correlation_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_equities,spearman_correlation_matrix: finite values,PASS,All matrix entries are finite.
+us_equities,spearman_correlation_matrix: symmetry,PASS,Matrix is symmetric.
+us_equities,spearman_correlation_matrix: positive semidefinite,PASS,Minimum eigenvalue: 0.3229356698.
+us_equities,spearman_correlation_matrix: positive definite,PASS,Minimum eigenvalue: 0.3229356698.
+us_equities,spearman_correlation_matrix: condition number,PASS,Condition number: 14.9604. Numerically well-conditioned under the configured warning threshold.
+us_equities,spearman_correlation_matrix: unit diagonal,PASS,All diagonal values equal 1.
+us_equities,spearman_correlation_matrix: correlation bounds,PASS,All correlations lie between -1 and +1.
+us_equities,sample_covariance_matrix: dimension,PASS,"Expected 12x12; found (12, 12)."
+us_equities,sample_covariance_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_equities,sample_covariance_matrix: finite values,PASS,All matrix entries are finite.
+us_equities,sample_covariance_matrix: symmetry,PASS,Matrix is symmetric.
+us_equities,sample_covariance_matrix: positive semidefinite,PASS,Minimum eigenvalue: 6.363971598e-05.
+us_equities,sample_covariance_matrix: positive definite,PASS,Minimum eigenvalue: 6.363971598e-05.
+us_equities,sample_covariance_matrix: condition number,PASS,Condition number: 32.4410. Numerically well-conditioned under the configured warning threshold.
+us_equities,annualized_covariance_matrix: dimension,PASS,"Expected 12x12; found (12, 12)."
+us_equities,annualized_covariance_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_equities,annualized_covariance_matrix: finite values,PASS,All matrix entries are finite.
+us_equities,annualized_covariance_matrix: symmetry,PASS,Matrix is symmetric.
+us_equities,annualized_covariance_matrix: positive semidefinite,PASS,Minimum eigenvalue: 0.01603720843.
+us_equities,annualized_covariance_matrix: positive definite,PASS,Minimum eigenvalue: 0.01603720843.
+us_equities,annualized_covariance_matrix: condition number,PASS,Condition number: 32.4410. Numerically well-conditioned under the configured warning threshold.
+us_equities,ledoit_wolf_covariance_matrix: dimension,PASS,"Expected 12x12; found (12, 12)."
+us_equities,ledoit_wolf_covariance_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_equities,ledoit_wolf_covariance_matrix: finite values,PASS,All matrix entries are finite.
+us_equities,ledoit_wolf_covariance_matrix: symmetry,PASS,Matrix is symmetric.
+us_equities,ledoit_wolf_covariance_matrix: positive semidefinite,PASS,Minimum eigenvalue: 0.01662636794.
+us_equities,ledoit_wolf_covariance_matrix: positive definite,PASS,Minimum eigenvalue: 0.01662636794.
+us_equities,ledoit_wolf_covariance_matrix: condition number,PASS,Condition number: 31.0738. Numerically well-conditioned under the configured warning threshold.
+us_equities,Annualized covariance scaling,PASS,Annualized covariance equals daily sample covariance multiplied by 252.
+us_equities,Diversification metric columns,PASS,All required diversification fields are present.
+us_equities,Diversification instrument count,PASS,Expected 12; found 12.0.
+us_equities,Diversification metrics finite,PASS,All diversification metrics are finite.
+us_equities,Diversification ratio,PASS,Diversification ratio: 1.519666.
+us_equities,Average pairwise correlation bounds,PASS,Average pairwise correlation: 0.362337.
+us_equities,Portfolio volatility consistency,PASS,Equal-weight portfolio volatility: 0.190609; weighted average asset volatility: 0.289662.
+us_equities,Diversification observation count,PASS,Observations: 2975.0.
+us_equities,Rolling correlation report,PASS,63-day rolling correlation Parquet file exists.
+us_equities,Rolling correlation finite values,PASS,All non-missing rolling values are finite.
+us_equities,Rolling correlation bounds,PASS,"All rolling correlations lie within [-1, 1]."
+us_benchmarks,pearson_correlation_matrix: dimension,PASS,"Expected 3x3; found (3, 3)."
+us_benchmarks,pearson_correlation_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_benchmarks,pearson_correlation_matrix: finite values,PASS,All matrix entries are finite.
+us_benchmarks,pearson_correlation_matrix: symmetry,PASS,Matrix is symmetric.
+us_benchmarks,pearson_correlation_matrix: positive semidefinite,PASS,Minimum eigenvalue: 0.001529875584.
+us_benchmarks,pearson_correlation_matrix: positive definite,PASS,Minimum eigenvalue: 0.001529875584.
+us_benchmarks,pearson_correlation_matrix: condition number,PASS,Condition number: 1915.7834. WARNING: high numerical sensitivity; inspect before portfolio optimization.
+us_benchmarks,pearson_correlation_matrix: unit diagonal,PASS,All diagonal values equal 1.
+us_benchmarks,pearson_correlation_matrix: correlation bounds,PASS,All correlations lie between -1 and +1.
+us_benchmarks,spearman_correlation_matrix: dimension,PASS,"Expected 3x3; found (3, 3)."
+us_benchmarks,spearman_correlation_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_benchmarks,spearman_correlation_matrix: finite values,PASS,All matrix entries are finite.
+us_benchmarks,spearman_correlation_matrix: symmetry,PASS,Matrix is symmetric.
+us_benchmarks,spearman_correlation_matrix: positive semidefinite,PASS,Minimum eigenvalue: 0.00180346475.
+us_benchmarks,spearman_correlation_matrix: positive definite,PASS,Minimum eigenvalue: 0.00180346475.
+us_benchmarks,spearman_correlation_matrix: condition number,PASS,Condition number: 1610.5903. WARNING: high numerical sensitivity; inspect before portfolio optimization.
+us_benchmarks,spearman_correlation_matrix: unit diagonal,PASS,All diagonal values equal 1.
+us_benchmarks,spearman_correlation_matrix: correlation bounds,PASS,All correlations lie between -1 and +1.
+us_benchmarks,sample_covariance_matrix: dimension,PASS,"Expected 3x3; found (3, 3)."
+us_benchmarks,sample_covariance_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_benchmarks,sample_covariance_matrix: finite values,PASS,All matrix entries are finite.
+us_benchmarks,sample_covariance_matrix: symmetry,PASS,Matrix is symmetric.
+us_benchmarks,sample_covariance_matrix: positive semidefinite,PASS,Minimum eigenvalue: 1.869679419e-07.
+us_benchmarks,sample_covariance_matrix: positive definite,PASS,Minimum eigenvalue: 1.869679419e-07.
+us_benchmarks,sample_covariance_matrix: condition number,PASS,Condition number: 2226.2935. WARNING: high numerical sensitivity; inspect before portfolio optimization.
+us_benchmarks,annualized_covariance_matrix: dimension,PASS,"Expected 3x3; found (3, 3)."
+us_benchmarks,annualized_covariance_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_benchmarks,annualized_covariance_matrix: finite values,PASS,All matrix entries are finite.
+us_benchmarks,annualized_covariance_matrix: symmetry,PASS,Matrix is symmetric.
+us_benchmarks,annualized_covariance_matrix: positive semidefinite,PASS,Minimum eigenvalue: 4.711592135e-05.
+us_benchmarks,annualized_covariance_matrix: positive definite,PASS,Minimum eigenvalue: 4.711592135e-05.
+us_benchmarks,annualized_covariance_matrix: condition number,PASS,Condition number: 2226.2935. WARNING: high numerical sensitivity; inspect before portfolio optimization.
+us_benchmarks,ledoit_wolf_covariance_matrix: dimension,PASS,"Expected 3x3; found (3, 3)."
+us_benchmarks,ledoit_wolf_covariance_matrix: matching labels,PASS,Row and column labels match and are unique.
+us_benchmarks,ledoit_wolf_covariance_matrix: finite values,PASS,All matrix entries are finite.
+us_benchmarks,ledoit_wolf_covariance_matrix: symmetry,PASS,Matrix is symmetric.
+us_benchmarks,ledoit_wolf_covariance_matrix: positive semidefinite,PASS,Minimum eigenvalue: 0.0003101693178.
+us_benchmarks,ledoit_wolf_covariance_matrix: positive definite,PASS,Minimum eigenvalue: 0.0003101693178.
+us_benchmarks,ledoit_wolf_covariance_matrix: condition number,PASS,Condition number: 336.4349. Numerically well-conditioned under the configured warning threshold.
+us_benchmarks,Annualized covariance scaling,PASS,Annualized covariance equals daily sample covariance multiplied by 252.
+us_benchmarks,Diversification metric columns,PASS,All required diversification fields are present.
+us_benchmarks,Diversification instrument count,PASS,Expected 3; found 3.0.
+us_benchmarks,Diversification metrics finite,PASS,All diversification metrics are finite.
+us_benchmarks,Diversification ratio,PASS,Diversification ratio: 1.012429.
+us_benchmarks,Average pairwise correlation bounds,PASS,Average pairwise correlation: 0.965359.
+us_benchmarks,Portfolio volatility consistency,PASS,Equal-weight portfolio volatility: 0.186189; weighted average asset volatility: 0.188503.
+us_benchmarks,Diversification observation count,PASS,Observations: 2975.0.
+us_benchmarks,Rolling correlation report,PASS,63-day rolling correlation Parquet file exists.
+us_benchmarks,Rolling correlation finite values,PASS,All non-missing rolling values are finite.
+us_benchmarks,Rolling correlation bounds,PASS,"All rolling correlations lie within [-1, 1]."

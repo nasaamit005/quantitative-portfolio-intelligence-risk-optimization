@@ -1,0 +1,2 @@
+benchmark,observations,annualized_return,annualized_volatility,sharpe_ratio,sortino_ratio,max_drawdown,calmar_ratio,best_daily_return,worst_daily_return,positive_day_ratio,initial_capital,final_value,total_return,cost_treatment
+SPY,2723,0.148134691744789,0.17667600987052112,0.6486309940605787,0.9075243338156718,-0.33717270361192997,0.43934366619216336,0.10501934487618847,-0.10942380679697494,0.5515975027543151,100000.0,444893.3989735853,3.4489339897358526,No explicit benchmark transaction costs

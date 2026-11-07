@@ -1,0 +1,14 @@
+check,status,details
+Asset count,PASS,Expected 12 assets; found 12
+Asset labels,PASS,All equity labels match
+Finite weights,PASS,All portfolio weights are finite
+Fully invested,PASS,Total weight = 1.0000000000
+Long-only constraint,PASS,Minimum weight = 0.04677677
+Maximum allocation,PASS,Maximum weight = 0.14171469
+Finite risk contributions,PASS,All risk contribution percentages are finite
+Risk contributions sum to 100%,PASS,Total contribution = 1.0000000000
+Equal risk contribution,PASS,Maximum deviation from equal risk budget = 0.0000021511
+Positive risk contributions,PASS,Every asset contributes positive portfolio risk
+Positive portfolio volatility,PASS,Annualized volatility = 16.918941%
+Finite expected return,PASS,Annualized expected return = 21.505502%
+Finite Sharpe ratio,PASS,Sharpe ratio = 1.034669

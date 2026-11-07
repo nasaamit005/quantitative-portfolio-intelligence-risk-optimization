@@ -1,0 +1,32 @@
+
+# Core numerical computing
+numpy
+pandas
+scipy
+pyarrow
+
+# Financial market data
+yfinance
+
+# Statistical and quantitative finance
+statsmodels
+scikit-learn
+PyPortfolioOpt
+Riskfolio-Lib
+
+# Visualization and reporting
+matplotlib
+seaborn
+plotly
+openpyxl
+xlsxwriter
+
+# Configuration and utilities
+PyYAML
+python-dotenv
+tqdm
+
+# Testing and code quality
+pytest
+pytest-cov
+ruff

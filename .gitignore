@@ -1,0 +1,62 @@
+﻿# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Testing and linting
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Raw market data: keep original downloads out of GitHub
+data/raw/*
+!data/raw/.gitkeep
+
+# Intermediate and external data
+data/interim/*
+!data/interim/.gitkeep
+
+data/external/*
+!data/external/.gitkeep
+
+# Processed datasets are intentionally included
+# This preserves cleaned prices, returns and analytical features.
+
+# Runtime artifacts
+artifacts/logs/*
+artifacts/cache/*
+artifacts/checkpoints/*
+
+# Trained model binaries
+models/trained/*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor and IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+# Generated Python package metadata
+*.egg-info/

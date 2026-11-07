@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quantitative Portfolio Intelligence and Risk Optimization Platform">
+    <title>Quantitative Portfolio Intelligence</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-mark">
+                <i data-lucide="chart-no-axes-combined"></i>
+            </div>
+            <div class="brand-copy">
+                <strong>Quant<span>IQ</span></strong>
+                <small>PORTFOLIO INTELLIGENCE</small>
+            </div>
+        </div>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+            {% for key, page in pages.items() %}
+            <a
+                class="nav-link {% if active_page == key %}active{% endif %}"
+                href="{{ url_for(page.endpoint) }}"
+            >
+                <i data-lucide="{{ page.icon }}"></i>
+                <span>{{ page.label }}</span>
+                {% if active_page == key %}
+                <span class="active-indicator"></span>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Research engine</strong>
+                    <small>Local data environment</small>
+                </div>
+            </div>
+            <a href="{{ url_for('health') }}" target="_blank" class="health-link">
+                <i data-lucide="activity"></i>
+                <span>System health</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-area">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="icon-button mobile-menu-button" id="menuToggle" aria-label="Open navigation">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div>
+                    <div class="breadcrumb">QUANTITATIVE RESEARCH / <span>{{ pages[active_page].label|upper }}</span></div>
+                    <h1>{{ pages[active_page].label }}</h1>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <span class="environment-tag">
+                    <span class="status-dot"></span>
+                    LOCAL RESEARCH
+                </span>
+            </div>
+        </header>
+
+        <div class="page-content">
+
+            {% if active_page == "overview" %}
+
+            <section class="hero-panel">
+                <div class="hero-copy">
+                    <span class="eyebrow">QUANTITATIVE INVESTMENT RESEARCH PLATFORM</span>
+                    <h2>Portfolio intelligence.<br><span>Risk-aware decisions.</span></h2>
+                    <p>
+                        Explore portfolio construction, historical performance,
+                        risk analytics, stress scenarios and robustness results
+                        from your quantitative research engine.
+                    </p>
+                    <a href="{{ url_for('optimization') }}" class="primary-link">
+                        Open portfolio optimizer
+                        <i data-lucide="arrow-up-right"></i>
+                    </a>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-orbit orbit-one"></div>
+                    <div class="hero-orbit orbit-two"></div>
+                    <div class="hero-center">
+                        <i data-lucide="chart-no-axes-combined"></i>
+                    </div>
+                    <div class="hero-float float-one">
+                        <small>STRATEGIES</small>
+                        <strong>{{ strategy_count }}</strong>
+                    </div>
+                    <div class="hero-float float-two">
+                        <small>RESEARCH DATA</small>
+                        <strong>2015–2026</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="metric-grid">
+                <article class="metric-card metric-blue">
+                    <div class="metric-top">
+                        <span>Annualized return</span>
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <strong>
+                        {% if performance_metrics.annual_return == performance_metrics.annual_return %}
+                            {{ "%.2f"|format(performance_metrics.annual_return * 100) }}%
+                        {% else %}N/A{% endif %}
+                    </strong>
+                    <small>Performance report</small>
+                </article>
+
+                <article class="metric-card metric-purple">
+                    <div class="metric-top">
+                        <span>Annualized volatility</span>
+                        <i data-lucide="activity"></i>
+                    </div>
+                    <strong>
+                        {% if performance_metrics.annual_volatility == performance_metrics.annual_volatility %}
+                            {{ "%.2f"|format(performance_metrics.annual_volatility * 100) }}%
+                        {% else %}N/A{% endif %}
+                    </strong>
+                    <small>Performance report</small>
+                </article>
+
+                <article class="metric-card metric-teal">
+                    <div class="metric-top">
+                        <span>Sharpe ratio</span>
+                        <i data-lucide="gauge"></i>
+                    </div>
+                    <strong>
+                        {% if performance_metrics.sharpe_ratio == performance_metrics.sharpe_ratio %}
+                            {{ "%.3f"|format(performance_metrics.sharpe_ratio) }}
+                        {% else %}N/A{% endif %}
+                    </strong>
+                    <small>Risk-adjusted return</small>
+                </article>
+
+                <article class="metric-card metric-orange">
+                    <div class="metric-top">
+                        <span>Maximum drawdown</span>
+                        <i data-lucide="trending-down"></i>
+                    </div>
+                    <strong>
+                        {% if performance_metrics.max_drawdown == performance_metrics.max_drawdown %}
+                            {{ "%.2f"|format(performance_metrics.max_drawdown * 100) }}%
+                        {% else %}N/A{% endif %}
+                    </strong>
+                    <small>Historical peak-to-trough loss</small>
+                </article>
+            </section>
+
+            <section class="section-heading">
+                <div>
+                    <span class="eyebrow">RESEARCH SNAPSHOT</span>
+                    <h2>Strategy intelligence</h2>
+                    <p>Summary of the currently available research reports.</p>
+                </div>
+                <span class="soft-tag">{{ strategy_count }} strategy records</span>
+            </section>
+
+            <section class="content-grid two-columns">
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Return vs. risk</h3>
+                            <p>Annualized strategy comparison</p>
+                        </div>
+                        <span class="chart-icon blue-icon"><i data-lucide="scatter-chart"></i></span>
+                    </div>
+                    {% if charts.return_risk %}
+                        {{ charts.return_risk|safe }}
+                    {% else %}
+                        <div class="empty-state">Return and volatility columns were not available in the strategy report.</div>
+                    {% endif %}
+                </article>
+
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Risk-adjusted performance</h3>
+                            <p>Sharpe ratio comparison</p>
+                        </div>
+                        <span class="chart-icon purple-icon"><i data-lucide="bar-chart-3"></i></span>
+                    </div>
+                    {% if charts.sharpe %}
+                        {{ charts.sharpe|safe }}
+                    {% else %}
+                        <div class="empty-state">Sharpe ratio data is not available in the strategy report.</div>
+                    {% endif %}
+                </article>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Strategy comparison report</h3>
+                        <p>Values are sourced from your saved walk-forward report.</p>
+                    </div>
+                    <span class="soft-tag">Historical out-of-sample results</span>
+                </div>
+                {% if strategy_records %}
+                    {% set records = strategy_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">The strategy comparison report is not available.</div>
+                {% endif %}
+            </section>
+
+            {% elif active_page == "optimization" %}
+
+            <section class="optimizer-intro">
+                <div>
+                    <span class="eyebrow">INTERACTIVE PORTFOLIO CONSTRUCTION</span>
+                    <h2>Build and inspect a portfolio</h2>
+                    <p>
+                        Adjust the optimization settings and calculate a portfolio
+                        from your processed US equity returns.
+                    </p>
+                </div>
+                <span class="live-tag"><span class="status-dot"></span> LIVE CALCULATION</span>
+            </section>
+
+            <section class="panel optimizer-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Optimization settings</h3>
+                        <p>These settings apply to the historical estimation window.</p>
+                    </div>
+                    <span class="soft-tag">12-asset universe</span>
+                </div>
+
+                <form id="optimizationForm" class="optimizer-form">
+                    <div class="form-field">
+                        <label for="objective">Optimization objective</label>
+                        <select id="objective" name="objective">
+                            <option value="maximum_sharpe">Maximum Sharpe ratio</option>
+                            <option value="minimum_volatility">Minimum volatility</option>
+                        </select>
+                        <small>Choose the portfolio construction objective.</small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="lookback">Lookback window (trading days)</label>
+                        <select id="lookback" name="lookback">
+                            <option value="126">126 days — approximately 6 months</option>
+                            <option value="252" selected>252 days — approximately 1 year</option>
+                            <option value="504">504 days — approximately 2 years</option>
+                            <option value="756">756 days — approximately 3 years</option>
+                            <option value="1008">1008 days — approximately 4 years</option>
+                        </select>
+                        <small>Historical observations used for estimation.</small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="riskFreeRate">Annual risk-free rate (%)</label>
+                        <input id="riskFreeRate" name="risk_free_rate" type="number" min="-5" max="25" step="0.1" value="4">
+                        <small>Used in the Sharpe ratio calculation.</small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="minWeight">Minimum asset weight (%)</label>
+                        <input id="minWeight" name="min_weight" type="number" min="0" max="100" step="1" value="0">
+                        <small>Lower allocation limit for each asset.</small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="maxWeight">Maximum asset weight (%)</label>
+                        <input id="maxWeight" name="max_weight" type="number" min="1" max="100" step="1" value="50">
+                        <small>Upper allocation limit for each asset.</small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="frontierPoints">Efficient frontier points</label>
+                        <select id="frontierPoints" name="frontier_points">
+                            <option value="15">15 points</option>
+                            <option value="25" selected>25 points</option>
+                            <option value="35">35 points</option>
+                            <option value="50">50 points</option>
+                        </select>
+                        <small>More points provide a denser frontier.</small>
+                    </div>
+
+                    <div class="optimizer-actions">
+                        <button type="submit" id="runOptimization" class="primary-button">
+                            <i data-lucide="play"></i>
+                            Calculate portfolio
+                        </button>
+                        <span class="form-note">Calculations run locally using your processed returns.</span>
+                    </div>
+                </form>
+
+                <div id="optimizationError" class="error-message" role="alert" hidden></div>
+            </section>
+
+            <section id="optimizationResults" hidden>
+                <div class="result-heading">
+                    <div>
+                        <span class="eyebrow">OPTIMIZATION OUTPUT</span>
+                        <h2>Portfolio results</h2>
+                        <p id="resultPeriod">Historical estimation period</p>
+                    </div>
+                    <span class="success-tag"><span class="status-dot"></span> Calculation complete</span>
+                </div>
+
+                <div class="metric-grid optimizer-metrics">
+                    <article class="metric-card metric-blue">
+                        <div class="metric-top"><span>Expected annual return</span><i data-lucide="trending-up"></i></div>
+                        <strong id="metricReturn">—</strong>
+                        <small>Historical estimate</small>
+                    </article>
+                    <article class="metric-card metric-purple">
+                        <div class="metric-top"><span>Annual volatility</span><i data-lucide="activity"></i></div>
+                        <strong id="metricVolatility">—</strong>
+                        <small>Estimated portfolio risk</small>
+                    </article>
+                    <article class="metric-card metric-teal">
+                        <div class="metric-top"><span>Sharpe ratio</span><i data-lucide="gauge"></i></div>
+                        <strong id="metricSharpe">—</strong>
+                        <small>Using selected risk-free rate</small>
+                    </article>
+                    <article class="metric-card metric-orange">
+                        <div class="metric-top"><span>Assets allocated</span><i data-lucide="layers"></i></div>
+                        <strong id="metricAssets">—</strong>
+                        <small>Non-zero allocations</small>
+                    </article>
+                </div>
+
+                <div class="content-grid two-columns">
+                    <article class="panel chart-panel">
+                        <div class="panel-heading">
+                            <div><h3>Efficient frontier</h3><p>Expected return against annualized volatility</p></div>
+                        </div>
+                        <div id="frontierChart" class="interactive-chart"></div>
+                    </article>
+
+                    <article class="panel chart-panel">
+                        <div class="panel-heading">
+                            <div><h3>Asset allocation</h3><p>Optimized portfolio weights</p></div>
+                        </div>
+                        <div id="allocationChart" class="interactive-chart"></div>
+                    </article>
+
+                    <article class="panel chart-panel">
+                        <div class="panel-heading">
+                            <div><h3>Risk contribution</h3><p>Contribution to total portfolio volatility</p></div>
+                        </div>
+                        <div id="riskContributionChart" class="interactive-chart"></div>
+                    </article>
+
+                    <article class="panel chart-panel">
+                        <div class="panel-heading">
+                            <div><h3>Asset correlation</h3><p>Historical return correlation matrix</p></div>
+                        </div>
+                        <div id="correlationChart" class="interactive-chart tall-chart"></div>
+                    </article>
+                </div>
+
+                <article class="panel">
+                    <div class="panel-heading">
+                        <div><h3>Optimized asset allocation</h3><p>Portfolio weights and estimated asset statistics</p></div>
+                        <button type="button" id="downloadAllocation" class="secondary-button">
+                            <i data-lucide="download"></i> Export allocation CSV
+                        </button>
+                    </div>
+                    <div class="table-wrap">
+                        <table id="allocationTable">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Weight</th>
+                                    <th>Expected annual return</th>
+                                    <th>Annual volatility</th>
+                                    <th>Risk contribution</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-heading">
+                        <div><h3>Optimization diagnostics</h3><p>Estimation settings used for this calculation</p></div>
+                    </div>
+                    <div id="optimizationDiagnostics" class="diagnostics-grid"></div>
+                </article>
+            </section>
+
+            <section class="notice-panel">
+                <i data-lucide="info"></i>
+                <div>
+                    <strong>Interpretation and limitations</strong>
+                    <p>
+                        This page performs historical in-sample optimization. It does not
+                        represent a live trading recommendation or an out-of-sample
+                        performance result. Estimated returns and allocations are
+                        sensitive to the selected estimation window, constraints and
+                        input assumptions. Use the Performance and Robustness pages,
+                        together with the walk-forward reports, when evaluating strategy
+                        behavior. Historical results do not guarantee future performance.
+                    </p>
+                </div>
+            </section>
+
+            {% elif active_page == "performance" %}
+
+            <section class="page-intro">
+                <span class="eyebrow">HISTORICAL STRATEGY EVALUATION</span>
+                <h2>Performance analytics</h2>
+                <p>Review annualized return, volatility, Sharpe ratio and benchmark comparisons from saved reports.</p>
+            </section>
+
+            <div class="content-grid two-columns">
+                <article class="panel chart-panel">
+                    <div class="panel-heading"><div><h3>Return and volatility</h3><p>Strategy comparison</p></div></div>
+                    {% if charts.return_risk %}{{ charts.return_risk|safe }}{% else %}<div class="empty-state">Chart data unavailable.</div>{% endif %}
+                </article>
+                <article class="panel chart-panel">
+                    <div class="panel-heading"><div><h3>Sharpe ratio</h3><p>Risk-adjusted comparison</p></div></div>
+                    {% if charts.sharpe %}{{ charts.sharpe|safe }}{% else %}<div class="empty-state">Chart data unavailable.</div>{% endif %}
+                </article>
+            </div>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Strategy performance</h3><p>Saved walk-forward strategy comparison report</p></div></div>
+                {% if strategy_records %}
+                    {% set records = strategy_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">No strategy performance report found.</div>
+                {% endif %}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Benchmark performance</h3><p>Saved benchmark analytics report</p></div></div>
+                {% if benchmark_records %}
+                    {% set records = benchmark_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">No benchmark report found.</div>
+                {% endif %}
+            </article>
+
+            <section class="notice-panel">
+                <i data-lucide="alert-circle"></i>
+                <div>
+                    <strong>Benchmark comparison caveat</strong>
+                    <p>
+                        Strategy returns in the walk-forward comparison include the
+                        modeled transaction costs and slippage. The SPY benchmark
+                        series may not include equivalent trading costs. Treat this
+                        difference as a limitation when comparing net strategy
+                        performance with the benchmark.
+                    </p>
+                </div>
+            </section>
+
+            {% elif active_page == "risk" %}
+
+            <section class="page-intro">
+                <span class="eyebrow">DOWNSIDE AND SCENARIO ANALYSIS</span>
+                <h2>Portfolio risk analysis</h2>
+                <p>Inspect drawdowns and historical stress scenario outputs.</p>
+            </section>
+
+            <article class="panel chart-panel">
+                <div class="panel-heading"><div><h3>Maximum drawdown by strategy</h3><p>Historical peak-to-trough decline</p></div></div>
+                {% if charts.drawdown %}{{ charts.drawdown|safe }}{% else %}<div class="empty-state">Drawdown chart data unavailable.</div>{% endif %}
+            </article>
+
+            <article class="panel chart-panel">
+                <div class="panel-heading"><div><h3>Historical stress scenarios</h3><p>Scenario results from the stress-testing report</p></div></div>
+                {% if charts.stress %}{{ charts.stress|safe }}{% else %}<div class="empty-state">Stress chart data unavailable. Check the stress report columns.</div>{% endif %}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Stress test results</h3><p>Saved historical stress report</p></div></div>
+                {% if stress_records %}
+                    {% set records = stress_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">No stress-testing report found.</div>
+                {% endif %}
+            </article>
+
+            {% elif active_page == "robustness" %}
+
+            <section class="page-intro">
+                <span class="eyebrow">SENSITIVITY AND STABILITY TESTING</span>
+                <h2>Robustness analysis</h2>
+                <p>Review sensitivity experiments, strategy scorecards and market-regime outputs.</p>
+            </section>
+
+            <article class="panel chart-panel">
+                <div class="panel-heading"><div><h3>Robustness scorecard</h3><p>Mean Sharpe ratio across experiments</p></div></div>
+                {% if charts.robustness %}{{ charts.robustness|safe }}{% else %}<div class="empty-state">Robustness scorecard chart unavailable.</div>{% endif %}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Robustness scorecard data</h3><p>Saved experiment summary</p></div></div>
+                {% if robustness_records %}
+                    {% set records = robustness_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">No robustness scorecard found.</div>
+                {% endif %}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Sensitivity analysis</h3><p>Parameter-level experiment results</p></div></div>
+                {% if sensitivity_records %}
+                    {% set records = sensitivity_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">No sensitivity report found.</div>
+                {% endif %}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Market regime classification</h3><p>Historical regime labels</p></div></div>
+                {% if regime_records %}
+                    {% set records = regime_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">No regime classification report found.</div>
+                {% endif %}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Regime performance</h3><p>Strategy behavior by market regime</p></div></div>
+                {% if regime_performance_records %}
+                    {% set records = regime_performance_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">No regime performance report found.</div>
+                {% endif %}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Rolling robustness</h3><p>Rolling experiment outputs</p></div></div>
+                {% if rolling_robustness_records %}
+                    {% set records = rolling_robustness_records %}
+                    {% include "partials/data_table.html" %}
+                {% else %}
+                    <div class="empty-state">No rolling robustness report found.</div>
+                {% endif %}
+            </article>
+
+            {% elif active_page == "methodology" %}
+
+            <section class="page-intro">
+                <span class="eyebrow">RESEARCH DESIGN AND ASSUMPTIONS</span>
+                <h2>Methodology and limitations</h2>
+                <p>Definitions and assumptions behind the portfolio research environment.</p>
+            </section>
+
+            <div class="methodology-grid">
+                <article class="panel methodology-card">
+                    <div class="method-icon blue-icon"><i data-lucide="database"></i></div>
+                    <h3>Market data</h3>
+                    <p>
+                        The project uses a historical US equity universe of AAPL,
+                        MSFT, NVDA, GOOGL, AMZN, META, JPM, XOM, JNJ, COST, CAT and KO.
+                        The processed returns are based on adjusted market prices.
+                    </p>
+                </article>
+
+                <article class="panel methodology-card">
+                    <div class="method-icon purple-icon"><i data-lucide="calculator"></i></div>
+                    <h3>Return and covariance estimation</h3>
+                    <p>
+                        Expected returns use annualized historical arithmetic means.
+                        Covariance estimation uses the Ledoit-Wolf shrinkage estimator.
+                        The dashboard optimizer uses 252 trading days per year.
+                    </p>
+                </article>
+
+                <article class="panel methodology-card">
+                    <div class="method-icon teal-icon"><i data-lucide="target"></i></div>
+                    <h3>Portfolio optimization</h3>
+                    <p>
+                        The interactive optimizer supports maximum Sharpe ratio and
+                        minimum volatility objectives, with long-only fully invested
+                        portfolios and configurable asset weight limits.
+                    </p>
+                </article>
+
+                <article class="panel methodology-card">
+                    <div class="method-icon orange-icon"><i data-lucide="shield-check"></i></div>
+                    <h3>Risk and validation</h3>
+                    <p>
+                        The research engine includes drawdown analysis, stress testing,
+                        sensitivity analysis, market regime analysis and walk-forward
+                        backtesting. These tools provide complementary views of risk.
+                    </p>
+                </article>
+            </div>
+
+            <article class="panel">
+                <div class="panel-heading"><div><h3>Core assumptions</h3><p>Model settings used in the research environment</p></div></div>
+                <div class="assumption-list">
+                    <div><span>Initial capital</span><strong>$100,000</strong></div>
+                    <div><span>Annual risk-free rate baseline</span><strong>4.00%</strong></div>
+                    <div><span>Trading days per year</span><strong>252</strong></div>
+                    <div><span>Baseline maximum asset weight</span><strong>50%</strong></div>
+                    <div><span>Transaction cost assumption</span><strong>5 bps</strong></div>
+                    <div><span>Slippage assumption</span><strong>2 bps</strong></div>
+                    <div><span>Baseline rebalance frequency</span><strong>Monthly</strong></div>
+                </div>
+            </article>
+
+            <article class="notice-panel warning-notice">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                    <strong>Important research limitations</strong>
+                    <ul>
+                        <li>The selected equity universe has survivorship bias and is not a point-in-time historical universe.</li>
+                        <li>Historical expected returns and covariance estimates are uncertain and can change materially across estimation windows.</li>
+                        <li>Historical optimization results are not forecasts and do not guarantee future performance.</li>
+                        <li>The dashboard optimizer is an in-sample research tool; use the separate walk-forward results to assess out-of-sample behavior.</li>
+                        <li>Benchmark transaction-cost treatment may differ from the strategy cost model.</li>
+                        <li>Market indices and yield indicators are not necessarily directly investable instruments.</li>
+                    </ul>
+                </div>
+            </article>
+
+            {% endif %}
+
+            <footer class="page-footer">
+                <span>Quantitative Portfolio Intelligence &amp; Risk Optimization Platform</span>
+                <span>Research dashboard · Local environment</span>
+            </footer>
+
+        </div>
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>
+    if (window.lucide) {
+        window.lucide.createIcons();
+    }
+</script>
+</body>
+</html>

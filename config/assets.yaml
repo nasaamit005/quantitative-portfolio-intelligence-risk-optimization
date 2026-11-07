@@ -1,0 +1,69 @@
+﻿market:
+  name: "United States"
+  currency: "USD"
+  exchange_timezone: "America/New_York"
+
+historical_data:
+  start_date: "2015-01-01"
+  end_date: null
+  interval: "1d"
+  auto_adjust: true
+
+assets:
+  AAPL:
+    company: "Apple"
+    sector: "Information Technology"
+    type: "equity"
+  MSFT:
+    company: "Microsoft"
+    sector: "Information Technology"
+    type: "equity"
+  NVDA:
+    company: "NVIDIA"
+    sector: "Information Technology"
+    type: "equity"
+  GOOGL:
+    company: "Alphabet"
+    sector: "Communication Services"
+    type: "equity"
+  AMZN:
+    company: "Amazon"
+    sector: "Consumer Discretionary"
+    type: "equity"
+  META:
+    company: "Meta Platforms"
+    sector: "Communication Services"
+    type: "equity"
+  JPM:
+    company: "JPMorgan Chase"
+    sector: "Financials"
+    type: "equity"
+  XOM:
+    company: "Exxon Mobil"
+    sector: "Energy"
+    type: "equity"
+  JNJ:
+    company: "Johnson & Johnson"
+    sector: "Healthcare"
+    type: "equity"
+  COST:
+    company: "Costco"
+    sector: "Consumer Staples"
+    type: "equity"
+  CAT:
+    company: "Caterpillar"
+    sector: "Industrials"
+    type: "equity"
+  KO:
+    company: "Coca-Cola"
+    sector: "Consumer Staples"
+    type: "equity"
+
+benchmarks:
+  - SPY
+  - "^GSPC"
+  - "^IXIC"
+
+market_indicators:
+  - "^VIX"
+  - "^TNX"
