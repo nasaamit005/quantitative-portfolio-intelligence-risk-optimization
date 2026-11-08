@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quantitative Portfolio Intelligence</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+:root{--bg:#f6f8fc;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--acc:#2563eb;--acc2:#eff6ff;--ok:#059669;--bad:#dc2626}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{max-width:1500px;margin:0 auto;padding:12px 24px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.brand{font-weight:750;font-size:17px;letter-spacing:-.2px}.brand small{display:block;font-weight:500;color:var(--mut);font-size:11px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:4px 11px;cursor:pointer;font-size:12px;user-select:none;display:flex;gap:6px;align-items:center}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block}.chip.off{opacity:.4}.chip:hover{border-color:var(--acc)}
+.dates{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--mut)}input[type=date],select,input[type=search]{border:1px solid var(--line);border-radius:8px;padding:5px 8px;font:inherit;background:#fff}
+button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit}button:hover{border-color:var(--acc);color:var(--acc)}
+button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}button.pri:hover{color:#fff;opacity:.9}.sp{flex:1}
+nav{max-width:1500px;margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto}nav a{padding:10px 14px;color:var(--mut);text-decoration:none;font-weight:600;border-bottom:2px solid transparent;white-space:nowrap}
+nav a.on{color:var(--acc);border-color:var(--acc)}main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
+.banner{padding:10px 14px;border-radius:10px;margin-bottom:14px;font-weight:600}.banner.warn{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}.banner.info{background:var(--acc2);color:#1e40af;border:1px solid #bfdbfe;font-weight:500}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.kpi .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}.kpi .v{font-size:26px;font-weight:750;letter-spacing:-.5px;margin:2px 0}
+.kpi .w{color:var(--acc);font-weight:650}.kpi .s{color:var(--mut);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:16px}.grid .wide{grid-column:1/-1}
+@media(max-width:640px){.grid{grid-template-columns:1fr}main,.bar,nav{padding-left:12px;padding-right:12px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px 12px;box-shadow:0 1px 2px rgba(15,23,42,.04);min-width:0}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 4px}.badge{font-size:10px;font-weight:700;border-radius:99px;padding:2px 8px;background:#eef2ff;color:#4338ca}
+.badge.full{background:#f1f5f9;color:#475569}.cap{color:var(--mut);font-size:12px;padding:2px 6px}.ins{color:#1d4ed8;font-size:12.5px;font-weight:600;padding:2px 6px 4px}
+.tblcard{margin-top:16px}.tbh{display:flex;gap:10px;align-items:center;padding:4px 6px 8px;flex-wrap:wrap}.tbh h3{margin:0;font-size:15px;flex:1}
+.tw{overflow:auto;max-height:520px;border:1px solid var(--line);border-radius:10px}table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{position:sticky;top:0;background:#0f172a;color:#fff;text-align:right;padding:7px 10px;cursor:pointer;white-space:nowrap}th:first-child,td:first-child{text-align:left}
+td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}tr:hover td{background:#f8fafc}td.t{white-space:normal;text-align:left;min-width:220px;max-width:640px}
+td.neg{color:var(--bad)}td.pos{color:var(--ok)}.msg{padding:30px;text-align:center;color:var(--mut)}.err{color:var(--bad)}
+h2.sec{margin:6px 0 14px;font-size:20px;letter-spacing:-.3px}.dl{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:14px}summary{cursor:pointer;font-weight:650}
+</style></head><body>
+<div class="top">
+ <div class="bar">
+  <div class="brand">Quantitative Portfolio Intelligence<small id="sub">loading…</small></div>
+  <div class="chips" id="chips"></div><div class="sp"></div>
+  <div class="dates"><label>From <input type="date" id="d0"></label><label>To <input type="date" id="d1"></label><button id="reset">Reset</button></div>
+  <button class="pri" id="xl">Download Excel</button><button id="rp">HTML report</button>
+ </div>
+ <nav id="nav"></nav>
+</div>
+<main id="main"></main>
+<script>
+const API='api/';const S={meta:null,sel:new Set(),start:'',end:'',section:'overview',param:{}};
+const SECTIONS={
+ overview:{t:'Executive overview',kpi:true,charts:['equity','drawdown','metric_bars'],tables:['perf']},
+ performance:{t:'Performance & benchmark',charts:['excess','risk_return','annual_bars','monthly_heatmap'],tables:['benchmark']},
+ rolling:{t:'Rolling analytics',charts:['rolling_sharpe','rolling_vol','rolling_return','rolling_beta']},
+ optimization:{t:'Optimization & allocation',charts:['frontier','static_allocation','allocation_area','weight_distribution','turnover','cost_drag'],tables:['static_opt','weights_latest','cost'],wide:['frontier']},
+ risk:{t:'Risk analytics',charts:['corr_heatmap','cov_heatmap','risk_contrib','var_bars','return_dist','mc_dist'],tables:['risk','drawdowns']},
+ robustness:{t:'Robustness & walk-forward',charts:['sens_heat','sens_lookback','sens_cost','sens_maxw','sens_rebal','wf_year','wf_select'],tables:['sensitivity','wf_year','wf_select']},
+ stress:{t:'Regimes & stress testing',charts:['regimes','regime_timeline','stress_hist','stress_hypo'],tables:['regimes','stress_hist','stress_hypo']},
+ findings:{t:'Findings & diagnostics',charts:[],tables:['findings','recs','diagnostics','quality']}
+};
+const PAL=['#2563eb','#059669','#d97706','#7c3aed','#db2777','#0891b2','#65a30d','#ea580c'];
+const $=s=>document.querySelector(s);
+const q=()=>{const p=new URLSearchParams();p.set('strategies',[...S.sel].join(','));if(S.start)p.set('start',S.start);if(S.end)p.set('end',S.end);return p};
+async function get(u){const r=await fetch(u);const j=await r.json();if(!r.ok)throw new Error(j.error||r.statusText);return j}
+function fmt(v,k){if(v===null||v===undefined||v==='')return '–';if(typeof v==='boolean')return v?'Yes':'No';
+ const n=Number(v);if(k==='text'||isNaN(n)&&typeof v==='string')return String(v);
+ switch(k){case'pct1':return(n*100).toFixed(1)+'%';case'pct2':return(n*100).toFixed(2)+'%';case'num2':return n.toFixed(2);case'num3':return n.toFixed(3);case'num4':return n.toFixed(4);case'int':return Math.round(n).toLocaleString();default:return String(v)}}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+async function init(){
+ try{S.meta=await get(API+'meta')}catch(e){$('#main').innerHTML='<div class="msg err">'+esc(e.message)+'</div>';return}
+ const m=S.meta;$('#sub').textContent=`${m.meta.start} → ${m.meta.end} · ${m.meta.n_obs.toLocaleString()} days · cost ${m.cost_bps} bps · rf ${(m.rf*100).toFixed(1)}%`;
+ m.series.forEach((s,i)=>{S.sel.add(s.key);const c=document.createElement('div');c.className='chip';c.dataset.k=s.key;
+  c.innerHTML=`<i style="background:${s.benchmark?'#64748b':PAL[i%PAL.length]}"></i>${esc(s.label)}`;c.onclick=()=>{if(S.sel.has(s.key)&&S.sel.size>1){S.sel.delete(s.key);c.classList.add('off')}else if(!S.sel.has(s.key)){S.sel.add(s.key);c.classList.remove('off')}refresh()};$('#chips').appendChild(c)});
+ ['d0','d1'].forEach(id=>{const el=$('#'+id);el.min=m.start;el.max=m.end});$('#d0').value=m.start;$('#d1').value=m.end;
+ $('#d0').onchange=()=>{S.start=$('#d0').value===m.start?'':$('#d0').value;refresh()};$('#d1').onchange=()=>{S.end=$('#d1').value===m.end?'':$('#d1').value;refresh()};
+ $('#reset').onclick=()=>{S.start=S.end='';$('#d0').value=m.start;$('#d1').value=m.end;document.querySelectorAll('.chip').forEach(c=>{c.classList.remove('off');S.sel.add(c.dataset.k)});refresh()};
+ $('#xl').onclick=()=>location.href='download/excel';$('#rp').onclick=()=>location.href='download/report';
+ Object.entries(SECTIONS).forEach(([k,v])=>{const a=document.createElement('a');a.href='#'+k;a.textContent=v.t;a.dataset.k=k;$('#nav').appendChild(a)});
+ window.onhashchange=route;route()}
+function route(){const k=(location.hash||'#overview').slice(1);S.section=SECTIONS[k]?k:'overview';
+ document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.k===S.section));render()}
+let tm;function refresh(){clearTimeout(tm);tm=setTimeout(render,250)}
+async function render(){
+ const sec=SECTIONS[S.section],main=$('#main');const tok=S.tok=(S.tok||0)+1;
+ let h='';if(S.meta.meta.synthetic)h+='<div class="banner warn">SYNTHETIC DEMO DATA: no figure on this page describes real markets.</div>';
+ h+=`<h2 class="sec">${sec.t}</h2>`;
+ h+='<div class="banner info">Backtest results are historical, net of transaction costs and not a guarantee of future returns. Charts marked <b>Full sample</b> do not respond to the date filter.</div>';
+ if(S.meta.meta.universe_note)h+=`<div class="banner warn" style="font-weight:500"><b>Selection bias:</b> ${esc(S.meta.meta.universe_note)}</div>`;
+ if(S.meta.warnings.length)h+=`<div class="banner info">${S.meta.warnings.length} optimiser fallback(s) occurred (backtest: ${S.meta.n_fallbacks.backtest}, robustness sweep: ${S.meta.n_fallbacks.sweep}); previous weights were kept. First: ${esc(S.meta.warnings[0])}</div>`;
+ if(sec.kpi)h+='<div class="kpis" id="kpis"></div>';
+ h+='<div class="grid" id="grid"></div><div id="tables"></div>';
+ if(S.section==='findings')h+='<details open><summary>Methodology</summary><p>Walk-forward backtests: weights estimated at close t from the preceding lookback window, applied from t+1; costs = turnover × bps. Evidence types: <b>Historical observation</b>, <b>Model estimate</b>, <b>Forward-looking assumption</b>.</p></details>';
+ main.innerHTML=h;
+ if(sec.kpi)loadKpis(tok);
+ const grid=$('#grid');
+ sec.charts.filter(n=>S.meta.charts[n]).forEach(n=>{const spec=S.meta.charts[n];const d=document.createElement('div');d.className='card'+((sec.wide||[]).includes(n)?' wide':'');d.id='c_'+n;
+  let sel='';if(spec.param){const opts=spec.param==='series'?S.meta.series.filter(s=>S.sel.has(s.key)):S.meta.series.filter(s=>!s.benchmark);
+   const cur=S.param[n]&&opts.find(o=>o.key===S.param[n])?S.param[n]:opts[0].key;S.param[n]=cur;
+   sel=`<select data-n="${n}">${opts.map(o=>`<option value="${o.key}" ${o.key===cur?'selected':''}>${esc(o.label)}</option>`).join('')}</select>`}
+  d.innerHTML=`<div class="ch"><span class="badge ${spec.windowed?'':'full'}">${spec.windowed?'Selected window':'Full sample'}</span>${sel}</div><div class="msg">Loading…</div>`;grid.appendChild(d);
+  const s=d.querySelector('select');if(s)s.onchange=()=>{S.param[n]=s.value;loadChart(n,tok)};loadChart(n,tok)});
+ const tw=$('#tables');(sec.tables||[]).forEach(n=>loadTable(n,tw,tok))}
+async function loadKpis(tok){try{const j=await get(API+'kpis?'+q());if(tok!==S.tok)return;
+ $('#kpis').innerHTML=j.kpis.map(k=>`<div class="kpi"><div class="l">${esc(k.label)}</div><div class="v">${fmt(k.value,k.kind)}</div><div class="w">${esc(k.who)}</div><div class="s">${esc(k.sub)}</div></div>`).join('')}catch(e){$('#kpis').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}}
+async function loadChart(n,tok){const box=$('#c_'+n);if(!box)return;const p=q();if(S.param[n])p.set('param',S.param[n]);
+ try{const j=await get(API+'figure/'+n+'?'+p);if(tok!==S.tok)return;
+  let area=box.querySelector('.plot');if(!area){box.querySelector('.msg')?.remove();area=document.createElement('div');area.className='plot';box.appendChild(area);
+   const c=document.createElement('div');c.className='cap';c.id='cap_'+n;box.appendChild(c);const i=document.createElement('div');i.className='ins';i.id='ins_'+n;box.appendChild(i)}
+  const f=j.figure;f.layout.autosize=true;await Plotly.react(area,f.data,f.layout,{responsive:true,displaylogo:false,toImageButtonOptions:{filename:'qpi_'+n,scale:2}});
+  $('#cap_'+n).textContent=j.caption;$('#ins_'+n).textContent=j.insight?'▸ '+j.insight:''}
+ catch(e){if(tok!==S.tok)return;box.querySelector('.plot')?.remove();let m=box.querySelector('.msg');if(!m){m=document.createElement('div');m.className='msg';box.appendChild(m)}m.className='msg err';m.textContent=e.message}}
+async function loadTable(n,host,tok){const card=document.createElement('div');card.className='card tblcard';card.innerHTML='<div class="msg">Loading…</div>';host.appendChild(card);
+ try{const j=await get(API+'table/'+n+'?'+q());if(tok!==S.tok)return;let rows=j.rows.slice(),sort=null,dir=1,term='';
+  const draw=()=>{let r=rows.filter(x=>!term||JSON.stringify(Object.values(x)).toLowerCase().includes(term));
+   if(sort)r.sort((a,b)=>{const x=a[sort],y=b[sort];return(x==null)-(y==null)||(typeof x==='number'?x-y:String(x).localeCompare(String(y)))*dir});
+   const body=r.map(x=>'<tr>'+j.columns.map(c=>{const v=x[c],k=j.formats[c];const long=typeof v==='string'&&v.length>40;
+    return`<td class="${long?'t':''} ${typeof v==='number'&&k!=='int'&&(k||'').startsWith('pct')?(v<0?'neg':''):''}">${esc(fmt(v,k))}</td>`}).join('')+'</tr>').join('');
+   card.querySelector('tbody').innerHTML=body||'<tr><td colspan="99" class="msg">No rows</td></tr>'};
+  card.innerHTML=`<div class="tbh"><h3>${esc(j.title)}</h3><input type="search" placeholder="Filter…"><button data-csv>CSV</button></div><div class="tw"><table><thead><tr>${j.columns.map(c=>`<th data-c="${esc(c)}">${esc(c)}</th>`).join('')}</tr></thead><tbody></tbody></table></div>`;
+  card.querySelectorAll('th').forEach(th=>th.onclick=()=>{const c=th.dataset.c;dir=sort===c?-dir:1;sort=c;draw()});
+  card.querySelector('input').oninput=e=>{term=e.target.value.toLowerCase();draw()};
+  card.querySelector('[data-csv]').onclick=()=>location.href='download/csv/'+n+'?'+q();draw()}
+ catch(e){if(tok!==S.tok)return;card.innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}}
+init();
+</script></body></html>

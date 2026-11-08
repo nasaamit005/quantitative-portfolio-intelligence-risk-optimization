@@ -60,3 +60,6 @@ desktop.ini
 *.log
 # Generated Python package metadata
 *.egg-info/
+
+# Generated enhanced runtime cache
+reports/enhanced/results.pkl

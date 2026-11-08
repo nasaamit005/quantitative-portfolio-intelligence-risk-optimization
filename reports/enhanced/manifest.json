@@ -1,0 +1,10 @@
+{
+  "excel": "C:\\Users\\dell\\Documents\\quantitative-portfolio-intelligence-risk-optimization\\reports\\enhanced\\quantitative_portfolio_analytics_enhanced.xlsx",
+  "sheets": 25,
+  "tables": 32,
+  "native_charts": 10,
+  "html_charts": 33,
+  "csv_tables": 31,
+  "backtest": "2016-01-05..2026-11-02",
+  "synthetic": false
+}

@@ -13,22 +13,46 @@ import plotly.graph_objects as go
 import plotly.io as pio
 from flask import Flask, jsonify, render_template, request
 
+from quantfin.enhanced.flask_app import (
+    register as register_enhanced_dashboard,
+)
 from quantfin.services.dashboard_optimization import (
     DashboardOptimizationError,
     optimize_dashboard_portfolio,
 )
 
+# ---------------------------------------------------------------------
+# Application configuration
+# ---------------------------------------------------------------------
+
 ROOT_DIR = Path(__file__).resolve().parent
 
 app = Flask(__name__)
+
 app.config["JSON_SORT_KEYS"] = False
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
 )
+
 logger = logging.getLogger(__name__)
 
+
+# ---------------------------------------------------------------------
+# Enhanced QPI dashboard registration
+# ---------------------------------------------------------------------
+
+register_enhanced_dashboard(
+    app,
+    output_dir=ROOT_DIR / "reports" / "enhanced",
+    url_prefix="/qpi",
+)
+
+
+# ---------------------------------------------------------------------
+# Report configuration
+# ---------------------------------------------------------------------
 
 REPORT_FILES = {
     "strategy_comparison": (
@@ -54,6 +78,10 @@ REPORT_FILES = {
     ),
 }
 
+
+# ---------------------------------------------------------------------
+# Navigation configuration
+# ---------------------------------------------------------------------
 
 PAGES = {
     "overview": {
@@ -89,8 +117,13 @@ PAGES = {
 }
 
 
+# ---------------------------------------------------------------------
+# Report loading utilities
+# ---------------------------------------------------------------------
+
 def load_report(relative_path: str) -> pd.DataFrame:
     """Load a CSV or Parquet report, returning an empty frame if unavailable."""
+
     path = ROOT_DIR / relative_path
 
     if not path.exists():
@@ -122,6 +155,7 @@ def load_report(relative_path: str) -> pd.DataFrame:
 
 def safe_number(value: Any, default: float = 0.0) -> float:
     """Convert a value to a finite float."""
+
     try:
         result = float(value)
     except (TypeError, ValueError):
@@ -135,10 +169,14 @@ def find_column(
     candidates: tuple[str, ...],
 ) -> str | None:
     """Find a column using case-insensitive candidate names."""
+
     if frame.empty:
         return None
 
-    lookup = {str(column).strip().lower(): column for column in frame.columns}
+    lookup = {
+        str(column).strip().lower(): column
+        for column in frame.columns
+    }
 
     for candidate in candidates:
         if candidate.lower() in lookup:
@@ -153,6 +191,7 @@ def first_valid_value(
     default: Any = None,
 ) -> Any:
     """Read the first non-null value from the first matching column."""
+
     column = find_column(frame, candidates)
 
     if column is None or frame.empty:
@@ -168,6 +207,7 @@ def frame_records(
     limit: int = 100,
 ) -> list[dict[str, Any]]:
     """Convert report data into JSON-safe records."""
+
     if frame.empty:
         return []
 
@@ -178,21 +218,36 @@ def frame_records(
     return output.to_dict(orient="records")
 
 
+# ---------------------------------------------------------------------
+# Plotly chart utilities
+# ---------------------------------------------------------------------
+
 def make_chart(
     figure: go.Figure,
     height: int = 360,
 ) -> str:
     """Render a responsive Plotly chart without embedding another JS copy."""
+
     figure.update_layout(
         height=height,
         autosize=True,
-        margin={"l": 45, "r": 25, "t": 45, "b": 45},
+        margin={
+            "l": 45,
+            "r": 25,
+            "t": 45,
+            "b": 45,
+        },
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font={"family": "DM Sans, sans-serif", "color": "#344054"},
+        font={
+            "family": "DM Sans, sans-serif",
+            "color": "#344054",
+        },
         hoverlabel={
             "bgcolor": "#ffffff",
-            "font": {"color": "#101828"},
+            "font": {
+                "color": "#101828",
+            },
         },
         legend={
             "orientation": "h",
@@ -202,11 +257,13 @@ def make_chart(
             "x": 1,
         },
     )
+
     figure.update_xaxes(
         showgrid=True,
         gridcolor="#edf1f7",
         zeroline=False,
     )
+
     figure.update_yaxes(
         showgrid=True,
         gridcolor="#edf1f7",
@@ -220,7 +277,10 @@ def make_chart(
         config={
             "responsive": True,
             "displaylogo": False,
-            "modeBarButtonsToRemove": ["lasso2d", "select2d"],
+            "modeBarButtonsToRemove": [
+                "lasso2d",
+                "select2d",
+            ],
         },
     )
 
@@ -229,6 +289,7 @@ def build_strategy_charts(
     strategy: pd.DataFrame,
 ) -> dict[str, str]:
     """Build strategy comparison charts when the source columns exist."""
+
     charts: dict[str, str] = {}
 
     if strategy.empty:
@@ -236,37 +297,74 @@ def build_strategy_charts(
 
     name_col = find_column(
         strategy,
-        ("strategy", "strategy_name", "portfolio", "name"),
+        (
+            "strategy",
+            "strategy_name",
+            "portfolio",
+            "name",
+        ),
     )
+
     return_col = find_column(
         strategy,
-        ("annual_return", "annualized_return", "cagr"),
+        (
+            "annual_return",
+            "annualized_return",
+            "cagr",
+        ),
     )
+
     volatility_col = find_column(
         strategy,
-        ("annual_volatility", "annualized_volatility", "volatility"),
+        (
+            "annual_volatility",
+            "annualized_volatility",
+            "volatility",
+        ),
     )
+
     sharpe_col = find_column(
         strategy,
-        ("sharpe_ratio", "sharpe"),
+        (
+            "sharpe_ratio",
+            "sharpe",
+        ),
     )
+
     drawdown_col = find_column(
         strategy,
-        ("max_drawdown", "maximum_drawdown", "mdd"),
+        (
+            "max_drawdown",
+            "maximum_drawdown",
+            "mdd",
+        ),
     )
+
+    # Return versus risk chart
 
     if name_col and return_col and volatility_col:
         frame = strategy.copy()
+
         frame[return_col] = pd.to_numeric(
-            frame[return_col], errors="coerce"
+            frame[return_col],
+            errors="coerce",
         )
+
         frame[volatility_col] = pd.to_numeric(
-            frame[volatility_col], errors="coerce"
+            frame[volatility_col],
+            errors="coerce",
         )
-        frame = frame.dropna(subset=[return_col, volatility_col])
+
+        frame = frame.dropna(
+            subset=[
+                return_col,
+                volatility_col,
+            ]
+        )
 
         if not frame.empty:
             figure = go.Figure()
+
             figure.add_trace(
                 go.Scatter(
                     x=frame[volatility_col] * 100,
@@ -276,7 +374,10 @@ def build_strategy_charts(
                     textposition="top center",
                     marker={
                         "size": 13,
-                        "line": {"width": 1, "color": "#ffffff"},
+                        "line": {
+                            "width": 1,
+                            "color": "#ffffff",
+                        },
                     },
                     hovertemplate=(
                         "<b>%{text}</b><br>"
@@ -287,19 +388,28 @@ def build_strategy_charts(
                     name="Strategies",
                 )
             )
+
             figure.update_layout(
                 title="Annualized Return vs. Volatility",
                 xaxis_title="Annualized volatility (%)",
                 yaxis_title="Annualized return (%)",
             )
+
             charts["return_risk"] = make_chart(figure)
+
+    # Sharpe ratio chart
 
     if name_col and sharpe_col:
         frame = strategy.copy()
+
         frame[sharpe_col] = pd.to_numeric(
-            frame[sharpe_col], errors="coerce"
+            frame[sharpe_col],
+            errors="coerce",
         )
-        frame = frame.dropna(subset=[sharpe_col]).sort_values(
+
+        frame = frame.dropna(
+            subset=[sharpe_col]
+        ).sort_values(
             sharpe_col,
             ascending=True,
         )
@@ -312,65 +422,102 @@ def build_strategy_charts(
                     orientation="h",
                     text=frame[sharpe_col].round(3),
                     textposition="outside",
-                    marker={"color": "#5267e8"},
+                    marker={
+                        "color": "#5267e8",
+                    },
                 )
             )
+
             figure.update_layout(
                 title="Risk-Adjusted Performance",
                 xaxis_title="Sharpe ratio",
                 yaxis_title="",
             )
+
             charts["sharpe"] = make_chart(figure)
+
+    # Maximum drawdown chart
 
     if name_col and drawdown_col:
         frame = strategy.copy()
+
         frame[drawdown_col] = pd.to_numeric(
-            frame[drawdown_col], errors="coerce"
+            frame[drawdown_col],
+            errors="coerce",
         )
-        frame = frame.dropna(subset=[drawdown_col])
+
+        frame = frame.dropna(
+            subset=[drawdown_col]
+        )
 
         if not frame.empty:
             figure = go.Figure(
                 go.Bar(
                     x=frame[name_col].astype(str),
                     y=frame[drawdown_col] * 100,
-                    marker={"color": "#ef8354"},
+                    marker={
+                        "color": "#ef8354",
+                    },
                     hovertemplate=(
-                        "%{x}<br>Maximum drawdown: %{y:.2f}%"
+                        "%{x}<br>"
+                        "Maximum drawdown: %{y:.2f}%"
                         "<extra></extra>"
                     ),
                 )
             )
+
             figure.update_layout(
                 title="Maximum Drawdown Comparison",
                 xaxis_title="Strategy",
                 yaxis_title="Maximum drawdown (%)",
             )
+
             charts["drawdown"] = make_chart(figure)
 
     return charts
 
 
-def build_stress_chart(stress: pd.DataFrame) -> str | None:
+def build_stress_chart(
+    stress: pd.DataFrame,
+) -> str | None:
     """Build a stress chart when scenario and loss columns are available."""
+
     if stress.empty:
         return None
 
     scenario_col = find_column(
         stress,
-        ("scenario", "scenario_name", "stress_scenario", "name"),
+        (
+            "scenario",
+            "scenario_name",
+            "stress_scenario",
+            "name",
+        ),
     )
+
     loss_col = find_column(
         stress,
-        ("portfolio_return", "portfolio_loss", "return", "loss"),
+        (
+            "portfolio_return",
+            "portfolio_loss",
+            "return",
+            "loss",
+        ),
     )
 
     if not scenario_col or not loss_col:
         return None
 
     frame = stress.copy()
-    frame[loss_col] = pd.to_numeric(frame[loss_col], errors="coerce")
-    frame = frame.dropna(subset=[loss_col])
+
+    frame[loss_col] = pd.to_numeric(
+        frame[loss_col],
+        errors="coerce",
+    )
+
+    frame = frame.dropna(
+        subset=[loss_col]
+    )
 
     if frame.empty:
         return None
@@ -379,39 +526,70 @@ def build_stress_chart(stress: pd.DataFrame) -> str | None:
         go.Bar(
             x=frame[scenario_col].astype(str),
             y=frame[loss_col] * 100,
-            marker={"color": "#e76f51"},
-            hovertemplate="%{x}<br>Scenario result: %{y:.2f}%<extra></extra>",
+            marker={
+                "color": "#e76f51",
+            },
+            hovertemplate=(
+                "%{x}<br>"
+                "Scenario result: %{y:.2f}%"
+                "<extra></extra>"
+            ),
         )
     )
+
     figure.update_layout(
         title="Historical Stress Scenarios",
         xaxis_title="Scenario",
         yaxis_title="Return / loss (%)",
     )
 
-    return make_chart(figure, height=400)
+    return make_chart(
+        figure,
+        height=400,
+    )
 
 
-def build_robustness_chart(robustness: pd.DataFrame) -> str | None:
+def build_robustness_chart(
+    robustness: pd.DataFrame,
+) -> str | None:
     """Build a robustness scorecard chart if compatible columns exist."""
+
     if robustness.empty:
         return None
 
     name_col = find_column(
         robustness,
-        ("strategy", "strategy_name", "name"),
+        (
+            "strategy",
+            "strategy_name",
+            "name",
+        ),
     )
+
     score_col = find_column(
         robustness,
-        ("mean_sharpe", "mean_sharpe_ratio", "sharpe_ratio"),
+        (
+            "mean_sharpe",
+            "mean_sharpe_ratio",
+            "sharpe_ratio",
+        ),
     )
 
     if not name_col or not score_col:
         return None
 
     frame = robustness.copy()
-    frame[score_col] = pd.to_numeric(frame[score_col], errors="coerce")
-    frame = frame.dropna(subset=[score_col]).sort_values(score_col)
+
+    frame[score_col] = pd.to_numeric(
+        frame[score_col],
+        errors="coerce",
+    )
+
+    frame = frame.dropna(
+        subset=[score_col]
+    ).sort_values(
+        score_col
+    )
 
     if frame.empty:
         return None
@@ -421,9 +599,12 @@ def build_robustness_chart(robustness: pd.DataFrame) -> str | None:
             x=frame[score_col],
             y=frame[name_col].astype(str),
             orientation="h",
-            marker={"color": "#16a6a1"},
+            marker={
+                "color": "#16a6a1",
+            },
         )
     )
+
     figure.update_layout(
         title="Robustness: Mean Sharpe Across Experiments",
         xaxis_title="Mean Sharpe ratio",
@@ -433,8 +614,15 @@ def build_robustness_chart(robustness: pd.DataFrame) -> str | None:
     return make_chart(figure)
 
 
-def build_dashboard_context(active_page: str) -> dict[str, Any]:
+# ---------------------------------------------------------------------
+# Dashboard context
+# ---------------------------------------------------------------------
+
+def build_dashboard_context(
+    active_page: str,
+) -> dict[str, Any]:
     """Load reports and prepare shared page context."""
+
     reports = {
         key: load_report(path)
         for key, path in REPORT_FILES.items()
@@ -445,8 +633,14 @@ def build_dashboard_context(active_page: str) -> dict[str, Any]:
     benchmark = reports["benchmark"]
 
     charts = build_strategy_charts(strategy)
-    stress_chart = build_stress_chart(reports["stress"])
-    robustness_chart = build_robustness_chart(reports["robustness"])
+
+    stress_chart = build_stress_chart(
+        reports["stress"]
+    )
+
+    robustness_chart = build_robustness_chart(
+        reports["robustness"]
+    )
 
     if stress_chart:
         charts["stress"] = stress_chart
@@ -456,38 +650,78 @@ def build_dashboard_context(active_page: str) -> dict[str, Any]:
 
     strategy_name_col = find_column(
         strategy,
-        ("strategy", "strategy_name", "portfolio", "name"),
+        (
+            "strategy",
+            "strategy_name",
+            "portfolio",
+            "name",
+        ),
     )
-    sharpe_col = find_column(strategy, ("sharpe_ratio", "sharpe"))
+
+    sharpe_col = find_column(
+        strategy,
+        (
+            "sharpe_ratio",
+            "sharpe",
+        ),
+    )
 
     best_strategy = "Not available"
 
     if strategy_name_col and sharpe_col and not strategy.empty:
         candidates = strategy.copy()
+
         candidates[sharpe_col] = pd.to_numeric(
-            candidates[sharpe_col], errors="coerce"
+            candidates[sharpe_col],
+            errors="coerce",
         )
-        candidates = candidates.dropna(subset=[sharpe_col])
+
+        candidates = candidates.dropna(
+            subset=[sharpe_col]
+        )
 
         if not candidates.empty:
-            best_row = candidates.loc[candidates[sharpe_col].idxmax()]
-            best_strategy = str(best_row[strategy_name_col])
+            best_row = candidates.loc[
+                candidates[sharpe_col].idxmax()
+            ]
+
+            best_strategy = str(
+                best_row[strategy_name_col]
+            )
 
     performance_return = first_valid_value(
         performance,
-        ("annual_return", "annualized_return", "cagr"),
+        (
+            "annual_return",
+            "annualized_return",
+            "cagr",
+        ),
     )
+
     performance_volatility = first_valid_value(
         performance,
-        ("annual_volatility", "annualized_volatility", "volatility"),
+        (
+            "annual_volatility",
+            "annualized_volatility",
+            "volatility",
+        ),
     )
+
     performance_sharpe = first_valid_value(
         performance,
-        ("sharpe_ratio", "sharpe"),
+        (
+            "sharpe_ratio",
+            "sharpe",
+        ),
     )
+
     performance_drawdown = first_valid_value(
         performance,
-        ("max_drawdown", "maximum_drawdown", "mdd"),
+        (
+            "max_drawdown",
+            "maximum_drawdown",
+            "mdd",
+        ),
     )
 
     return {
@@ -498,20 +732,38 @@ def build_dashboard_context(active_page: str) -> dict[str, Any]:
         "best_strategy": best_strategy,
         "strategy_count": int(len(strategy)),
         "performance_metrics": {
-            "annual_return": safe_number(performance_return, float("nan")),
-            "annual_volatility": safe_number(
-                performance_volatility, float("nan")
+            "annual_return": safe_number(
+                performance_return,
+                float("nan"),
             ),
-            "sharpe_ratio": safe_number(performance_sharpe, float("nan")),
-            "max_drawdown": safe_number(performance_drawdown, float("nan")),
+            "annual_volatility": safe_number(
+                performance_volatility,
+                float("nan"),
+            ),
+            "sharpe_ratio": safe_number(
+                performance_sharpe,
+                float("nan"),
+            ),
+            "max_drawdown": safe_number(
+                performance_drawdown,
+                float("nan"),
+            ),
         },
         "strategy_records": frame_records(strategy),
         "performance_records": frame_records(performance),
         "benchmark_records": frame_records(benchmark),
-        "stress_records": frame_records(reports["stress"]),
-        "robustness_records": frame_records(reports["robustness"]),
-        "sensitivity_records": frame_records(reports["sensitivity"]),
-        "regime_records": frame_records(reports["regimes"]),
+        "stress_records": frame_records(
+            reports["stress"]
+        ),
+        "robustness_records": frame_records(
+            reports["robustness"]
+        ),
+        "sensitivity_records": frame_records(
+            reports["sensitivity"]
+        ),
+        "regime_records": frame_records(
+            reports["regimes"]
+        ),
         "regime_performance_records": frame_records(
             reports["regime_performance"]
         ),
@@ -525,8 +777,14 @@ def build_dashboard_context(active_page: str) -> dict[str, Any]:
     }
 
 
+# ---------------------------------------------------------------------
+# Existing dashboard routes
+# ---------------------------------------------------------------------
+
 @app.get("/")
 def overview():
+    """Render the main dashboard overview."""
+
     return render_template(
         "index.html",
         **build_dashboard_context("overview"),
@@ -535,6 +793,8 @@ def overview():
 
 @app.get("/optimization")
 def optimization():
+    """Render the portfolio optimization page."""
+
     return render_template(
         "index.html",
         **build_dashboard_context("optimization"),
@@ -543,6 +803,8 @@ def optimization():
 
 @app.get("/performance")
 def performance():
+    """Render the performance analytics page."""
+
     return render_template(
         "index.html",
         **build_dashboard_context("performance"),
@@ -551,6 +813,8 @@ def performance():
 
 @app.get("/risk")
 def risk():
+    """Render the risk analysis page."""
+
     return render_template(
         "index.html",
         **build_dashboard_context("risk"),
@@ -559,6 +823,8 @@ def risk():
 
 @app.get("/robustness")
 def robustness():
+    """Render the robustness analysis page."""
+
     return render_template(
         "index.html",
         **build_dashboard_context("robustness"),
@@ -567,15 +833,22 @@ def robustness():
 
 @app.get("/methodology")
 def methodology():
+    """Render the methodology page."""
+
     return render_template(
         "index.html",
         **build_dashboard_context("methodology"),
     )
 
 
+# ---------------------------------------------------------------------
+# Portfolio optimization API
+# ---------------------------------------------------------------------
+
 @app.post("/api/optimization")
 def optimization_api():
     """Run a dashboard optimization request and return JSON results."""
+
     payload = request.get_json(silent=True)
 
     if not isinstance(payload, dict):
@@ -588,21 +861,38 @@ def optimization_api():
 
     try:
         objective = str(
-            payload.get("objective", "maximum_sharpe")
+            payload.get(
+                "objective",
+                "maximum_sharpe",
+            )
         ).strip().lower()
 
         result = optimize_dashboard_portfolio(
             objective=objective,
-            lookback=int(payload.get("lookback", 252)),
-            risk_free_rate=float(payload.get("risk_free_rate", 0.04)),
-            min_weight=float(payload.get("min_weight", 0.0)),
-            max_weight=float(payload.get("max_weight", 0.50)),
-            frontier_points=int(payload.get("frontier_points", 25)),
+            lookback=int(
+                payload.get("lookback", 252)
+            ),
+            risk_free_rate=float(
+                payload.get("risk_free_rate", 0.04)
+            ),
+            min_weight=float(
+                payload.get("min_weight", 0.0)
+            ),
+            max_weight=float(
+                payload.get("max_weight", 0.50)
+            ),
+            frontier_points=int(
+                payload.get("frontier_points", 25)
+            ),
         )
 
         return jsonify(result)
 
-    except (DashboardOptimizationError, ValueError, TypeError) as exc:
+    except (
+        DashboardOptimizationError,
+        ValueError,
+        TypeError,
+    ) as exc:
         return jsonify(
             {
                 "status": "error",
@@ -611,7 +901,10 @@ def optimization_api():
         ), 400
 
     except Exception:
-        logger.exception("Unexpected dashboard optimization error.")
+        logger.exception(
+            "Unexpected dashboard optimization error."
+        )
+
         return jsonify(
             {
                 "status": "error",
@@ -623,19 +916,33 @@ def optimization_api():
         ), 500
 
 
+# ---------------------------------------------------------------------
+# Health endpoint
+# ---------------------------------------------------------------------
+
 @app.get("/health")
 def health():
+    """Return application health and dashboard endpoint information."""
+
     return jsonify(
         {
             "status": "ok",
-            "application": "Quantitative Portfolio Intelligence Dashboard",
+            "application": (
+                "Quantitative Portfolio Intelligence Dashboard"
+            ),
             "optimization_api": "/api/optimization",
+            "enhanced_dashboard": "/qpi/",
         }
     )
 
+
+# ---------------------------------------------------------------------
+# Application entry point
+# ---------------------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(
         host="127.0.0.1",
         port=5000,
+        debug=False,
     )

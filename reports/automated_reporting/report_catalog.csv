@@ -13,12 +13,13 @@ calendar_year_returns.csv,reports/performance_analytics/calendar_year_returns.cs
 drawdown_episodes.csv,reports/performance_analytics/drawdown_episodes.csv,Drawdown Analysis,1074,9,loaded,108.51
 performance_summary.csv,reports/performance_analytics/performance_summary.csv,Performance Analytics,5,24,loaded,2.31
 rolling_performance_metrics.csv,reports/performance_analytics/rolling_performance_metrics.csv,Performance Analytics,13615,5,loaded,1026.28
-failed_robustness_experiments.csv,reports/robustness_analysis/failed_robustness_experiments.csv,Robustness Analysis,2,25,loaded,0.7
 market_regime_classification.csv,reports/robustness_analysis/market_regime_classification.csv,Market Regime Analysis,2975,6,loaded,323.47
 market_regime_performance.csv,reports/robustness_analysis/market_regime_performance.csv,Performance Analytics,20,11,loaded,3.9
+max_sharpe_failure_trace.csv,reports/robustness_analysis/max_sharpe_failure_trace.csv,Robustness Analysis,268,19,loaded,60.47
+max_sharpe_solver_variants.csv,reports/robustness_analysis/max_sharpe_solver_variants.csv,Robustness Analysis,12,15,loaded,2.32
 rolling_robustness_metrics.csv,reports/robustness_analysis/rolling_robustness_metrics.csv,Rolling Metrics,13615,5,loaded,1036.35
-sensitivity_experiment_results.csv,reports/robustness_analysis/sensitivity_experiment_results.csv,Robustness Analysis,80,25,loaded,23.0
-strategy_robustness_scorecard.csv,reports/robustness_analysis/strategy_robustness_scorecard.csv,Robustness Analysis,5,12,loaded,1.09
+sensitivity_experiment_results.csv,reports/robustness_analysis/sensitivity_experiment_results.csv,Robustness Analysis,80,25,loaded,23.07
+strategy_robustness_scorecard.csv,reports/robustness_analysis/strategy_robustness_scorecard.csv,Robustness Analysis,5,12,loaded,1.11
 historical_stress_results.csv,reports/stress_testing/historical_stress_results.csv,Stress Testing,15,11,loaded,2.8
 hypothetical_scenario_results.csv,reports/stress_testing/hypothetical_scenario_results.csv,Stress Testing,160,6,loaded,16.34
 volatility_correlation_stress.csv,reports/stress_testing/volatility_correlation_stress.csv,Stress Testing,5,17,loaded,1.7

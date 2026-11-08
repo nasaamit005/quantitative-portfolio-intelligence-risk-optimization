@@ -1,7 +1,7 @@
 {
   "project": "Quantitative Portfolio Intelligence & Risk Optimization Platform",
   "stage": "1.16 - Automated Quantitative Reporting",
-  "generated_at_utc": "2026-11-04T08:24:43.821981+00:00",
+  "generated_at_utc": "2026-11-08T10:46:32.775015+00:00",
   "project_root": "C:\\Users\\dell\\Documents\\quantitative-portfolio-intelligence-risk-optimization",
   "source_folders": [
     "walk_forward_comparison",
@@ -10,8 +10,8 @@
     "robustness_analysis",
     "black_litterman_optimization"
   ],
-  "discovered_csv_files": 26,
-  "loaded_datasets": 26,
+  "discovered_csv_files": 27,
+  "loaded_datasets": 27,
   "failed_files": [],
   "output_directory": "C:\\Users\\dell\\Documents\\quantitative-portfolio-intelligence-risk-optimization\\reports\\automated_reporting",
   "datasets": [
@@ -216,37 +216,6 @@
       ]
     },
     {
-      "path": "reports/robustness_analysis/failed_robustness_experiments.csv",
-      "rows": 2,
-      "columns": [
-        "experiment",
-        "strategy",
-        "lookback_days",
-        "transaction_cost_bps",
-        "slippage_bps",
-        "rebalance_frequency",
-        "max_weight",
-        "initial_capital",
-        "risk_free_rate",
-        "test_start",
-        "test_end",
-        "observations",
-        "annualized_return",
-        "annualized_volatility",
-        "sharpe_ratio",
-        "sortino_ratio",
-        "max_drawdown",
-        "calmar_ratio",
-        "total_return",
-        "final_portfolio_value",
-        "total_trading_cost",
-        "total_turnover",
-        "rebalance_count",
-        "status",
-        "error"
-      ]
-    },
-    {
       "path": "reports/robustness_analysis/market_regime_classification.csv",
       "rows": 2975,
       "columns": [
@@ -273,6 +242,52 @@
         "annualized_volatility",
         "sharpe_ratio",
         "sample_status"
+      ]
+    },
+    {
+      "path": "reports/robustness_analysis/max_sharpe_failure_trace.csv",
+      "rows": 268,
+      "columns": [
+        "experiment",
+        "attempt_number",
+        "window_type",
+        "as_of_date",
+        "history_start",
+        "history_end",
+        "observations",
+        "max_weight",
+        "risk_free_rate",
+        "expected_return_min",
+        "expected_return_max",
+        "covariance_min_eigenvalue",
+        "covariance_max_eigenvalue",
+        "covariance_condition_number",
+        "status",
+        "error",
+        "weight_sum",
+        "minimum_weight",
+        "maximum_weight"
+      ]
+    },
+    {
+      "path": "reports/robustness_analysis/max_sharpe_solver_variants.csv",
+      "rows": 12,
+      "columns": [
+        "window",
+        "observations",
+        "max_weight",
+        "starting_point",
+        "gradient",
+        "success",
+        "message",
+        "iterations",
+        "objective",
+        "sharpe_ratio",
+        "weight_sum",
+        "minimum_weight",
+        "maximum_weight",
+        "bound_violation",
+        "feasible"
       ]
     },
     {
