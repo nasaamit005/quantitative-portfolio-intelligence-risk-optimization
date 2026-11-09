@@ -3,200 +3,405 @@
 [![CI](https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization/actions/workflows/ci.yml/badge.svg)](https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%20%7C%203.14-blue.svg)](pyproject.toml)
-[![Live report](https://img.shields.io/badge/live-interactive%20report-c0392b.svg)](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)
+[![Live Report](https://img.shields.io/badge/live-interactive%20report-c0392b.svg)](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)
 [![Deploy](https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization/actions/workflows/deploy-dashboard.yml/badge.svg)](https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization/actions/workflows/deploy-dashboard.yml)
 
 **Walk-forward portfolio construction, risk analytics and automated reporting on real US equity data.**
 
-[**Live interactive report**](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)  |  [Enhanced reporting design](docs/ENHANCED_REPORTING.md)  |  [Results](reports/)
+## Explore the Dashboard
 
-**Author:** Amit Singh  ·  **GitHub:** [@nasaamit005](https://github.com/nasaamit005)
+**[Open Quantitative Portfolio Intelligence Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)**
 
-> **Read this first.** The universe is 12 large US stocks (AAPL, MSFT, NVDA, META and others) that were chosen with hindsight. Every strategy and the SPY comparison therefore carry **survivorship and selection bias**, and absolute returns overstate what an investor could have known in 2016. Use the results to compare *methods*, not to forecast returns. Nothing here is investment advice.
+Explore portfolio performance, optimization strategies, risk analytics, robustness experiments and investment insights through one public dashboard entry point.
 
-* * *
+**Author:** Amit Singh · **GitHub:** [@nasaamit005](https://github.com/nasaamit005)
+
+> **Important research limitation:** The universe consists of 12 large US stocks (including AAPL, MSFT, NVDA and META) selected with hindsight. Every strategy and the SPY comparison therefore carries survivorship and selection bias. Absolute historical returns overstate what an investor could have known in 2016. Use these results to compare methods, not to forecast returns. This project is not investment advice.
+
+---
 
 ## 1. Overview
 
-The project asks one question: **which portfolio construction method holds up out of sample, after costs, across parameter choices and market regimes, and how much risk does each carry?**
+The project investigates one central question:
 
-It covers the full chain on real daily data (yfinance, 2016 to 2026):
+**Which portfolio construction method holds up out of sample, after costs, across parameter choices and market regimes, and how much risk does each strategy carry?**
 
-- **Data engineering:** download, cleaning, return construction, rolling statistics, correlation and covariance (sample and Ledoit-Wolf).
-- **Optimisers:** minimum volatility, maximum Sharpe, efficient frontier, Hierarchical Risk Parity, risk parity, Black-Litterman.
-- **Walk-forward backtest:** 252-day lookback, monthly rebalancing, transaction cost plus slippage (7 bps per unit turnover), five strategies against SPY.
-- **Analytics:** performance, drawdown episodes, rolling metrics, benchmark-relative statistics.
-- **Robustness and stress:** 80 sensitivity experiments (lookback, costs, rebalancing, weight cap), market regimes, historical crises and hypothetical scenarios.
-- **Reporting:** CSV/Parquet tables, a 25-sheet formula-driven Excel workbook, an interactive HTML report and a Flask dashboard.
+It covers the complete quantitative portfolio research workflow using real daily US market data from Yahoo Finance.
 
-## 2. Key results (real data, net of costs)
+The platform includes:
 
-2016-01-05 to 2026-11-02 (2,723 trading days), $100,000 start. Sharpe uses the project's own convention (`reports/performance_analytics`).
+- **Data engineering:** Data acquisition, cleaning, return construction, rolling statistics, correlation and covariance estimation using sample covariance and Ledoit-Wolf shrinkage.
+- **Portfolio optimization:** Minimum volatility, maximum Sharpe ratio, efficient frontier, Hierarchical Risk Parity, risk parity and Black-Litterman.
+- **Walk-forward backtesting:** 252-day estimation lookback, monthly rebalancing, transaction costs and slippage, and five portfolio strategies compared against SPY.
+- **Performance analytics:** CAGR, volatility, Sharpe ratio, drawdown episodes, rolling performance and benchmark-relative statistics.
+- **Robustness and stress testing:** Sensitivity experiments covering lookback windows, transaction costs, rebalancing frequencies and portfolio weight constraints, along with market regimes, historical crises and hypothetical scenarios.
+- **Automated reporting:** CSV and Parquet datasets, formula-driven Excel workbooks, interactive HTML reporting and a Flask analytics application.
 
-| Strategy | CAGR | Volatility | Sharpe | Max drawdown | Info. ratio | Turnover | COVID crash |
-|---|---|---|---|---|---|---|---|
+## 2. Key Results
+
+**Real historical data, net of portfolio transaction costs**
+
+Evaluation period: 2016-01-05 to 2026-11-02  
+Trading observations: 2,723  
+Initial capital: $100,000
+
+Sharpe ratios follow the project's documented performance analytics convention.
+
+| Strategy | CAGR | Volatility | Sharpe | Max Drawdown | Information Ratio | Turnover | COVID Crash |
+|---|---:|---:|---:|---:|---:|---:|---:|
 | Maximum Sharpe | 30.9% | 22.7% | 1.13 | -29.0% | 0.89 | 30.1x | -24.8% |
-| Equal weight | 26.0% | 19.1% | 1.10 | -30.2% | 1.56 | 4.2x | -29.5% |
-| Risk parity | 22.3% | 16.5% | 1.07 | -29.8% | 0.95 | 4.6x | -29.3% |
+| Equal Weight | 26.0% | 19.1% | 1.10 | -30.2% | 1.56 | 4.2x | -29.5% |
+| Risk Parity | 22.3% | 16.5% | 1.07 | -29.8% | 0.95 | 4.6x | -29.3% |
 | HRP | 20.5% | 15.4% | 1.03 | -29.2% | 0.55 | 11.7x | -28.8% |
-| Minimum volatility | 13.9% | 14.2% | 0.71 | -29.7% | -0.12 | 9.4x | -29.4% |
-| SPY (benchmark) | 14.8% | 17.7% | 0.65 | -33.7% | n/a | n/a | -33.4% |
+| Minimum Volatility | 13.9% | 14.2% | 0.71 | -29.7% | -0.12 | 9.4x | -29.4% |
+| SPY Benchmark | 14.8% | 17.7% | 0.65 | -33.7% | N/A | N/A | -33.4% |
 
-- **Maximum Sharpe** earned the highest return, but it is the most concentrated and the most parameter-sensitive: its Sharpe ranges 0.25 across the 15 robustness settings versus 0.09 for equal weight. At the latest rebalance XOM supplies 32% of its risk on 26% of its capital, and turnover is 30x versus 4.2x.
-- **Equal weight is hard to beat.** It has the best information ratio (1.56) and the second-highest Sharpe, with the most stable results.
-- **Minimum volatility** delivers the lowest volatility (14.2% vs SPY 17.7%) but a CAGR below SPY (13.9% vs 14.8%).
-- **Drawdowns were similar for every strategy** (about -29% to -30%, SPY -33.7%): in this concentrated, equity-only universe, diversification methods did not avoid the 2020 crash (-29% to -25% vs SPY -33.4%).
-- **Costs are small** at 7 bps: the largest drag is 0.20% per year (Maximum Sharpe). SPY is shown without trading costs, which slightly favours it.
+### Key Findings
 
-## 3. Figures
+- **Maximum Sharpe achieved the highest historical return.** However, it was also the most concentrated and parameter-sensitive strategy. Its Sharpe ratio varied by 0.25 across the 15 robustness settings, compared with 0.09 for equal weight. At the latest rebalance, XOM represented 32% of portfolio risk with 26% of invested capital. Turnover reached 30.1x.
+- **Equal weight remained highly competitive.** It achieved the best information ratio (1.56) and second-highest Sharpe ratio, with relatively stable results.
+- **Minimum volatility reduced portfolio volatility.** Its annualized volatility was 14.2%, compared with 17.7% for SPY, although its CAGR was below the benchmark.
+- **Drawdowns remained substantial across strategies.** Maximum drawdowns were approximately -29% to -30%, compared with -33.7% for SPY. Diversification methods did not eliminate the 2020 market crash.
+- **Transaction costs had a measurable but relatively small effect.** At the assumed 7 basis points, the largest reported annual drag was approximately 0.20% for Maximum Sharpe. SPY is shown without trading costs, which slightly favours the benchmark.
 
-| | |
+## 3. Analytical Figures
+
+The following figures are generated by the project's performance analytics, robustness analysis and stress-testing pipelines.
+
+| Cumulative Performance | Drawdown Comparison |
 |---|---|
-| ![Cumulative performance](reports/performance_analytics/figures/cumulative_performance.png) | ![Drawdowns](reports/performance_analytics/figures/drawdown_comparison.png) |
-| ![Risk-return](reports/performance_analytics/figures/risk_return_comparison.png) | ![Robustness scorecard](reports/robustness_analysis/figures/strategy_robustness_scorecard.png) |
-| ![Historical crises](reports/stress_testing/figures/historical_crisis_returns.png) | ![Lookback sensitivity](reports/robustness_analysis/figures/lookback_sensitivity.png) |
+| ![Cumulative performance](reports/performance_analytics/figures/cumulative_performance.png) | ![Drawdown comparison](reports/performance_analytics/figures/drawdown_comparison.png) |
 
-## 4. Interactive analytics dashboard (`/qpi/`)
-
-A thin layer, `quantfin.enhanced`, reads the outputs above (it does **not** re-run or duplicate any strategy) and serves an interactive dashboard, a formula-driven Excel workbook and a standalone HTML report. Screenshots below are from the real data.
-
-| | |
+| Risk-Return Comparison | Robustness Scorecard |
 |---|---|
-| ![Overview](docs/figures/dashboard_overview.png) | ![Strategy drill-down](docs/figures/dashboard_drilldown.png) |
-| **Overview:** key insights, KPIs, strategy scorecards with sparklines | **Drill-down drawer:** ranks, tail risk (4 VaR methods), holdings and risk contribution |
-| ![Portfolio lab](docs/figures/dashboard_portfolio_lab.png) | ![Stress](docs/figures/dashboard_stress.png) |
-| **Portfolio lab:** blend strategies with sliders | **Stress:** regimes, crises and hypothetical scenarios |
+| ![Risk return comparison](reports/performance_analytics/figures/risk_return_comparison.png) | ![Strategy robustness scorecard](reports/robustness_analysis/figures/strategy_robustness_scorecard.png) |
 
-**What you can do**
-
-- **Filter anything:** toggle strategies, pick any date range or a preset (1Y, 3Y, 5Y, YTD, and your crisis windows such as COVID-19 Crash). Windows as short as 15 days work, with a visible warning below 60 days.
-- **Drill down:** click a KPI or strategy card for a side panel with rank per metric, narrative bullets, VaR/CVaR by four methods, holdings versus risk contribution, drawdown episodes, monthly heatmap and return distribution.
-- **Blend portfolios:** the Portfolio lab mixes strategies and SPY with sliders and recomputes CAGR, volatility, Sharpe, drawdown and beta on the server from the real net returns (constant mix, rebalanced daily, costs not re-applied).
-- **Simulate a market shock:** drag SPY from -50% to +30% and see each strategy's beta-implied move (a labelled model estimate).
-- **Explore any two metrics:** the metric explorer plots any pair of measures with a third as bubble size.
-- **Replay history:** animate the growth of every strategy over time.
-- **Learn as you go:** each chart has a plain-English "How to read" note, 34 glossary terms appear as hover tooltips on every metric and column header, and an About page documents data lineage and limitations.
-- **Work with the data:** sortable, filterable tables with a heatmap toggle and CSV export; expand any chart full-screen; download any chart as PNG; download the Excel workbook or HTML report.
-
-**Also included**
-
-- a **formula-driven Excel workbook** (Excel formulas for CAGR, volatility, Sharpe, drawdown, Calmar, beta; tables, conditional formatting, native charts; an Excel-versus-Python agreement column),
-- four **VaR/CVaR** methods (historical, Gaussian, Cornish-Fisher, Monte Carlo), component **risk contributions** for every strategy, probabilistic Sharpe and normality/autocorrelation diagnostics,
-- auto-generated **findings** tagged *historical observation*, *model estimate* or *forward-looking assumption*.
-
-Design, data mapping and documented discrepancies: [`docs/ENHANCED_REPORTING.md`](docs/ENHANCED_REPORTING.md).
-
-## 5. Validation
-
-595 automated tests (`pytest`), including:
-
-| Claim | Check |
+| Historical Crisis Returns | Lookback Sensitivity |
 |---|---|
-| Existing pipeline | optimisers, constraints, estimators, walk-forward, returns, risk, strategies (original suite) |
-| Metric definitions | known-answer tests for CAGR, drawdown, Sharpe, alpha/beta, VaR methods, risk-contribution identity |
-| Agreement with the project | the reporting layer's CAGR, volatility, drawdown, beta, tracking error and information ratio equal `performance_summary.csv` (Sharpe/Sortino within 1%, see docs) |
-| Inputs unchanged | strategy returns equal `strategy_daily_results.csv`; benchmark dates aligned; weights sum to 1 and respect the cap |
-| Excel integrity | LibreOffice recalculation: zero formula errors; Excel equals Python to 1e-9 |
-| Dashboard | every chart/table route, date filters (including a 24-day crisis window), drill-down, blender checked against direct computation, error codes, downloads, original pages still served |
+| ![Historical crisis returns](reports/stress_testing/figures/historical_crisis_returns.png) | ![Lookback sensitivity](reports/robustness_analysis/figures/lookback_sensitivity.png) |
+
+## 4. Enhanced Interactive Analytics
+
+The enhanced reporting layer, `quantfin.enhanced`, consumes the existing project outputs. It does not independently rerun or duplicate the underlying portfolio strategies.
+
+It provides an interactive analytics experience, a formula-driven Excel workbook and a standalone HTML report.
+
+### Dashboard Screenshots
+
+| Dashboard Overview | Strategy Drill-Down |
+|---|---|
+| ![Dashboard overview](docs/figures/dashboard_overview.png) | ![Strategy drill-down](docs/figures/dashboard_drilldown.png) |
+| **Overview:** Key insights, KPIs, strategy scorecards and performance sparklines. | **Drill-down:** Strategy rankings, tail risk, holdings and risk contribution. |
+
+| Portfolio Lab | Stress Analysis |
+|---|---|
+| ![Portfolio lab](docs/figures/dashboard_portfolio_lab.png) | ![Dashboard stress analysis](docs/figures/dashboard_stress.png) |
+| **Portfolio Lab:** Blend strategies using interactive allocation sliders. | **Stress Analysis:** Explore market regimes, historical crises and hypothetical scenarios. |
+
+### Interactive Features
+
+- **Flexible filtering:** Select strategies, custom date ranges and presets such as 1Y, 3Y, 5Y, YTD and historical crisis windows. Windows as short as 15 days are supported, with warnings for periods shorter than 60 days.
+- **Strategy drill-down:** Select a KPI or strategy card to inspect rankings, narrative insights, VaR and CVaR, holdings, risk contribution, drawdown episodes, monthly returns and return distributions.
+- **Portfolio blending:** Combine strategies and SPY through interactive allocation sliders. The server recalculates CAGR, volatility, Sharpe ratio, drawdown and beta from the historical net returns. This is a constant-mix, daily-rebalanced illustration; transaction costs are not reapplied.
+- **Market shock simulation:** Adjust the assumed SPY market shock from -50% to +30% and inspect beta-implied strategy movements. These are labelled model estimates.
+- **Metric explorer:** Visualize any two performance metrics with an additional measure represented by bubble size.
+- **Historical replay:** Animate the cumulative growth of strategies over time.
+- **Interactive explanations:** Charts include plain-English interpretation notes. Thirty-four glossary terms provide contextual explanations through tooltips.
+- **Data exploration:** Sortable and filterable tables, heatmap toggles, CSV exports, full-screen charts and PNG downloads.
+- **Report downloads:** Download the generated Excel workbook and standalone HTML report.
+
+### Enhanced Risk and Reporting Features
+
+The enhanced reporting layer also includes:
+
+- A formula-driven Excel workbook with CAGR, volatility, Sharpe ratio, drawdown, Calmar ratio and beta formulas.
+- Excel tables, conditional formatting and native charts.
+- Excel-versus-Python metric agreement checks.
+- Four VaR and CVaR approaches: historical, Gaussian, Cornish-Fisher and Monte Carlo.
+- Component risk contributions for every strategy.
+- Probabilistic Sharpe ratio and normality/autocorrelation diagnostics.
+- Automated findings labelled as historical observations, model estimates or forward-looking assumptions.
+
+For the reporting design, data mapping and documented discrepancies, see [Enhanced Reporting Documentation](docs/ENHANCED_REPORTING.md).
+
+## 5. Validation and Testing
+
+The project includes **595 automated tests**, covering the core quantitative pipeline and enhanced reporting functionality.
+
+| Validation Area | Checks |
+|---|---|
+| Core pipeline | Optimizers, constraints, estimators, walk-forward backtesting, returns, risk and portfolio strategies |
+| Metric definitions | Known-answer tests for CAGR, drawdown, Sharpe, alpha/beta, VaR methods and risk-contribution identities |
+| Reporting consistency | Reporting-layer CAGR, volatility, drawdown, beta, tracking error and information ratio compared with `performance_summary.csv` |
+| Input integrity | Strategy returns compared with `strategy_daily_results.csv`; benchmark date alignment; portfolio weights sum to one and respect constraints |
+| Excel integrity | LibreOffice recalculation, formula-error checks and Excel-versus-Python agreement to 1e-9 |
+| Dashboard | Chart and table routes, date filters, drill-down, portfolio blending, error handling and downloads |
+| Regression protection | Existing application pages and original quantitative pipeline functionality |
+
+Run the test suite with:
+
+```powershell
+pytest
+```
+
+Run lint checks with:
+
+```powershell
+ruff check .
+```
 
 ## 6. Installation
 
-```bash
+### Prerequisites
+
+- Python 3.12 or 3.14
+- Git
+- Windows, Linux or macOS
+- Internet access for downloading market data
+
+### Clone the Repository
+
+```powershell
 git clone https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization.git
+
 cd quantitative-portfolio-intelligence-risk-optimization
+```
+
+### Create and Activate a Virtual Environment
+
+Windows PowerShell:
+
+```powershell
 python -m venv .venv
-.venv\Scripts\Activate.ps1          # Linux/macOS: source .venv/bin/activate
+
+.\.venv\Scripts\Activate.ps1
+```
+
+Linux/macOS:
+
+```bash
+python -m venv .venv
+
+source .venv/bin/activate
+```
+
+### Install Dependencies
+
+```powershell
+python -m pip install --upgrade pip
+
 python -m pip install -r requirements.txt
+
 python -m pip install -e .
+```
+
+### Run Tests
+
+```powershell
 pytest
 ```
 
 ## 7. Usage
 
-```bash
-python scripts/run_real_walk_forward_comparison.py   # strategies, walk-forward results
+The following commands run the project's individual analytical workflows.
+
+### Portfolio Backtesting
+
+```powershell
+python scripts/run_real_walk_forward_comparison.py
+```
+
+### Performance Analytics
+
+```powershell
 python scripts/run_performance_analytics.py
+```
+
+### Robustness Analysis
+
+```powershell
 python scripts/run_robustness_analysis.py
+```
+
+### Portfolio Stress Testing
+
+```powershell
 python scripts/run_portfolio_stress_testing.py
-python scripts/run_automated_reporting.py            # 28-sheet workbook of all tables
-python scripts/run_enhanced_reporting.py             # formula-driven workbook + HTML report + dashboard inputs
-python app.py                                        # the URL printed by Flask, plus /qpi/
 ```
 
-## 8. Repository structure
+### Automated Excel Reporting
 
-```
-app.py                      Flask app (original pages + /qpi/)
-src/quantfin/               data, estimators, optimization, backtesting, strategies, analytics, services
-src/quantfin/enhanced/      reporting layer: adapter, metrics, risk, charts, excel, insights, flask blueprint
-scripts/                    pipeline and validation scripts
-config/                     settings.yaml, assets.yaml, logging.yaml
-data/                       raw (git-ignored), processed
-reports/                    tables, figures, workbooks; reports/enhanced/ = enhanced outputs, published to
-                            GitHub Pages by .github/workflows/deploy-dashboard.yml (index.html)
-docs/                       ENHANCED_REPORTING.md, figures/ (dashboard screenshots)
-tests/unit/                 595 tests
+```powershell
+python scripts/run_automated_reporting.py
 ```
 
-## 9. Limitations
+This generates the automated portfolio analytics workbook and supporting reporting outputs.
 
-- **Hindsight universe** (see top of this file) biases every result upward and favours growth names.
-- **In-sample strategy design.** The strategy set, lookbacks and weight cap were chosen after seeing data. The sensitivity grid quantifies but does not remove this.
-- **Expected returns** are historical means with large estimation error; Maximum Sharpe is exposed to them, the other methods mostly are not.
-- **Hypothetical stress:** uniform market shocks apply the same loss to every strategy, so they do not rank strategies; asset/sector scenarios are linear model estimates.
-- **Regimes** use the project's own trailing-window classification. Days labelled "bear" show high subsequent returns because the labels lag rebounds (for example mid-2020), so read them as "after a decline", not as forecasts.
-- **Costs** are flat basis points on turnover. No market impact, taxes, financing or shorting. SPY carries no cost.
-- **Not covered here:** the lookback walk-forward selection analysis (hidden from the dashboard because the project does not compute it).
+### Enhanced Reporting
 
-## 10. Data and licensing
+```powershell
+python scripts/run_enhanced_reporting.py
+```
 
-Market data come from Yahoo Finance via `yfinance`; check Yahoo's terms before redistributing the raw series. Raw data is git-ignored; processed returns are committed for reproducibility.
+This generates the enhanced formula-driven workbook, HTML report and dashboard inputs.
+
+### Launch the Flask Application
+
+```powershell
+python app.py
+```
+
+The Flask terminal displays the local server address when the application starts.
+
+## 8. Repository Structure
+
+```text
+quantitative-portfolio-intelligence-risk-optimization/
+│
+├── app.py
+│
+├── src/
+│   └── quantfin/
+│       ├── data/
+│       ├── features/
+│       ├── estimators/
+│       ├── optimization/
+│       ├── strategies/
+│       ├── backtesting/
+│       ├── risk/
+│       ├── analytics/
+│       ├── visualization/
+│       ├── services/
+│       ├── utils/
+│       └── enhanced/
+│
+├── scripts/
+│   ├── run_real_walk_forward_comparison.py
+│   ├── run_performance_analytics.py
+│   ├── run_robustness_analysis.py
+│   ├── run_portfolio_stress_testing.py
+│   ├── run_automated_reporting.py
+│   └── run_enhanced_reporting.py
+│
+├── config/
+│   ├── settings.yaml
+│   ├── assets.yaml
+│   └── logging.yaml
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── reports/
+│   ├── automated_reporting/
+│   ├── backtests/
+│   ├── excel/
+│   ├── enhanced/
+│   ├── figures/
+│   ├── performance_analytics/
+│   ├── robustness_analysis/
+│   ├── stress_testing/
+│   ├── tables/
+│   └── walk_forward_comparison/
+│
+├── docs/
+│   ├── ENHANCED_REPORTING.md
+│   └── figures/
+│
+├── tests/
+│   └── unit/
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       └── deploy-dashboard.yml
+│
+├── pyproject.toml
+├── requirements.txt
+├── README.md
+├── LICENSE
+└── CITATION.cff
+```
+
+The raw market data directory is excluded from Git. The processed datasets and generated reports provide the reproducible analytical inputs and outputs included in the repository.
+
+## 9. Research Limitations
+
+The results should be interpreted in light of the following limitations:
+
+- **Hindsight universe:** The 12-stock universe was selected with knowledge of the historical period. This introduces survivorship and selection bias and favours successful growth companies.
+- **In-sample strategy design:** Strategy choices, lookback windows and weight constraints were developed after observing the dataset. Sensitivity analysis measures parameter dependence but does not eliminate selection bias.
+- **Expected-return estimation:** Historical average returns have substantial estimation error. Maximum Sharpe optimization is particularly exposed to this uncertainty.
+- **Hypothetical stress scenarios:** Uniform market shocks apply the same assumed loss across strategies and therefore do not independently rank their resilience. Asset and sector scenarios are linear model estimates.
+- **Market regime classification:** Regimes use trailing-window classifications. Days labelled bear can include strong subsequent returns because the classification can lag market rebounds. Interpret these as historical conditions following declines, not forecasts.
+- **Transaction costs:** Costs use fixed basis points on turnover. Market impact, taxes, financing costs and short-selling costs are not modelled. SPY is shown without trading costs.
+- **Parameter selection:** Robustness experiments evaluate selected parameter ranges; they do not establish that those ranges are optimal.
+- **Not covered:** A dedicated out-of-sample lookback-selection analysis is not currently computed by the project.
+
+## 10. Data Sources and Licensing
+
+Market data are obtained from Yahoo Finance using `yfinance`.
+
+The raw market data are excluded from Git. Processed returns and analytical outputs are committed where appropriate to support reproducibility.
+
+Check Yahoo Finance's terms and applicable data licensing conditions before redistributing raw market data.
 
 ## 11. Roadmap
 
-- [ ] Point-in-time or broader index universe to remove hindsight bias
-- [ ] Out-of-sample holdout and walk-forward parameter selection
-- [ ] Factor and regime-conditional stress scenarios
-- [ ] Docker image and hosted dashboard
+- [ ] Introduce a point-in-time or broader historical index universe to reduce hindsight and survivorship bias.
+- [ ] Add a dedicated out-of-sample holdout and walk-forward parameter-selection framework.
+- [ ] Extend factor-based and regime-conditional stress scenarios.
+- [ ] Add Docker-based deployment.
+- [ ] Deploy the full Flask application to a public hosting platform.
+- [ ] Expand portfolio constraints and institutional risk reporting.
 
-## 12. How to cite
+## 12. How to Cite
 
-See [`CITATION.cff`](CITATION.cff); GitHub shows a "Cite this repository" button.
+See [CITATION.cff](CITATION.cff). GitHub provides a **Cite this repository** option when the citation file is available.
 
-## 13. License and disclaimer
+## 13. License and Disclaimer
 
-MIT License ([LICENSE](LICENSE)). Educational and quantitative-research software, not investment, risk-management or regulatory advice. Historical performance does not guarantee future returns.
+This project is licensed under the [MIT License](LICENSE).
 
-## 🖥️ Local Interactive Analytics Dashboard (Flask)
+It is educational and quantitative-research software. It does not constitute investment advice, professional risk-management advice or regulatory guidance.
 
-This project includes a Flask-powered interactive analytics dashboard for exploring portfolio optimization, performance, risk, and robustness results.
+Historical performance does not guarantee future results.
 
-### Launch locally
+---
 
-From the project root, run:
+## 14. Run the Full Flask Dashboard Locally
+
+The repository also includes a Flask-powered application that serves the interactive analytics interface and the project's additional application pages.
+
+### Start the Application
+
+Open PowerShell in the project root and execute:
 
 ```powershell
 .\.venv\Scripts\python.exe app.py
 ```
 
-### Open the dashboard
+Wait until the terminal confirms that the server is running:
 
-**[Open Interactive Analytics Dashboard](http://127.0.0.1:5000/qpi/)**
+```text
+* Running on http://127.0.0.1:5000
+```
 
-The Flask server must be running on your computer for this link to work.
+Keep the terminal open while using the application.
 
-### Other application routes
+### Open the Local Interactive Dashboard
 
-- Main Dashboard: http://127.0.0.1:5000/
-- Optimization: http://127.0.0.1:5000/optimization
-- Performance: http://127.0.0.1:5000/performance
-- Risk: http://127.0.0.1:5000/risk
-- Robustness: http://127.0.0.1:5000/robustness
-- Methodology: http://127.0.0.1:5000/methodology
-- Health: http://127.0.0.1:5000/health
+**[Launch Local Interactive Analytics Dashboard](http://127.0.0.1:5000/qpi/)**
 
-### Public dashboard
+> **Local access only:** The localhost address works on the computer running Flask. It is not a public website URL and will not work for recruiters or other visitors on their own devices.
 
-**[Visit the publicly hosted GitHub Pages Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)**
+### Public Dashboard vs. Local Flask Application
 
-GitHub Pages provides public access to the static analytics report, while Flask provides the locally running interactive application.
+- **Public dashboard:** The GitHub Pages URL at the top of this README publishes the static analytics report and is accessible to visitors.
+- **Local Flask application:** The Flask server provides the locally hosted interactive application and requires Python to be running on your computer.
+
+The public GitHub Pages report and the local Flask application are separate deployments. A public deployment of the full Flask application is planned as a future enhancement.
+
+---
+
+**Thank you for exploring the Quantitative Portfolio Intelligence & Risk Optimization Platform.**
