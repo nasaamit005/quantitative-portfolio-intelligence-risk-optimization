@@ -1,3 +1,4 @@
+
 name: Deploy Portfolio Dashboard to GitHub Pages
 
 on:
@@ -16,7 +17,7 @@ permissions:
 
 concurrency:
   group: github-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -30,18 +31,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Verify dashboard exists
+      - name: Verify complete dashboard
+        shell: bash
         run: |
-          test -f reports/enhanced/enhanced_report.html
+          set -euo pipefail
+
+          test -s reports/enhanced/index.html
+          test -s reports/enhanced/qpi/index.html
+          test -s reports/enhanced/qpi/manifest.json
+          test -s reports/enhanced/qpi/data/performance.csv
+
+          CSV_COUNT=$(find reports/enhanced/qpi/data -maxdepth 1 -type f -name '*.csv' | wc -l)
+
+          echo "CSV datasets found: ${CSV_COUNT}"
+
+          if [ "$CSV_COUNT" -ne 31 ]; then
+            echo "ERROR: Expected 31 CSV datasets."
+            exit 1
+          fi
+
+          echo "Dashboard verification passed."
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload dashboard
+      - name: Upload complete website
         uses: actions/upload-pages-artifact@v3
         with:
           path: reports/enhanced
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
