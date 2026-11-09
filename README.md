@@ -88,7 +88,7 @@ It covers the complete quantitative portfolio research workflow using real daily
 | Minimum Volatility | 13.9% | 14.2% | 0.71 | -29.7% | -0.12 | 9.4x | -29.4% |
 | SPY Benchmark | 14.8% | 17.7% | 0.65 | -33.7% | N/A | N/A | -33.4% |
 
-> Sharpe ratios follow the project's documented performance analytics convention. The interactive dashboard can show values that differ by about 0.01 (for example 1.12 for Maximum Sharpe) because of rounding and calculation conventions. See the [Enhanced Reporting Documentation](docs/ENHANCED_REPORTING.md).
+> Sharpe and Sortino ratios in this table compound the daily risk-free rate, `(1+rf)^(1/252)-1`. The interactive dashboard uses `rf/252`, so it shows values about 0.4% lower (for example 1.12 instead of 1.13 for Maximum Sharpe). Strategy rankings are identical. See the [Enhanced Reporting Documentation](docs/ENHANCED_REPORTING.md).
 
 ### Total Return Over the Full Window
 
