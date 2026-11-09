@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quantitative Portfolio Intelligence | Interactive Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#fff;--card:#fff;--ink:#111827;--mut:#5b6472;--line:#e3e7ee;--acc:#2563eb;--soft:#f4f6fa;--warn:#9b1c1c;--warnbg:#fdf0f0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f141b;--card:#161d27;--ink:#e8edf3;--mut:#9aa6b4;--line:#2a3441;--acc:#6b9bff;--soft:#1b2430;--warn:#f1a4a4;--warnbg:#2b1818}}
+:root[data-theme="dark"]{--bg:#0f141b;--card:#161d27;--ink:#e8edf3;--mut:#9aa6b4;--line:#2a3441;--acc:#6b9bff;--soft:#1b2430;--warn:#f1a4a4;--warnbg:#2b1818}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,sans-serif}
+.w{max-width:1120px;margin:0 auto;padding:16px 18px 56px}
+h1{font-size:17px;margin:0}h2{font-size:22px;margin:22px 0 4px}h3{font-size:14px;margin:0 0 6px}
+.sub{font-size:11px;color:var(--mut);margin-top:2px}.m{color:var(--mut)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.pill,.btn,select,input[type=date]{font:inherit;font-size:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+input[type=date]{border-radius:6px;cursor:text}
+.pill.on{border-color:var(--acc);color:var(--acc);font-weight:600}
+.pill i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.pill.off{opacity:.45}
+.btn{border-radius:6px}.btn[disabled]{opacity:.5;cursor:not-allowed}
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);margin-top:14px}
+.tabs a{padding:10px 12px;color:var(--ink);text-decoration:none;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent}
+.tabs a.on{color:var(--acc);border-color:var(--acc);font-weight:600}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.warn{background:var(--warnbg);color:var(--warn);border:1px solid var(--warn);border-radius:8px;padding:10px 14px;margin:12px 0;font-size:13px}
+.note{background:var(--soft);border-radius:8px;padding:9px 13px;font-size:12px;color:var(--mut);margin:10px 0}
+.box{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--card);margin:10px 0}
+.g{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.ins{border-left:3px solid var(--acc);font-size:13px}.ins small{display:block;color:var(--acc);font-weight:700;font-size:10px;letter-spacing:.04em;margin-bottom:4px}
+.k{cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.k small{display:block;font-size:10px;font-weight:700;color:var(--mut);text-transform:uppercase}
+.k b{font-size:28px;display:block;line-height:1.2}.k span{color:var(--acc);font-weight:600;font-size:13px;display:block}
+.sc{border-top:4px solid var(--c);cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.sc .r{display:flex;justify-content:space-between;font-weight:600}.sc .r em{font-style:normal;font-size:11px;color:var(--mut)}
+.sc .big{font-size:26px;font-weight:700}.sc .st{font-size:12px;display:flex;gap:12px;flex-wrap:wrap}
+.ch{overflow-x:auto}svg{display:block;width:100%;height:auto;min-width:420px}
+svg text{fill:var(--mut);font-size:10px;font-family:Inter,sans-serif}
+.rw{display:grid;grid-template-columns:120px 1fr 64px;gap:8px;align-items:center;margin:6px 0;font-size:12px}
+.tr{height:12px;background:var(--soft);border-radius:3px;overflow:hidden}.tr i{display:block;height:100%}
+.rw span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.sc2{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:12px;font-variant-numeric:tabular-nums;min-width:900px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--card)}
+th{color:var(--mut);font-weight:600;background:var(--soft);cursor:pointer}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);max-width:520px;width:92%;padding:18px}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+details{border-bottom:1px solid var(--line);padding:9px 0}summary{cursor:pointer;font-weight:600}
+input[type=range]{width:100%}
+.tip{border-bottom:1px dotted var(--mut)}
+a.btn{text-decoration:none;display:inline-block;color:var(--ink)}
+.btn.primary{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600;padding:6px 16px}
+.rn{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+.local{border:1px solid var(--acc);border-radius:10px;padding:12px 14px;margin:12px 0;background:var(--soft)}
+.local a.go{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;font-weight:600;padding:7px 14px;border-radius:6px;margin:6px 0}
+.local code,.local pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+.local pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;margin:6px 0}
+.local ul{margin:6px 0 0;padding-left:18px}.local summary{font-weight:600;cursor:pointer}
+</style></head>
+<body><div class="w">
+<h1>Quantitative Portfolio Intelligence</h1>
+<div class="sub">2016-01-05 → 2026-11-02 · 2,723 days · cost 7 bps · rf 4.0%</div>
+<div class="bar" id="sel"></div>
+<div class="bar" id="rng"></div>
+<div class="note" style="margin:12px 0">Interactive snapshot of the QPI dashboard. Preset windows, tabs and drill-downs work here. Charts are reconstructed from the reported summary statistics; the <a href="index.html" style="color:var(--acc)">full static report</a> holds the exact tables. To run the live app on your own computer: <code>python app.py</code>, then open <code>http://127.0.0.1:5000/qpi/</code>.</div>
+<nav class="tabs" id="tabs" aria-label="Dashboard tabs"></nav>
+<main id="view"></main>
+<dialog id="dlg"></dialog>
+</div>
+<script>
+const N=2723,T0=Date.UTC(2016,0,5),T1=Date.UTC(2026,10,2),RF=.04;
+const pc=(v,d=2)=>v.toFixed(d)+"%",f3=v=>v.toFixed(3),f2=v=>v.toFixed(2);
+// key,name,colour, tr,cagr,vol,sharpe,sortino,dd,calmar,skew,kurt,best,worst,winrate,days,beta,alpha,corr,te,ir,act,up,down
+const R=[
+["ew","Equal Weight","#2f6fed",1114.18,25.99,19.13,1.095,1.563,-30.21,.861,-.286,9.329,9.26,-10.48,57.51,1.026,9.27,.898,6.12,1.563,11.18,1.082,.981,.9],
+["mv","Minimum Volatility","#0f9d6b",306.34,13.85,14.19,.704,.987,-29.69,.467,-.328,11.764,6.97,-7.43,55.75,.609,3.06,.574,11.56,-.121,-.96,.566,.504,.75],
+["ms","Maximum Sharpe","#e8780c",1739.95,30.93,22.73,1.124,1.651,-28.96,1.068,.109,7.84,13.91,-8.83,56.04,.917,15.11,.508,16.0,.885,16.12,1.023,.857,.85],
+["rp","Risk Parity","#8a4dff",783.03,22.33,16.47,1.064,1.507,-29.82,.749,-.413,11.26,8.44,-9.36,57.11,.868,7.65,.866,6.46,.951,7.52,.889,.794,.88],
+["hrp","HRP","#e0307a",647.29,20.46,15.36,1.029,1.455,-29.2,.701,-.417,11.755,7.75,-8.42,56.52,.774,6.99,.793,8.04,.55,5.64,.776,.681,.85],
+["bm","Benchmark","#7b8591",344.89,14.81,17.67,.644,.901,-33.72,.439,-.312,14.743,10.5,-10.94,55.16,null,null,null,null,null,null,null,null,.95]
+].map(a=>({k:a[0],n:a[1],c:a[2],tr:a[3],cagr:a[4],vol:a[5],sh:a[6],so:a[7],dd:a[8],ca:a[9],sk:a[10],ku:a[11],bd:a[12],wd:a[13],wr:a[14],beta:a[15],alpha:a[16],corr:a[17],te:a[18],ir:a[19],act:a[20],up:a[21],dn:a[22],b:a[23]}));
+const COLS=[["Strategy"],["Total return","tr",v=>pc(v)],["CAGR","cagr",v=>pc(v)],["Volatility","vol",v=>pc(v)],["Sharpe","sh",f3],["Sortino","so",f3],["Max drawdown","dd",v=>pc(v)],["Calmar","ca",f3],["Skewness","sk",f3],["Excess kurtosis","ku",f3],["Best day","bd",v=>pc(v)],["Worst day","wd",v=>pc(v)],["Win rate","wr",v=>pc(v)],["Beta","beta",f3],["Alpha","alpha",v=>pc(v)],["Correlation","corr",f3],["Tracking error","te",v=>pc(v)],["Info ratio","ir",f3],["Active return","act",v=>pc(v)],["Upside capture","up",f3],["Downside capture","dn",f3]];
+// ---- schematic daily paths calibrated to reported CAGR and volatility ----
+let seed=20160105;const rnd=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const gs=()=>Math.sqrt(-2*Math.log(rnd()+1e-12))*Math.cos(6.2831853*rnd());
+const idx=t=>Math.max(0,Math.min(N-1,Math.round((t-T0)/(T1-T0)*(N-1))));
+const dt=i=>new Date(T0+(T1-T0)*i/(N-1)),iso=d=>d.toISOString().slice(0,10);
+const W={cr:[idx(Date.UTC(2020,1,19)),idx(Date.UTC(2020,2,23))],rc:[idx(Date.UTC(2020,2,24)),idx(Date.UTC(2020,11,31))],br:[idx(Date.UTC(2022,0,3)),idx(Date.UTC(2022,9,12))]};
+const F=Array.from({length:N},(_,i)=>gs()+(i>W.cr[0]&&i<=W.cr[1]?-1.1:0)+(i>W.rc[0]&&i<=W.rc[1]?.15:0)+(i>W.br[0]&&i<=W.br[1]?-.07:0));
+const std=a=>{const m=a.reduce((x,y)=>x+y,0)/a.length,s=Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/a.length);return a.map(v=>(v-m)/s)};
+const FZ=std(F);
+R.forEach(s=>{const e=Array.from({length:N},gs),z=std(FZ.map((f,i)=>s.b*f+Math.sqrt(1-s.b*s.b)*e[i]));
+ const m=Math.log(1+s.tr/100)/N,sd=s.vol/100/Math.sqrt(252);s.r=z.map(v=>m+sd*v)});
+const RS={cr:{ew:-29.47,mv:-29.43,ms:-24.85,rp:-29.31,hrp:-28.8,bm:-33.4},rc:{ew:74.34,mv:61.58,ms:95.13,rp:70.46,hrp:69.79,bm:69.83},br:{ew:-23.71,mv:-9.59,ms:-5.46,rp:-16.36,hrp:-12.83,bm:-24.06}};
+const by=Object.fromEntries(R.map(s=>[s.k,s]));
+// ---- state ----
+let tab="overview",win={a:0,b:N-1,id:"max"},sel=new Set(R.map(s=>s.k)),labW=[20,20,20,20,20],sortK=null,heat=false,flt="";
+function met(s,a=win.a,b=win.b){
+ if(a===0&&b===N-1&&s.tr!==undefined)return{tr:s.tr,cagr:s.cagr,vol:s.vol,sh:s.sh,dd:s.dd,full:true};
+ let c=0,pk=0,dd=0,sm=0,sq=0;const n=b-a+1;
+ for(let i=a;i<=b;i++){const r=s.r[i];c+=r;sm+=r;sq+=r*r;if(c>pk)pk=c;const d=Math.exp(c-pk)-1;if(d<dd)dd=d}
+ const yrs=n/252,g=Math.exp(c),mu=sm/n,sd=Math.sqrt(Math.max(0,sq/n-mu*mu)),vol=sd*Math.sqrt(252),cagr=yrs>=1?Math.pow(g,1/yrs)-1:g-1;
+ const o={tr:(g-1)*100,cagr:cagr*100,vol:vol*100,sh:vol?(mu*252-RF)/vol:0,dd:dd*100,full:false},rr=RS[win.id];if(rr&&a===win.a&&b===win.b&&rr[s.k]!=null){o.tr=rr[s.k];o.cagr=rr[s.k]}return o}
+const series=(s,fn,a=win.a,b=win.b)=>{const o=[];let c=0,pk=0;for(let i=a;i<=b;i++){c+=s.r[i];if(c>pk)pk=c;o.push(fn(c,pk))}return o};
+const act=()=>R.filter(s=>sel.has(s.k));
+// ---- svg line chart ----
+function line(ss,{pct=false,a=win.a,b=win.b,h=290}={}){
+ const Wd=720,L=46,Rr=10,T=10,B=24,n=ss[0]?ss[0].ys.length:0;if(!n)return"<p class=m>Select at least one series.</p>";
+ const st=Math.max(1,Math.floor(n/260));let lo=1e9,hi=-1e9;ss.forEach(s=>s.ys.forEach(v=>{lo=Math.min(lo,v);hi=Math.max(hi,v)}));
+ if(pct)hi=Math.max(hi,0);else lo=Math.min(lo,1);const pad=(hi-lo)*.05||.1;lo-=pad;hi+=pad;
+ const X=i=>L+(Wd-L-Rr)*i/Math.max(1,n-1),Y=v=>T+(h-T-B)*(1-(v-lo)/(hi-lo));
+ let o=`<svg viewBox="0 0 ${Wd} ${h}" role="img" aria-label="line chart">`;
+ for(let k=0;k<=4;k++){const v=lo+(hi-lo)*k/4,y=Y(v);o+=`<line x1="${L}" x2="${Wd-Rr}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${L-5}" y="${y+3}" text-anchor="end">${pct?v.toFixed(0)+"%":v.toFixed(1)+"×"}</text>`}
+ for(let k=0;k<=4;k++){const i=Math.round((n-1)*k/4);o+=`<text x="${X(i)}" y="${h-6}" text-anchor="${k==0?"start":k==4?"end":"middle"}">${iso(dt(a+i))}</text>`}
+ ss.forEach(s=>{let d="";for(let i=0;i<n;i+=st)d+=(d?"L":"M")+X(i).toFixed(1)+" "+Y(s.ys[i]).toFixed(1);d+="L"+X(n-1).toFixed(1)+" "+Y(s.ys[n-1]).toFixed(1);
+  o+=`<path d="${d}" fill="none" stroke="${s.c}" stroke-width="${s.k=="bm"?1.6:1.8}" ${s.k=="bm"?'stroke-dasharray="4 3"':""}/>`});
+ return o+"</svg>"}
+const legend=()=>`<div class="bar" style="margin:4px 0 8px">${act().map(s=>`<span class="m"><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${s.c};margin-right:5px"></i>${s.n}</span>`).join("")}</div>`;
+const growth=()=>line(act().map(s=>({...s,ys:series(s,c=>Math.exp(c))})));
+const under=()=>line(act().map(s=>({...s,ys:series(s,(c,p)=>(Math.exp(c-p)-1)*100)})),{pct:true});
+function bars(k,f,title,abs){const l=act();if(!l.length)return"";const M=l.map(s=>({s,v:met(s)[k]})),mx=Math.max(...M.map(x=>Math.abs(x.v)))||1;
+ return`<div class="box"><h3>${title}</h3>${M.map(x=>`<div class="rw"><span>${x.s.n}</span><span class="tr"><i style="width:${Math.abs(x.v)/mx*100}%;background:${x.s.c}"></i></span><span>${f(x.v)}</span></div>`).join("")}</div>`}
+const wnote=()=>win.a===0&&win.b===N-1?`<div class="note">Charts show shape only. Curves are reconstructed from the reported CAGR, volatility and market-regime timing, not actual daily prices. Headline numbers for the full window are the reported backtest values.</div>`:`<div class="note">This window is computed from the reconstructed curves, so figures are indicative. Choose <b>Max</b> to see the reported backtest values.</div>`;
+// ---- drill-down ----
+function drill(k){const s=by[k],m=met(s);
+ dlg.innerHTML=`<h3 style="font-size:18px"><i style="display:inline-block;width:11px;height:11px;border-radius:50%;background:${s.c};margin-right:8px"></i>${s.n}</h3><p class=m>Full-sample reported metrics, net of 7 bps costs.</p>${COLS.slice(1).map(c=>s[c[1]]==null?"":`<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:4px 0"><span class=m>${c[0]}</span><b>${c[2](s[c[1]])}</b></div>`).join("")}<p style="text-align:right;margin:12px 0 0"><button class="btn" onclick="dlg.close()">Close</button></p>`;dlg.showModal()}
+// ---- tabs ----
+const TABS=["Overview","Performance","Rolling","Optimization","Risk","Robustness","Stress","Portfolio lab","Findings","About & glossary"];
+const slug=t=>t.toLowerCase().replace(/ & .*/,"").replace(/ /g,"-");
+const V={};
+V.overview=()=>{const l=R.filter(s=>s.k!="bm"&&sel.has(s.k)),B=by.bm;
+ const best=(k,dir)=>l.length?l.reduce((p,c)=>(dir*met(c)[k]>dir*met(p)[k]?c:p)):null;
+ const kp=(t,k,dir,f)=>{const w=best(k,dir);return w?`<button class="box k" data-d="${w.k}"><small>${t}</small><b>${f(met(w)[k])}</b><span>${w.n}</span><em class=m style="font-size:11px;font-style:normal">Benchmark ${f(met(B)[k])}</em></button>`:""};
+ return`<h2>Overview</h2><p class=m>Headline results for the selected window. Click any KPI or strategy card to drill down.</p>
+ <div class="warn"><b>Selection bias:</b> The universe is 12 large US stocks selected with hindsight (e.g. NVDA, META, AAPL), so all strategies and the benchmark comparison carry survivorship and selection bias; absolute returns overstate what an investor could have known ex ante.</div>
+ <div class="box">Window <b style="color:var(--acc)">${iso(dt(win.a))} → ${iso(dt(win.b))}</b> (${win.b-win.a+1} trading days) &nbsp; ${sel.size} series selected &nbsp; Best Sharpe here: <b style="color:var(--acc)">${best("sh",1)?best("sh",1).n+" ("+f2(met(best("sh",1)).sh)+")":"n/a"}</b><br><span class=m>All returns net of trading costs. Filters apply to windowed charts and tables.</span></div>
+ <h3 style="margin-top:16px">Key insights <span class=m style="font-weight:400;font-size:11px">auto-generated from the full sample, each tagged by evidence type</span></h3>
+ <div class="g g3">${["Highest risk-adjusted return: maximum_sharpe (Sharpe 1.12); Benchmark Sharpe 0.64. Backtest 2016-01-05 to 2026-11-02, net of 7 bps costs, rf=4.0%.","Highest CAGR: maximum_sharpe (30.9%) vs benchmark 14.8%.","Shallowest maximum drawdown: maximum_sharpe (-29.0%); benchmark -33.7%. Lowest volatility: minimum_volatility (14.2%).","4 of 5 strategies beat the benchmark on CAGR: equal_weight, maximum_sharpe, risk_parity, hrp.","Best information ratio: equal_weight (1.56); tracking error 6.1%."].map(t=>`<div class="box ins"><small>HISTORICAL OBSERVATION</small>${t}</div>`).join("")}</div>
+ <div class="g" style="margin-top:14px">${kp("Best Sharpe ratio","sh",1,f2)}${kp("Highest CAGR","cagr",1,v=>pc(v,1))}${kp("Shallowest max drawdown","dd",1,v=>pc(v,1))}${kp("Lowest volatility","vol",-1,v=>pc(v,1))}
+ <button class="box k" data-d="ew"><small>Best information ratio</small><b>1.56</b><span>Equal Weight</span><em class=m style="font-size:11px;font-style:normal">vs benchmark · full sample</em></button>
+ <button class="box k" data-d="mv"><small>Lowest 95% CVaR</small><b>2.13%</b><span>Minimum Volatility</span><em class=m style="font-size:11px;font-style:normal">1-day historical · full sample</em></button></div>
+ <h3 style="margin-top:18px">Strategies <span class=m style="font-weight:400;font-size:11px">click a card for the full drill-down</span></h3>
+ <div class="g">${R.slice(0,5).filter(s=>sel.has(s.k)).map(s=>{const m=met(s),rk=[...R.slice(0,5)].sort((a,b)=>b.sh-a.sh).indexOf(s)+1;
+  const sp=line([{...s,ys:series(s,c=>Math.exp(c))}],{h:80}).replace(/<text.*?<\/text>/g,"").replace(/<line.*?\/>/g,"");
+  return`<button class="box sc" style="--c:${s.c}" data-d="${s.k}"><div class="r">${s.n}<em>#${rk} Sharpe</em></div><div class="big">${f2(m.sh)} <small class=m style="font-size:11px;font-weight:400">Sharpe</small></div><div class="ch">${sp}</div><div class="st"><span>CAGR <b>${pc(m.cagr,1)}</b></span><span>Vol <b>${pc(m.vol,1)}</b></span><span>MaxDD <b>${pc(m.dd,1)}</b></span></div><div style="color:var(--acc);font-size:12px;margin-top:6px">Open drill-down →</div></button>`}).join("")}</div>
+ ${wnote()}<div class="box"><h3>Cumulative performance (growth of 1.00, net of costs)</h3>${legend()}<div class=ch>${growth()}</div></div>
+ <div class="box"><h3>Underwater curve: drawdown from running peak</h3><div class=ch>${under()}</div></div>
+ <div class="g g3">${bars("cagr",v=>pc(v,1),"CAGR")}${bars("vol",v=>pc(v,1),"Volatility")}${bars("sh",f2,"Sharpe")}</div>`};
+V.performance=()=>{let rows=R.filter(s=>sel.has(s.k)&&s.n.toLowerCase().includes(flt.toLowerCase()));
+ if(sortK)rows=[...rows].sort((a,b)=>(b[sortK]??-1e9)-(a[sortK]??-1e9));
+ const good=new Set(["tr","cagr","sh","so","ca","sk","wr","bd","ir","act"]),low=new Set(["vol","ku"]);
+ const shade=(k,v,s)=>{if(!heat||v==null||s.k=="bm")return"";const vs=R.slice(0,5).map(x=>x[k]);const mn=Math.min(...vs),mx=Math.max(...vs);if(mx==mn)return"";let t=(v-mn)/(mx-mn);if(low.has(k))t=1-t;else if(!good.has(k)&&k!="dd")return"";return`background:rgba(37,99,235,${(.05+.3*t).toFixed(2)})`};
+ return`<h2>Performance</h2><p class=m>Side-by-side CAGR, volatility, Sharpe, Sortino, drawdown and Calmar.</p>${wnote()}
+ <div class="g g3"><div class="box"><h3>Cumulative growth</h3>${legend()}<div class=ch>${growth()}</div></div><div class="box"><h3>Drawdown</h3><div class=ch>${under()}</div></div></div>
+ <div class="g g3">${bars("cagr",v=>pc(v,1),"CAGR")}${bars("vol",v=>pc(v,1),"Volatility")}${bars("sh",f2,"Sharpe")}${bars("dd",v=>pc(v,1),"Max drawdown")}</div>
+ <h3 style="margin-top:16px">Performance summary (full-sample reported)</h3>
+ <div class="bar" style="margin:6px 0"><button class="pill ${heat?"on":""}" id="heat">Heatmap</button><input class="btn" style="border-radius:6px" id="flt" placeholder="Filter…" value="${flt}" aria-label="Filter table"></div>
+ <div class="sc2"><table><thead><tr>${COLS.map(c=>`<th data-s="${c[1]||""}">${c[0]}${sortK==c[1]?" ↓":""}</th>`).join("")}</tr></thead><tbody>${rows.map(s=>`<tr><td><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${s.c};margin-right:7px"></i>${s.n}</td>${COLS.slice(1).map(c=>`<td style="${shade(c[1],s[c[1]],s)}">${s[c[1]]==null?"–":c[2](s[c[1]])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+ <p class=m style="font-size:12px">Click a column header to sort. Columns from Beta onward compare each strategy with the benchmark.</p>`};
+V.rolling=()=>{const n=win.b-win.a+1,w=Math.min(n-2,n>600?252:63)||2,ro=(s,k)=>{const o=[];for(let i=win.a+w;i<=win.b;i+=3){let sm=0,sq=0;for(let j=i-w+1;j<=i;j++){sm+=s.r[j];sq+=s.r[j]*s.r[j]}const mu=sm/w,sd=Math.sqrt(Math.max(1e-12,sq/w-mu*mu)),vol=sd*Math.sqrt(252);o.push(k=="sh"?(mu*252-RF)/vol:vol*100)}return o};
+ const mk=(k,p)=>line(act().map(s=>({...s,ys:ro(s,k)})),{pct:p,a:win.a+w,b:win.b});
+ const sh=act().length&&n>w+5?mk("sh",false).replace(/×/g,""):"<p class=m>Window too short for rolling statistics. Choose a longer window.</p>";
+ return`<h2>Rolling</h2><p class=m>How risk and risk-adjusted return changed through time, using a ${w}-day window.</p>${wnote()}
+ <div class="box"><h3>Rolling Sharpe ratio</h3>${legend()}<div class=ch>${sh}</div></div>
+ <div class="box"><h3>Rolling annualised volatility</h3><div class=ch>${act().length&&n>w+5?mk("vol",true):""}</div></div>`};
+V.optimization=()=>{const W_=620,H=300,L=46,pts=R.map(s=>({s,x:s.vol,y:s.cagr})),X=v=>L+(W_-L-20)*(v-12)/(26-12),Y=v=>H-26-(H-40)*(v-10)/(34-10);
+ let o=`<svg viewBox="0 0 ${W_} ${H}">`;for(let v=10;v<=34;v+=6)o+=`<line x1="${L}" x2="${W_-20}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-5}" y="${Y(v)+3}" text-anchor="end">${v}%</text>`;
+ for(let v=12;v<=26;v+=4)o+=`<text x="${X(v)}" y="${H-8}" text-anchor="middle">${v}%</text>`;
+ pts.forEach(p=>o+=`<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="7" fill="${p.s.c}"/><text x="${X(p.x)+10}" y="${Y(p.y)+3}" style="fill:var(--ink);font-size:11px">${p.s.n}</text>`);
+ o+=`<text x="${W_/2}" y="${H}" text-anchor="middle"></text></svg>`;
+ const M=[["Equal Weight","Holds every stock at 1/N. Needs no estimates of return or risk.","ew"],["Minimum Volatility","Chooses weights that minimise portfolio variance using the covariance matrix.","mv"],["Maximum Sharpe","Maximises excess return per unit of risk. Most sensitive to return estimates.","ms"],["Risk Parity","Sizes positions so each contributes equal risk to the total.","rp"],["HRP","Hierarchical Risk Parity clusters correlated stocks and allocates down the tree, with no matrix inversion.","hrp"]];
+ return`<h2>Optimization</h2><p class=m>How each method trades return against risk. Costs are 7 bps and rf is 4.0%.</p>
+ <div class="box"><h3>Risk and return map (annual volatility across, CAGR up)</h3><div class=ch>${o}</div></div>
+ <div class="g g3">${M.map(m=>`<button class="box k" data-d="${m[2]}" style="border-top:4px solid ${by[m[2]].c}"><h3>${m[0]}</h3><span class=m style="font-weight:400;font-size:13px">${m[1]}</span></button>`).join("")}</div>
+ <div class="g g3"><div class="box"><h3>Efficient frontier</h3>Highest in-sample Sharpe on the bounded frontier is 1.31. It is hypothetical and sensitive to return estimates, so it is not a tradeable result.</div><div class="box"><h3>Cost of trading</h3>Cost drag is largest for Maximum Sharpe at 0.20% per year, at 2.8x annual turnover.</div><div class="box"><h3>Diversification</h3>Effective number of holdings (1/sum w²): Minimum Volatility 4.2, Maximum Sharpe 3.7. Full-sample weights are in the full report.</div></div>`};
+V.risk=()=>`<h2>Risk</h2><p class=m>Volatility, drawdown, tail shape and extreme days, full sample.</p>
+ <div class="g g3">${["vol","dd","wd","ku"].map((k,i)=>{const l=act();const mx=Math.max(...l.map(s=>Math.abs(s[k])))||1;return`<div class="box"><h3>${["Annual volatility","Max drawdown","Worst day","Excess kurtosis (fat tails)"][i]}</h3>${l.map(s=>`<div class="rw"><span>${s.n}</span><span class="tr"><i style="width:${Math.abs(s[k])/mx*100}%;background:${s.c}"></i></span><span>${k=="ku"?f2(s[k]):pc(s[k],1)}</span></div>`).join("")}</div>`}).join("")}</div>
+ ${wnote()}<div class="box"><h3>Drawdown from running peak</h3>${legend()}<div class=ch>${under()}</div></div>
+ <div class="box"><b>Tail risk.</b> Minimum Volatility has the lowest 1-day 95% historical CVaR at 2.13%. Every strategy has excess kurtosis above 7, so extreme days occur far more often than a normal distribution implies. All 6 return series reject normality (Jarque-Bera, 5%), so parametric VaR can understate tail risk.</div><h3 style="margin-top:16px">Largest risk contributor at the latest rebalance</h3><div class="sc2"><table style="min-width:520px"><thead><tr><th>Strategy</th><th>Asset</th><th>Share of risk</th><th>Share of capital</th></tr></thead><tbody>${[["Equal Weight","NVDA",14.9,8.3],["Minimum Volatility","XOM",16.7,15.9],["Maximum Sharpe","XOM",32.0,25.8],["Risk Parity","XOM",14.3,14.8],["HRP","JPM",18.5,15.4]].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2].toFixed(1)}%</td><td>${r[3].toFixed(1)}%</td></tr>`).join("")}</tbody></table></div><div class="note">Most correlated pair: MSFT/GOOGL (0.63). Best diversifier pair: JNJ/NVDA (0.10). Contributions use the shrunk covariance and latest target weights (model estimates).</div>`;
+V.robustness=()=>`<h2>Robustness</h2><p class=m>How much of the result depends on the benchmark, the period and the method.</p><div class="box"><b>Parameter sensitivity.</b> Maximum Sharpe is the most parameter-sensitive (Sharpe range 0.25, and 0.24 across lookback windows). Equal Weight is the most stable (0.09). The median Sharpe range across all tested cells is 0.04. Minimum Volatility is the most rank-stable strategy across parameter grids.<br><b>Regimes.</b> Equal Weight did best in bearish-trend regimes (30.0% annualised over 327 days). Minimum Volatility had the weakest Sharpe in high-volatility regimes (0.31).</div>
+ <div class="g g3">${["beta","alpha","up","dn"].map((k,i)=>{const l=R.slice(0,5).filter(s=>sel.has(s.k)),mx=Math.max(...l.map(s=>Math.abs(s[k])))||1;return`<div class="box"><h3>${["Beta to benchmark","Alpha (annual)","Upside capture","Downside capture"][i]}</h3>${l.map(s=>`<div class="rw"><span>${s.n}</span><span class="tr"><i style="width:${Math.abs(s[k])/mx*100}%;background:${s.c}"></i></span><span>${k=="alpha"?pc(s[k],1):f2(s[k])}</span></div>`).join("")}</div>`}).join("")}</div>
+ <div class="g g3"><div class="box"><h3>Hindsight universe</h3>Stocks were chosen knowing which companies later succeeded.</div><div class="box"><h3>In-sample fit</h3>Maximum Sharpe is optimised on the same period it is judged on, so its lead is the least trustworthy.</div><div class="box"><h3>Simple cost model</h3>A flat 7 bps ignores slippage, taxes and market impact.</div><div class="box"><h3>Rank depends on the lens</h3>Maximum Sharpe leads on Sharpe, CAGR and drawdown, Equal Weight on information ratio and Minimum Volatility on volatility and CVaR.</div></div>`;
+V.stress=()=>{const P=[["COVID-19 Crash","cr","2020-02-19","2020-03-23"],["COVID-19 Recovery","rc","2020-03-24","2020-12-31"],["2022 Bear Market","br","2022-01-03","2022-10-12"]];
+ return`<h2>Stress</h2><p class=m>Realised returns in the three crisis windows covered by the backtest. These are the project's own results, not reconstructions.</p>
+ <div class="g g3">${P.map(p=>`<div class="box"><h3>${p[0]}</h3><div class=m style="font-size:11px;margin-bottom:6px">${p[2]} → ${p[3]}</div>${(()=>{const M=act().map(s=>({s,v:RS[p[1]][s.k]})),mx=Math.max(...M.map(x=>Math.abs(x.v)))||1;return M.map(x=>`<div class="rw"><span>${x.s.n}</span><span class="tr"><i style="width:${Math.abs(x.v)/mx*100}%;background:${x.v<0?"#d64545":x.s.c}"></i></span><span>${pc(x.v,1)}</span></div>`).join("")})()}</div>`).join("")}</div>
+ <div class="box"><b>Reading the results.</b> In the crash, Maximum Sharpe fell least (-24.8%) and Equal Weight most (-29.5%), against -33.4% for the benchmark. In the recovery, Maximum Sharpe gained 95.1% and Minimum Volatility 61.6%. In the 2022 bear market, Maximum Sharpe lost 5.5% and Equal Weight 23.7%.</div>
+ <div class="box"><b>Hypothetical scenarios.</b> The largest loss among scenarios that differ across strategies is HRP at -14.5% under <i>Market -10% plus Consumer Staples -15%</i>. Four uniform broad-market shocks apply the same loss to every strategy, so they do not rank them. These are model estimates, not observed outcomes.</div>`};
+V["portfolio-lab"]=()=>{const t=labW.reduce((a,b)=>a+b,0)||1,nw=labW.map(w=>w/t),S=R.slice(0,5),r=Array.from({length:N},(_,i)=>Math.log(1+S.reduce((a,s,j)=>a+nw[j]*(Math.exp(s.r[i])-1),0)));
+ const P={r,k:"lab",n:"Your blend",c:"#111827"},m=met(P),mb=met(by.bm);
+ return`<h2>Portfolio lab</h2><p class=m>Blend the five strategies and compare the result with the benchmark over the selected window.</p>
+ <div class="g g3"><div class="box">${S.map((s,j)=>`<label style="display:block;margin:8px 0"><span style="display:flex;justify-content:space-between"><span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${s.c};margin-right:6px"></i>${s.n}</span><b>${(nw[j]*100).toFixed(0)}%</b></span><input type="range" min="0" max="100" value="${labW[j]*1}" data-w="${j}"></label>`).join("")}</div>
+ <div class="box"><h3>Your blend, selected window</h3>${[["CAGR",pc(m.cagr,1),pc(mb.cagr,1)],["Volatility",pc(m.vol,1),pc(mb.vol,1)],["Sharpe",f2(m.sh),f2(mb.sh)],["Max drawdown",pc(m.dd,1),pc(mb.dd,1)]].map(x=>`<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:5px 0"><span class=m>${x[0]}</span><span><b>${x[1]}</b> <span class=m>vs ${x[2]}</span></span></div>`).join("")}</div></div>
+ ${wnote()}<div class="box"><h3>Blend vs benchmark</h3><div class=ch>${line([{...P,ys:series(P,c=>Math.exp(c))},{...by.bm,ys:series(by.bm,c=>Math.exp(c))}])}</div></div>`};
+V.findings=()=>`<h2>Findings</h2><p class=m>What the backtest does and does not show.</p><div class="box"><ol style="margin:0;padding-left:18px;line-height:1.8"><li>Maximum Sharpe ranked first on Sharpe (1.12), CAGR (30.9%) and maximum drawdown (-29.0%), and turned $1 into about $18.40.</li><li>Four of five strategies beat the benchmark's 14.8% CAGR. Minimum Volatility (13.9%) did not.</li><li>Minimum Volatility had the lowest volatility (14.2%) and CVaR (2.13%) but the lowest Sharpe of the five (0.70).</li><li>Equal Weight is the most consistent winner against the benchmark, with the best information ratio (1.56) and tracking error of 6.1%.</li><li>All strategies fell about 29% to 30% at their worst, against 33.7% for the benchmark, so diversification trimmed but did not remove deep losses.</li><li>Fat tails are present everywhere (excess kurtosis 7.8 to 14.7).</li></ol></div><div class="box"><h3>Recommendations from the report</h3><ul style="margin:0;padding-left:18px;line-height:1.7"><li><b>Strategy selection:</b> Maximum Sharpe is the primary candidate on a risk-adjusted basis. Minimum Volatility is the defensive candidate. Verify out of sample before allocating capital.</li><li><b>Drawdowns:</b> maximum drawdowns are within 1.2% of each other, so volatility rather than drawdown depth separates the strategies.</li><li><b>Costs:</b> review rebalancing frequency and cost assumptions against real execution costs.</li><li><b>Risk limits:</b> monitor 95% CVaR and component risk contributions at each rebalance, since concentration in risk can differ from concentration in capital.</li></ul></div><div class="warn">These are historical observations on a hindsight-selected universe. They are not forecasts or investment advice.</div>`;
+V.about=()=>{const G=[["CAGR","Compound annual growth rate: the constant yearly return that gives the same ending value."],["Volatility","Annualised standard deviation of daily returns."],["Sharpe ratio","Excess return over the risk-free rate (4.0%) divided by volatility."],["Sortino ratio","Like Sharpe, but only downside volatility counts as risk."],["Max drawdown","Largest fall from a prior peak to a later trough."],["Calmar ratio","CAGR divided by the absolute maximum drawdown."],["CVaR (95%)","Average loss on the worst 5% of days."],["Information ratio","Active return over the benchmark divided by tracking error."],["Tracking error","Volatility of the difference between strategy and benchmark returns."],["Skewness / kurtosis","Asymmetry and tail-heaviness of the return distribution."],["Beta and capture ratios","Sensitivity to the benchmark, and how much of its up and down moves a strategy captures."],["HRP","Hierarchical Risk Parity: allocates by clustering stocks on correlation."]];
+ return`<h2>About &amp; glossary</h2><p class=m>Backtest 2016-01-05 to 2026-11-02 (2,723 trading days), 12 large US stocks, net of 7 bps trading costs, risk-free rate 4.0%.</p><div class="box">${G.map(g=>`<details><summary>${g[0]}</summary><p class=m style="margin:6px 0 0">${g[1]}</p></details>`).join("")}</div><div class="note">This page is a static companion to the local Flask dashboard (run <code>python app.py</code>, then open <code>http://127.0.0.1:5000/qpi/</code> on your own computer). Charts are reconstructed from reported summary statistics; the full static report holds the exact tables. Source: <a href="https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization" style="color:var(--acc)">GitHub repository</a>.</div>`};
+// ---- wiring ----
+const $=id=>document.getElementById(id),dlg=$("dlg"),view=$("view");
+function head(){
+ $("sel").innerHTML=R.map(s=>`<button class="pill ${sel.has(s.k)?"on":"off"}" data-t="${s.k}"><i style="background:${s.c}"></i>${s.n}</button>`).join("");
+ const P=[["1Y"],["3Y"],["5Y"],["YTD"],["Max"],["COVID-19 Crash","cr"],["COVID-19 Recovery","rc"],["2022 Bear Market","br"]];
+ $("rng").innerHTML=P.map(p=>`<button class="pill ${win.id==(p[1]||p[0].toLowerCase())?"on":""}" data-r="${p[1]||p[0].toLowerCase()}">${p[0]}</button>`).join("")+`<label class=m>From <input type="date" id="df" value="${iso(dt(win.a))}" min="2016-01-05" max="2026-11-02"></label><label class=m>To <input type="date" id="dt" value="${iso(dt(win.b))}" min="2016-01-05" max="2026-11-02"></label><button class="btn" data-r="max">Reset</button><a class="btn primary" href="quantitative_portfolio_analytics_enhanced.xlsx" download>Download Excel</a><a class="btn" href="enhanced_report.html">HTML report</a>`;
+ $("tabs").innerHTML=TABS.map(t=>`<a href="#${slug(t)}" class="${slug(t)==tab?"on":""}">${t}</a>`).join("")}
+function draw(){head();view.innerHTML=(V[tab]||V.overview)();}
+function setR(id){const e=N-1;const m={"1y":[e-252,e],"3y":[e-756,e],"5y":[e-1260,e],ytd:[idx(Date.UTC(2026,0,1)),e],max:[0,e],cr:W.cr,rc:W.rc,br:W.br}[id];win={a:m[0],b:m[1],id}}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-t]"),r=e.target.closest("[data-r]"),d=e.target.closest("[data-d]"),h=e.target.closest("th[data-s]");
+ if(t){const k=t.dataset.t;sel.has(k)?(sel.size>1&&sel.delete(k)):sel.add(k);draw()}
+ else if(r){setR(r.dataset.r);draw()}else if(d)drill(d.dataset.d);
+ else if(h&&h.dataset.s){sortK=sortK==h.dataset.s?null:h.dataset.s;draw()}
+ else if(e.target.id=="heat"){heat=!heat;draw()}});
+document.addEventListener("change",e=>{if(e.target.dataset.w!==undefined){labW[+e.target.dataset.w]=+e.target.value;const y=scrollY;draw();scrollTo(0,y);return}if(e.target.id=="df"||e.target.id=="dt"){const a=idx(Date.parse($("df").value)),b=idx(Date.parse($("dt").value));if(!isNaN(a)&&!isNaN(b)&&b>a+5){win={a,b,id:"custom"};draw()}}});
+document.addEventListener("input",e=>{if(e.target.id=="flt"){flt=e.target.value;const p=e.target.selectionStart;draw();const f=$("flt");f.focus();f.setSelectionRange(p,p)}
+});
+function route(){const h=location.hash.slice(1);tab=TABS.map(slug).includes(h)?h:"overview";draw()}
+addEventListener("hashchange",route);route();
+</script></body></html>
