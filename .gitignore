@@ -63,3 +63,5 @@ desktop.ini
 
 # Generated enhanced runtime cache
 reports/enhanced/results.pkl
+
+*.zip
