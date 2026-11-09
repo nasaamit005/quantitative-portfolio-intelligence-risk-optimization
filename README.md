@@ -6,17 +6,23 @@
 [![Live Report](https://img.shields.io/badge/live-interactive%20report-c0392b.svg)](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)
 [![Deploy](https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization/actions/workflows/deploy-dashboard.yml/badge.svg)](https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization/actions/workflows/deploy-dashboard.yml)
 
-**Walk-forward portfolio construction, risk analytics and automated reporting on real US equity data.**
-
-## Explore the Dashboard
-
-**[Open Quantitative Portfolio Intelligence Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)**
-
-Explore portfolio performance, optimization strategies, risk analytics, robustness experiments and investment insights through one public dashboard entry point.
+**Walk-forward portfolio construction, risk analytics and automated reporting using real US equity market data.**
 
 **Author:** Amit Singh · **GitHub:** [@nasaamit005](https://github.com/nasaamit005)
 
-> **Important research limitation:** The universe consists of 12 large US stocks (including AAPL, MSFT, NVDA and META) selected with hindsight. Every strategy and the SPY comparison therefore carries survivorship and selection bias. Absolute historical returns overstate what an investor could have known in 2016. Use these results to compare methods, not to forecast returns. This project is not investment advice.
+---
+
+## Explore the Public Dashboard
+
+**[Open Quantitative Portfolio Intelligence & Risk Optimization Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)**
+
+Explore portfolio performance, optimization strategies, risk analytics, robustness experiments and investment insights through the project's dedicated public GitHub Pages website.
+
+The public dashboard is accessible to recruiters and visitors without requiring them to install Python or run the Flask application.
+
+> **Important distinction:** GitHub Pages publishes the static HTML analytics dashboard. The full Python Flask application is a separate, locally running application. Its localhost address is not a public website address.
+
+> **Important research limitation:** The investment universe consists of 12 large US stocks, including AAPL, MSFT, NVDA and META, selected with hindsight. Every strategy and the SPY comparison therefore carries survivorship and selection bias. Absolute historical returns overstate what an investor could have known in 2016. Use these results to compare methods, not to forecast returns. This project is not investment advice.
 
 ---
 
@@ -26,12 +32,12 @@ The project investigates one central question:
 
 **Which portfolio construction method holds up out of sample, after costs, across parameter choices and market regimes, and how much risk does each strategy carry?**
 
-It covers the complete quantitative portfolio research workflow using real daily US market data from Yahoo Finance.
+It covers the complete quantitative portfolio research workflow using real daily US market data obtained from Yahoo Finance.
 
-The platform includes:
+### Core Capabilities
 
 - **Data engineering:** Data acquisition, cleaning, return construction, rolling statistics, correlation and covariance estimation using sample covariance and Ledoit-Wolf shrinkage.
-- **Portfolio optimization:** Minimum volatility, maximum Sharpe ratio, efficient frontier, Hierarchical Risk Parity, risk parity and Black-Litterman.
+- **Portfolio optimization:** Minimum volatility, maximum Sharpe ratio, efficient frontier, Hierarchical Risk Parity (HRP), risk parity and Black-Litterman.
 - **Walk-forward backtesting:** 252-day estimation lookback, monthly rebalancing, transaction costs and slippage, and five portfolio strategies compared against SPY.
 - **Performance analytics:** CAGR, volatility, Sharpe ratio, drawdown episodes, rolling performance and benchmark-relative statistics.
 - **Robustness and stress testing:** Sensitivity experiments covering lookback windows, transaction costs, rebalancing frequencies and portfolio weight constraints, along with market regimes, historical crises and hypothetical scenarios.
@@ -41,11 +47,20 @@ The platform includes:
 
 **Real historical data, net of portfolio transaction costs**
 
-Evaluation period: 2016-01-05 to 2026-11-02  
-Trading observations: 2,723  
-Initial capital: $100,000
+| Evaluation Detail | Value |
+|---|---|
+| Evaluation period | 2016-01-05 to 2026-11-02 |
+| Trading observations | 2,723 |
+| Initial capital | $100,000 |
+| Portfolio strategies | 5 |
+| Benchmark | SPY |
+| Rebalancing frequency | Monthly |
+| Estimation lookback | 252 trading days |
+| Transaction costs | 7 basis points |
 
 Sharpe ratios follow the project's documented performance analytics convention.
+
+### Strategy Performance Comparison
 
 | Strategy | CAGR | Volatility | Sharpe | Max Drawdown | Information Ratio | Turnover | COVID Crash |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -68,13 +83,19 @@ Sharpe ratios follow the project's documented performance analytics convention.
 
 The following figures are generated by the project's performance analytics, robustness analysis and stress-testing pipelines.
 
+### Performance Analytics
+
 | Cumulative Performance | Drawdown Comparison |
 |---|---|
 | ![Cumulative performance](reports/performance_analytics/figures/cumulative_performance.png) | ![Drawdown comparison](reports/performance_analytics/figures/drawdown_comparison.png) |
 
+### Risk and Robustness
+
 | Risk-Return Comparison | Robustness Scorecard |
 |---|---|
 | ![Risk return comparison](reports/performance_analytics/figures/risk_return_comparison.png) | ![Strategy robustness scorecard](reports/robustness_analysis/figures/strategy_robustness_scorecard.png) |
+
+### Stress Testing and Sensitivity
 
 | Historical Crisis Returns | Lookback Sensitivity |
 |---|---|
@@ -102,7 +123,7 @@ It provides an interactive analytics experience, a formula-driven Excel workbook
 
 - **Flexible filtering:** Select strategies, custom date ranges and presets such as 1Y, 3Y, 5Y, YTD and historical crisis windows. Windows as short as 15 days are supported, with warnings for periods shorter than 60 days.
 - **Strategy drill-down:** Select a KPI or strategy card to inspect rankings, narrative insights, VaR and CVaR, holdings, risk contribution, drawdown episodes, monthly returns and return distributions.
-- **Portfolio blending:** Combine strategies and SPY through interactive allocation sliders. The server recalculates CAGR, volatility, Sharpe ratio, drawdown and beta from the historical net returns. This is a constant-mix, daily-rebalanced illustration; transaction costs are not reapplied.
+- **Portfolio blending:** Combine strategies and SPY through interactive allocation sliders. The server recalculates CAGR, volatility, Sharpe ratio, drawdown and beta from historical net returns. This is a constant-mix, daily-rebalanced illustration; transaction costs are not reapplied.
 - **Market shock simulation:** Adjust the assumed SPY market shock from -50% to +30% and inspect beta-implied strategy movements. These are labelled model estimates.
 - **Metric explorer:** Visualize any two performance metrics with an additional measure represented by bubble size.
 - **Historical replay:** Animate the cumulative growth of strategies over time.
@@ -122,7 +143,7 @@ The enhanced reporting layer also includes:
 - Probabilistic Sharpe ratio and normality/autocorrelation diagnostics.
 - Automated findings labelled as historical observations, model estimates or forward-looking assumptions.
 
-For the reporting design, data mapping and documented discrepancies, see [Enhanced Reporting Documentation](docs/ENHANCED_REPORTING.md).
+For reporting design, data mapping and documented discrepancies, see [Enhanced Reporting Documentation](docs/ENHANCED_REPORTING.md).
 
 ## 5. Validation and Testing
 
@@ -138,13 +159,13 @@ The project includes **595 automated tests**, covering the core quantitative pip
 | Dashboard | Chart and table routes, date filters, drill-down, portfolio blending, error handling and downloads |
 | Regression protection | Existing application pages and original quantitative pipeline functionality |
 
-Run the test suite with:
+Run the test suite:
 
 ```powershell
 pytest
 ```
 
-Run lint checks with:
+Run lint checks:
 
 ```powershell
 ruff check .
@@ -169,7 +190,7 @@ cd quantitative-portfolio-intelligence-risk-optimization
 
 ### Create and Activate a Virtual Environment
 
-Windows PowerShell:
+**Windows PowerShell**
 
 ```powershell
 python -m venv .venv
@@ -177,7 +198,7 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-Linux/macOS:
+**Linux/macOS**
 
 ```bash
 python -m venv .venv
@@ -351,8 +372,8 @@ Check Yahoo Finance's terms and applicable data licensing conditions before redi
 - [ ] Introduce a point-in-time or broader historical index universe to reduce hindsight and survivorship bias.
 - [ ] Add a dedicated out-of-sample holdout and walk-forward parameter-selection framework.
 - [ ] Extend factor-based and regime-conditional stress scenarios.
-- [ ] Add Docker-based deployment.
-- [ ] Deploy the full Flask application to a public hosting platform.
+- [ ] Expand the GitHub Pages dashboard with additional analytical visualizations and reporting features.
+- [ ] Improve automated GitHub Pages deployment and public report validation.
 - [ ] Expand portfolio constraints and institutional risk reporting.
 
 ## 12. How to Cite
@@ -393,14 +414,23 @@ Keep the terminal open while using the application.
 
 **[Launch Local Interactive Analytics Dashboard](http://127.0.0.1:5000/qpi/)**
 
-> **Local access only:** The localhost address works on the computer running Flask. It is not a public website URL and will not work for recruiters or other visitors on their own devices.
+This link opens the enhanced QPI dashboard on the computer running the Flask server.
+
+> **Local access only:** `127.0.0.1` is a loopback address. It works on the computer running Flask and is not a public website URL. Other computers and recruiters cannot use this address to access your application.
 
 ### Public Dashboard vs. Local Flask Application
 
-- **Public dashboard:** The GitHub Pages URL at the top of this README publishes the static analytics report and is accessible to visitors.
-- **Local Flask application:** The Flask server provides the locally hosted interactive application and requires Python to be running on your computer.
+| Feature | Public GitHub Pages Dashboard | Local Flask Application |
+|---|---|---|
+| Publicly accessible | Yes | No |
+| Requires Python on visitor's device | No | No, but Flask must run on the host computer |
+| Uses GitHub Pages | Yes | No |
+| Runs Flask backend | No | Yes |
+| Interactive static HTML reporting | Yes, as published | Available through the application |
+| Access from another device | Yes | Not through localhost |
+| URL | [Open Public Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/) | `http://127.0.0.1:5000/qpi/` |
 
-The public GitHub Pages report and the local Flask application are separate deployments. A public deployment of the full Flask application is planned as a future enhancement.
+The public GitHub Pages report and the local Flask application are separate deployments. GitHub Pages publishes the static dashboard files and does not execute the Python Flask backend.
 
 ---
 
