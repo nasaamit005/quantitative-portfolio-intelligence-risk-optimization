@@ -410,25 +410,28 @@ Wait until the terminal confirms that the server is running:
 
 Keep the terminal open while using the application.
 
-### Open the Local Interactive Dashboard
+### ### Open the Public Interactive Dashboard
 
-**[Launch Local Interactive Analytics Dashboard](http://127.0.0.1:5000/qpi/)**
+**[Launch Quantitative Portfolio Intelligence Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)**
 
-This link opens the enhanced QPI dashboard on the computer running the Flask server.
+The interactive QPI analytics dashboard is publicly accessible through GitHub Pages.
 
-> **Local access only:** `127.0.0.1` is a loopback address. It works on the computer running Flask and is not a public website URL. Other computers and recruiters cannot use this address to access your application.
+- **Public access:** Recruiters, hiring managers, and anyone with the link can view it.
+- **No local setup required:** Visitors do not need Python, VS Code, or Flask.
+- **Shareable URL:** `https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/`
+
 
 ### Public Dashboard vs. Local Flask Application
 
-| Feature | Public GitHub Pages Dashboard | Local Flask Application |
+| Feature | Public GitHub Pages Dashboard | 
 |---|---|---|
-| Publicly accessible | Yes | No |
+| Publicly accessible | Yes | 
 | Requires Python on visitor's device | No | No, but Flask must run on the host computer |
 | Uses GitHub Pages | Yes | No |
 | Runs Flask backend | No | Yes |
 | Interactive static HTML reporting | Yes, as published | Available through the application |
 | Access from another device | Yes | Not through localhost |
-| URL | [Open Public Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/) | `http://127.0.0.1:5000/qpi/` |
+| URL | [Open Public Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/) | 
 
 The public GitHub Pages report and the local Flask application are separate deployments. GitHub Pages publishes the static dashboard files and does not execute the Python Flask backend.
 
