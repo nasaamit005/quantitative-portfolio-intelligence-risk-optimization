@@ -166,3 +166,37 @@ See [`CITATION.cff`](CITATION.cff); GitHub shows a "Cite this repository" button
 ## 13. License and disclaimer
 
 MIT License ([LICENSE](LICENSE)). Educational and quantitative-research software, not investment, risk-management or regulatory advice. Historical performance does not guarantee future returns.
+
+## 🖥️ Local Interactive Analytics Dashboard (Flask)
+
+This project includes a Flask-powered interactive analytics dashboard for exploring portfolio optimization, performance, risk, and robustness results.
+
+### Launch locally
+
+From the project root, run:
+
+```powershell
+.\.venv\Scripts\python.exe app.py
+```
+
+### Open the dashboard
+
+**[Open Interactive Analytics Dashboard](http://127.0.0.1:5000/qpi/)**
+
+The Flask server must be running on your computer for this link to work.
+
+### Other application routes
+
+- Main Dashboard: http://127.0.0.1:5000/
+- Optimization: http://127.0.0.1:5000/optimization
+- Performance: http://127.0.0.1:5000/performance
+- Risk: http://127.0.0.1:5000/risk
+- Robustness: http://127.0.0.1:5000/robustness
+- Methodology: http://127.0.0.1:5000/methodology
+- Health: http://127.0.0.1:5000/health
+
+### Public dashboard
+
+**[Visit the publicly hosted GitHub Pages Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)**
+
+GitHub Pages provides public access to the static analytics report, while Flask provides the locally running interactive application.
