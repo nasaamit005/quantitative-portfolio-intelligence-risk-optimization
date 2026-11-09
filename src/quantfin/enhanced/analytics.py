@@ -11,6 +11,8 @@ from . import risk as rk
 from .config import Config
 
 BENCH = "Benchmark"
+MIN_OBS = 15  # shorter windows cannot support the statistics; under SHORT_OBS they are flagged as noisy
+SHORT_OBS = 60
 
 
 @dataclass
@@ -34,8 +36,8 @@ def analyze_window(sr: pd.DataFrame, cfg: Config) -> WindowAnalytics:
     """Compute every return-based analytic for the given strategy-return table (must include 'Benchmark')."""
     if BENCH not in sr.columns:
         raise ValueError("strategy return table must contain a 'Benchmark' column")
-    if len(sr) < 30:
-        raise ValueError("Selected window has fewer than 30 observations")
+    if len(sr) < MIN_OBS:
+        raise ValueError(f"Selected window has fewer than {MIN_OBS} observations")
     ppy, rf = cfg.periods_per_year, cfg.risk_free_rate
     bench = sr[BENCH]
     perf = pd.DataFrame(

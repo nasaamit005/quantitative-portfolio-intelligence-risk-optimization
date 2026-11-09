@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 import pandas as pd
 
 HIST = "Historical observation"
@@ -11,6 +13,19 @@ ASSUME = "Forward-looking assumption"
 
 def _pct(x: float) -> str:
     return f"{x:.1%}"
+
+
+
+def _prettify(df: pd.DataFrame, names: list[str], cols: list[str]) -> pd.DataFrame:
+    """Replace snake_case strategy keys (e.g. maximum_sharpe) with readable labels (Maximum Sharpe)."""
+    from .charts import pretty
+
+    out = df.copy()
+    for key in sorted(names, key=len, reverse=True):
+        pat = re.compile(rf"\b{re.escape(key)}\b")
+        for c in cols:
+            out[c] = out[c].map(lambda t, pat=pat, key=key: pat.sub(pretty(key), t) if isinstance(t, str) else t)
+    return out
 
 
 def generate_findings(res) -> pd.DataFrame:  # noqa: ANN001 - Results (avoid circular import)
@@ -213,7 +228,8 @@ def generate_findings(res) -> pd.DataFrame:  # noqa: ANN001 - Results (avoid cir
             "THIS RUN USES SYNTHETIC DEMO DATA. No figure here describes real markets.",
             ASSUME,
         )
-    return pd.DataFrame(rows, columns=["Section", "Finding", "Evidence type", "Detail"])
+    df = pd.DataFrame(rows, columns=["Section", "Finding", "Evidence type", "Detail"])
+    return _prettify(df, strat, ["Finding", "Detail"])
 
 
 def recommendations(res) -> pd.DataFrame:  # noqa: ANN001
@@ -232,7 +248,14 @@ def recommendations(res) -> pd.DataFrame:  # noqa: ANN001
         (
             "Strategy selection",
             f"Primary candidate on risk-adjusted basis: {perf.loc['Sharpe', strat].idxmax()}. "
-            f"Defensive candidate: {perf.loc['Max drawdown', strat].idxmax()}.",
+            f"Defensive candidate (lowest volatility): {perf.loc['Volatility', strat].idxmin()}."
+            + (
+                " Maximum drawdowns are within "
+                f"{perf.loc['Max drawdown', strat].max() - perf.loc['Max drawdown', strat].min():.1%} "
+                "of each other, so volatility, not drawdown depth, separates the strategies."
+                if perf.loc["Max drawdown", strat].max() - perf.loc["Max drawdown", strat].min() < 0.05
+                else ""
+            ),
             "Based on realised backtest; verify out-of-sample before capital allocation.",
         ),
         (
@@ -258,4 +281,5 @@ def recommendations(res) -> pd.DataFrame:  # noqa: ANN001
             "All outputs regenerate from data + config.",
         ),
     ]
-    return pd.DataFrame(rows, columns=["Area", "Recommendation", "Rationale / caveat"])
+    df = pd.DataFrame(rows, columns=["Area", "Recommendation", "Rationale / caveat"])
+    return _prettify(df, strat, ["Recommendation", "Rationale / caveat"])

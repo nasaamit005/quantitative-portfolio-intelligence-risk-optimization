@@ -586,9 +586,9 @@ def regimes(ctx: Ctx) -> go.Figure:
             customdata=x[["Sharpe", "Days"]].values,
             hovertemplate="%{x}<br>Return %{y:.1%}<br>Sharpe %{customdata[0]:.2f}<br>Days %{customdata[1]}<extra></extra>",
         )
-    return _base(
-        fig, "Annualised return by market regime", "Regime", "Annualised return (%)", pct=True
-    ).update_layout(barmode="group", hovermode="closest")
+    return _base(fig, "Annualised return by market regime", "Regime", "Annualised return (%)", pct=True).update_layout(
+        barmode="group", hovermode="closest"
+    )
 
 
 def regime_timeline(ctx: Ctx) -> go.Figure:
@@ -656,14 +656,8 @@ def stress_hypo(ctx: Ctx) -> go.Figure:
             hovertemplate="%{y}<br>%{x}: %{z:.2%}<extra></extra>",
         )
     )
-    fig = _base(
-        fig,
-        "Hypothetical scenarios: portfolio impact by strategy (model estimates)",
-        h=max(360, 26 * len(t) + 120),
-    )
-    return fig.update_layout(
-        hovermode="closest", margin={"l": 330, "r": 20, "t": 60, "b": 50}
-    ).update_yaxes(autorange="reversed")
+    fig = _base(fig, "Hypothetical scenarios: portfolio impact by strategy (model estimates)", h=max(360, 26 * len(t) + 120))
+    return fig.update_layout(hovermode="closest", margin={"l": 330, "r": 20, "t": 60, "b": 50}).update_yaxes(autorange="reversed")
 
 
 def wf_year(ctx: Ctx) -> go.Figure:
@@ -877,9 +871,7 @@ REGISTRY: dict[str, ChartSpec] = {
         "Value (or harm) of re-selecting the lookback each year using only past data.",
     ),
     "regimes": ChartSpec(
-        regimes,
-        "stress",
-        "Annualised return in bull/bear (trend) and high/normal-volatility regimes, using the project's own regime classification.",
+        regimes, "stress", "Annualised return in bull/bear (trend) and high/normal-volatility regimes, using the project's own regime classification."
     ),
     "regime_timeline": ChartSpec(
         regime_timeline, "stress", "Benchmark path with bearish regimes shaded."
@@ -896,6 +888,44 @@ REGISTRY: dict[str, ChartSpec] = {
     ),
 }
 
+
+
+HOW_TO_READ: dict[str, str] = {
+    "equity": "Each line shows what 1.00 invested on day one would be worth. Steeper means faster growth; dips show losses. Click a legend item to hide a line, double-click to isolate it, and drag to zoom.",
+    "drawdown": "Distance below the previous peak. Deeper and longer dips are harder to live through. Compare how quickly each line returns to zero.",
+    "excess": "Strategy growth divided by SPY growth minus one. Above zero the strategy is ahead of SPY; a rising line means it is gaining on SPY.",
+    "metric_bars": "One panel per metric. For volatility and drawdown shorter bars (less negative) are better; for the others, taller is better.",
+    "risk_return": "Up and left is best: more return for less risk. Bubble size grows with Sharpe ratio.",
+    "annual_bars": "Return per calendar year. Look for consistency, and for years where a strategy diverges sharply from SPY. The first and last years may be partial.",
+    "monthly_heatmap": "Green months gained, red months lost. Pick a series with the selector. Look for clusters of red that show vulnerable periods.",
+    "rolling_sharpe": "Sharpe over a moving window. A stable line means a consistent edge; collapses show periods when the edge vanished.",
+    "rolling_vol": "Volatility over a moving window. Spikes mark stressed markets; compare how much each strategy dampens them.",
+    "rolling_return": "Annualised return over a moving window. It shows how performance depends on the start date.",
+    "rolling_beta": "Sensitivity to SPY over time. A min-volatility strategy should sit well below 1; drift upward means it is taking more market risk.",
+    "frontier": "Dots are random portfolios; the black line is the efficient frontier (best return for each risk level). The red line is the capital allocation line. Large markers are the optimised portfolios. Based on full-sample estimates, so it is hypothetical.",
+    "static_allocation": "Full-sample optimal weights per method. Compare how concentrated each is.",
+    "allocation_area": "How the chosen strategy's target weights changed at each rebalance. Rapid swings mean high turnover.",
+    "weight_distribution": "The spread of each asset's weight over time. A tall box means the weight is unstable.",
+    "turnover": "How much was traded at each rebalance. Spikes cost money and signal unstable estimates.",
+    "cost_drag": "Left: return before and after costs. Right: how many times the portfolio was traded per year. The gap is the cost of trading.",
+    "corr_heatmap": "Red means assets move together; blue means they offset each other. Diversification comes from low or negative correlations.",
+    "cov_heatmap": "Annualised covariance: darker cells mean larger joint variability. The diagonal is each asset's own variance.",
+    "risk_contrib": "Compare the bar for risk share against the capital weight. A risk share well above its weight identifies a hidden concentration.",
+    "var_bars": "Estimated one-day loss at the chosen confidence by method. If methods disagree strongly, returns are not normal. CVaR is the average loss on the worst days.",
+    "return_dist": "Histogram of daily returns with a normal curve. Fatter left tails than the curve mean the normal VaR understates risk. Vertical lines mark VaR and CVaR.",
+    "mc_dist": "Thousands of simulated one-day returns at the latest weights. The vertical lines are the simulated VaR and CVaR.",
+    "sens_heat": "Sharpe ratio under every tested setting. Rows that stay green across columns are robust; rows that vary widely depend on parameter luck.",
+    "sens_lookback": "Sharpe ratio as the estimation window changes. Flat lines are robust to this choice.",
+    "sens_cost": "Net CAGR as assumed trading costs rise. Steeper lines belong to high-turnover strategies.",
+    "sens_maxw": "Sharpe ratio as the single-asset weight cap loosens. It shows how much a strategy relies on concentration.",
+    "sens_rebal": "Sharpe ratio under different rebalancing frequencies.",
+    "wf_year": "Sharpe ratio per calendar year, each year out of sample by construction. Look for years where a strategy breaks down.",
+    "wf_select": "Gain or loss from re-choosing the lookback every year from past data. Bars near zero mean tuning adds no reliable value.",
+    "regimes": "Annualised return of each strategy in each market state. A good defensive strategy holds up in bear or high-volatility states.",
+    "regime_timeline": "SPY's path with bearish periods shaded. Use it to see which market episodes the regime tables refer to.",
+    "stress_hist": "Actual cumulative return in each crisis window. Less negative is more resilient. Windows the backtest does not cover are omitted.",
+    "stress_hypo": "Modelled loss in each hypothetical scenario (rows) per strategy (columns); darker red is a larger loss. These are model estimates, not observed outcomes.",
+}
 
 _NEEDS = {
     "wf_select": lambda r: len(r.wf_select) > 0,
@@ -959,7 +989,7 @@ def interpret(name: str, ctx: Ctx) -> str:
                     f"Covered windows: {len(d)}; worst benchmark window {d['Benchmark'].min():.1%}."
                 )
             return "No named stress window is fully covered by the backtest period."
-    except KeyError, ValueError:
+    except (KeyError, ValueError):
         return ""
     return ""
 

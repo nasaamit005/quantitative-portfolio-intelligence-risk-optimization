@@ -452,11 +452,7 @@ def test_run_backtest_preserves_input_dates(
 
     expected_index = sample_returns.index.rename("date")
 
-    pd.testing.assert_index_equal(
-        results.index,
-        expected_index,
-        check_freq=False,
-    )
+    pd.testing.assert_index_equal(results.index, expected_index)
 
 
 def test_run_backtest_uses_initial_capital_without_costs(

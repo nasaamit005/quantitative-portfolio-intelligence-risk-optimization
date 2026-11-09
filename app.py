@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 from flask import Flask, jsonify, render_template, request
 
+from quantfin.enhanced.adapter import build_results
 from quantfin.enhanced.flask_app import (
     register as register_enhanced_dashboard,
 )
@@ -47,6 +48,7 @@ register_enhanced_dashboard(
     app,
     output_dir=ROOT_DIR / "reports" / "enhanced",
     url_prefix="/qpi",
+    results_factory=lambda: build_results(ROOT_DIR),
 )
 
 

@@ -8,18 +8,22 @@ All numbers come from the pipeline's saved Results; nothing is hardcoded.
 
 from __future__ import annotations
 
+import base64
 import io
 import json
 import logging
 from collections.abc import Callable
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 from flask import Blueprint, Flask, Response, abort, jsonify, render_template, request, send_file
 
 from . import charts
-from .analytics import BENCH, WindowAnalytics
+from . import metrics as mt
+from .analytics import BENCH, SHORT_OBS, WindowAnalytics
 from .excel import fmt_for
+from .glossary import GLOSSARY
 from .results import Results
 
 logger = logging.getLogger(__name__)
@@ -254,6 +258,81 @@ def _records(df: pd.DataFrame) -> dict:
     }
 
 
+SECTION_FINDINGS = {
+    "overview": ["Performance", "Benchmark", "Downside"],
+    "performance": ["Performance", "Benchmark", "Downside"],
+    "rolling": ["Performance", "Diagnostics"],
+    "optimization": ["Diversification", "Transaction costs", "Risk contribution"],
+    "risk": ["Risk contribution", "Diagnostics", "Downside"],
+    "robustness": ["Robustness", "Walk-forward"],
+    "stress": ["Regimes", "Stress (historical)", "Stress (hypothetical)"],
+    "lab": ["Benchmark", "Performance"],
+    "findings": [],
+    "about": [],
+}
+RANKED = {  # metric -> True if higher is better
+    "Sharpe": True,
+    "CAGR": True,
+    "Sortino": True,
+    "Calmar": True,
+    "Max drawdown": True,
+    "Volatility": False,
+    "Information ratio": True,
+}
+
+
+def _unpack(obj):
+    """Decode Plotly's base64 typed arrays ({'dtype','bdata'[,'shape']}) into plain nested lists."""
+    if isinstance(obj, dict):
+        if "bdata" in obj and "dtype" in obj:
+            arr = np.frombuffer(base64.b64decode(obj["bdata"]), dtype=np.dtype(obj["dtype"]))
+            if "shape" in obj:
+                arr = arr.reshape([int(x) for x in str(obj["shape"]).split(",")])
+            return _plain(arr.tolist())
+        return {k: _unpack(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_unpack(v) for v in obj]
+    return obj
+
+
+def _plain(o):
+    """Recursively convert numpy/pandas scalars to JSON-safe Python (NaN/inf -> None)."""
+    if isinstance(o, dict):
+        return {str(k): _plain(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_plain(v) for v in o]
+    if o is pd.NaT:
+        return None
+    if isinstance(o, pd.Timestamp):
+        return o.strftime("%Y-%m-%d")
+    if hasattr(o, "item") and not isinstance(o, (str, bytes)):
+        o = o.item()
+    if isinstance(o, float) and (o != o or o in (float("inf"), float("-inf"))):
+        return None
+    return o
+
+
+def _parse_mix(raw: str, valid: list[str]) -> dict[str, float]:
+    """Parse 'a:0.5,b:0.3' into normalised non-negative weights over valid series."""
+    out: dict[str, float] = {}
+    for part in filter(None, raw.split(",")):
+        name, _, val = part.partition(":")
+        if name not in valid:
+            abort(400, description=f"Unknown series in mix: {name}")
+        try:
+            w = float(val)
+        except ValueError:
+            abort(400, description=f"Bad weight for {name}: {val!r}")
+        if w < 0 or w != w:
+            abort(400, description="Weights must be non-negative")
+        if w > 0:
+            out[name] = w
+    total = sum(out.values())
+    if total <= 0:
+        abort(400, description="At least one positive weight is required")
+    return {k: v / total for k, v in out.items()}
+
+
 def create_blueprint(store: Store) -> Blueprint:
     bp = Blueprint("qpi", __name__, template_folder="templates", url_prefix="/qpi")
 
@@ -282,6 +361,10 @@ def create_blueprint(store: Store) -> Blueprint:
                     if charts.is_available(k, res)
                 },
                 "tables": {k: v[0] for k, v in TABLES.items()},
+                "presets": [
+                    {"name": k, "start": a, "end": b}
+                    for k, (a, b) in res.cfg.stress_windows.items()
+                ],
                 "downloads": {
                     "excel": _artifact(store, "excel", EXCEL_NAME).is_file(),
                     "report": _artifact(store, "report", REPORT_NAME).is_file(),
@@ -358,6 +441,7 @@ def create_blueprint(store: Store) -> Blueprint:
             {
                 "window": [str(wa.start.date()), str(wa.end.date())],
                 "n": int(len(wa.returns)),
+                "short": bool(len(wa.returns) < SHORT_OBS),
                 "kpis": out,
             }
         )
@@ -376,9 +460,10 @@ def create_blueprint(store: Store) -> Blueprint:
             abort(422, description=f"Cannot build {name} for this selection: {exc}")
         return jsonify(
             {
-                "figure": json.loads(fig.to_json()),
+                "figure": _unpack(json.loads(fig.to_json())),
                 "caption": cap,
                 "insight": ins,
+                "how_to": charts.HOW_TO_READ.get(name, ""),
                 "windowed": name in WINDOWED,
             }
         )
@@ -392,6 +477,138 @@ def create_blueprint(store: Store) -> Blueprint:
         wa = store.window(start, end)
         df = TABLES[name][1](res, wa, sel)
         return jsonify({"title": TABLES[name][0], **_records(df)})
+
+    @bp.get("/api/glossary")
+    def glossary():
+        return jsonify(GLOSSARY)
+
+    @bp.get("/api/insights")
+    def insights():
+        res = store.results()
+        section = request.args.get("section", "overview")
+        if section not in SECTION_FINDINGS:
+            abort(404, description=f"Unknown section {section}")
+        f = res.findings
+        keep = (
+            list(f["Section"].isin(SECTION_FINDINGS[section]))
+            if SECTION_FINDINGS[section]
+            else [True] * len(f)
+        )
+        f = f[keep] if section != "findings" else f
+        rows = [
+            {"section": r.Section, "finding": r.Finding, "kind": r._3, "detail": r.Detail}
+            for r in f.itertuples()
+        ]
+        caveats = (
+            [r for r in rows if r["section"] == "Caveat"]
+            if section in ("overview", "findings", "about")
+            else []
+        )
+        rows = [r for r in rows if r["section"] != "Caveat"] if section != "findings" else rows
+        return jsonify({"insights": rows, "caveats": caveats, "scope": "full sample"})
+
+    @bp.get("/api/strategy/<name>")
+    def strategy(name: str):
+        res = store.results()
+        start, end, _ = _parse_args(store)
+        wa = store.window(start, end)
+        if name not in wa.returns.columns:
+            abort(404, description=f"Unknown series {name}")
+        perf = wa.perf[name]
+        names = [c for c in wa.perf.columns if c != BENCH]
+        ranks = {}
+        if name != BENCH:
+            for k, higher in RANKED.items():
+                ranks[k] = int(wa.perf.loc[k, names].rank(ascending=not higher)[name])
+        ann = wa.annual[name]
+        bench_ann = wa.annual[BENCH]
+        yrs_ahead = int((ann > bench_ann).sum()) if name != BENCH else None
+        bullets = []
+        if name != BENCH:
+            best, worst = ann.idxmax(), ann.idxmin()
+            bullets += [
+                f"Best calendar year {best}: {ann[best]:+.1%}; worst {worst}: {ann[worst]:+.1%}.",
+                f"Beat SPY in {yrs_ahead} of {len(ann)} calendar years (first/last may be partial).",
+                f"Beta {perf['Beta']:.2f}: tends to move {perf['Beta']:.2f}% for each 1% SPY move. "
+                f"Captures {perf['Up capture']:.0%} of up days and {perf['Down capture']:.0%} of down days.",
+            ]
+            if name in res.risk_contrib:
+                rc = res.risk_contrib[name]
+                top = rc["% of portfolio risk"].idxmax()
+                bullets.append(
+                    f"Latest holdings: {top} supplies {rc.loc[top, 'Component contribution'] / rc['Component contribution'].sum():.0%} "
+                    f"of risk on {rc.loc[top, 'Weight']:.0%} of capital; effective holdings "
+                    f"{1 / float((rc['Weight'] ** 2).sum()):.1f} of {len(rc)}."
+                )
+        risk = wa.risk_table.loc[name].to_dict()
+        if name in res.mc_table.index:
+            risk.update(res.mc_table.loc[name].to_dict())
+        return jsonify(
+            _plain(
+                {
+                    "name": name,
+                    "label": charts.pretty(name),
+                    "window": [str(wa.start.date()), str(wa.end.date())],
+                    "perf": perf.to_dict(),
+                    "ranks": ranks,
+                    "n_ranked": len(names),
+                    "risk": risk,
+                    "episodes": wa.episodes[name].to_dict(orient="records"),
+                    "weights": res.risk_contrib[name]
+                    .reset_index()
+                    .rename(columns={"index": "Asset"})
+                    .to_dict(orient="records")
+                    if name in res.risk_contrib
+                    else [],
+                    "cost": res.cost_table.loc[name].to_dict()
+                    if name in res.cost_table.index
+                    else {},
+                    "annual": ann.to_dict(),
+                    "bullets": bullets,
+                }
+            )
+        )
+
+    @bp.get("/api/mix")
+    def mix():
+        res = store.results()
+        start, end, _ = _parse_args(store)
+        wa = store.window(start, end)
+        w = _parse_mix(request.args.get("w", ""), list(wa.returns.columns))
+        r = sum(
+            wa.returns[k] * v for k, v in w.items()
+        )  # constant-mix, rebalanced daily (assumption)
+        r.name = "Blend"
+        bench = wa.returns[BENCH]
+        perf = mt.perf_summary(r, bench, res.cfg.risk_free_rate, res.cfg.periods_per_year)
+        keep = [
+            "CAGR",
+            "Volatility",
+            "Sharpe",
+            "Sortino",
+            "Max drawdown",
+            "Calmar",
+            "Beta",
+            "Information ratio",
+            "Total return",
+        ]
+        eq, dd = mt.equity_curve(r), mt.drawdown_series(r)
+        beq = mt.equity_curve(bench)
+        return jsonify(
+            _plain(
+                {
+                    "weights": w,
+                    "window": [str(wa.start.date()), str(wa.end.date())],
+                    "dates": [d.strftime("%Y-%m-%d") for d in r.index],
+                    "equity": eq.round(6).tolist(),
+                    "benchmark": beq.round(6).tolist(),
+                    "drawdown": dd.round(6).tolist(),
+                    "metrics": {k: perf[k] for k in keep},
+                    "note": "Constant-mix portfolio of the selected series' net returns, rebalanced daily. Illustrative; "
+                    "real implementation would add trading costs for the daily rebalance.",
+                }
+            )
+        )
 
     @bp.get("/download/excel")
     def dl_excel():

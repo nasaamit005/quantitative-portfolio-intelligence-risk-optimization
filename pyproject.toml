@@ -24,3 +24,8 @@ target-version = "py314"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B"]
+
+# Reporting layer: captions, sheet descriptions and report prose are long string literals.
+[tool.ruff.lint.per-file-ignores]
+"src/quantfin/enhanced/*.py" = ["E501"]
+"tests/unit/test_enhanced_*.py" = ["E501"]

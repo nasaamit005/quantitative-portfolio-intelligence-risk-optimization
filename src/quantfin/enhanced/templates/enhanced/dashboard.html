@@ -1,123 +1,287 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Quantitative Portfolio Intelligence</title>
+<title>Quantitative Portfolio Intelligence | Interactive Analytics</title>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 <style>
-:root{--bg:#f6f8fc;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--acc:#2563eb;--acc2:#eff6ff;--ok:#059669;--bad:#dc2626}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.bar{max-width:1500px;margin:0 auto;padding:12px 24px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.brand{font-weight:750;font-size:17px;letter-spacing:-.2px}.brand small{display:block;font-weight:500;color:var(--mut);font-size:11px}
-.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:4px 11px;cursor:pointer;font-size:12px;user-select:none;display:flex;gap:6px;align-items:center}
-.chip i{width:9px;height:9px;border-radius:50%;display:inline-block}.chip.off{opacity:.4}.chip:hover{border-color:var(--acc)}
-.dates{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--mut)}input[type=date],select,input[type=search]{border:1px solid var(--line);border-radius:8px;padding:5px 8px;font:inherit;background:#fff}
-button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit}button:hover{border-color:var(--acc);color:var(--acc)}
-button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}button.pri:hover{color:#fff;opacity:.9}.sp{flex:1}
-nav{max-width:1500px;margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto}nav a{padding:10px 14px;color:var(--mut);text-decoration:none;font-weight:600;border-bottom:2px solid transparent;white-space:nowrap}
-nav a.on{color:var(--acc);border-color:var(--acc)}main{max-width:1500px;margin:0 auto;padding:20px 24px 60px}
-.banner{padding:10px 14px;border-radius:10px;margin-bottom:14px;font-weight:600}.banner.warn{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}.banner.info{background:var(--acc2);color:#1e40af;border:1px solid #bfdbfe;font-weight:500}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:18px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
-.kpi .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}.kpi .v{font-size:26px;font-weight:750;letter-spacing:-.5px;margin:2px 0}
+:root{--bg:#f4f7fb;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--acc:#2563eb;--acc2:#eff6ff;--ok:#059669;--bad:#dc2626;--r:14px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+button,select,input{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{max-width:1560px;margin:0 auto;padding:10px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.brand{font-weight:800;font-size:17px;letter-spacing:-.3px}.brand small{display:block;font-weight:500;color:var(--mut);font-size:11px;letter-spacing:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:4px 12px;cursor:pointer;font-size:12px;user-select:none;display:flex;gap:6px;align-items:center;transition:.15s}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block}.chip.off{opacity:.38}.chip:hover{border-color:var(--acc);transform:translateY(-1px)}
+.dates{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--mut);flex-wrap:wrap}
+input[type=date],select,input[type=search]{border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:#fff}
+button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;transition:.15s}button:hover{border-color:var(--acc);color:var(--acc)}
+button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}button.pri:hover{color:#fff;opacity:.92}.sp{flex:1}
+.presets{display:flex;gap:4px;flex-wrap:wrap}.presets button{padding:3px 9px;font-size:12px;border-radius:99px}.presets button.on{background:var(--acc2);border-color:var(--acc);color:var(--acc);font-weight:600}
+nav{max-width:1560px;margin:0 auto;padding:0 24px;display:flex;gap:2px;overflow-x:auto}
+nav a{padding:10px 14px;color:var(--mut);text-decoration:none;font-weight:600;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s}
+nav a:hover{color:var(--ink)}nav a.on{color:var(--acc);border-color:var(--acc)}
+main{max-width:1560px;margin:0 auto;padding:18px 24px 80px}
+h2.sec{margin:4px 0 4px;font-size:22px;letter-spacing:-.4px}.lead{color:var(--mut);margin:0 0 14px;max-width:980px}
+.banner{padding:10px 14px;border-radius:10px;margin:0 0 12px;font-size:13px}
+.banner.warn{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.banner.info{background:var(--acc2);color:#1e40af;border:1px solid #bfdbfe}
+.banner.brief{background:#fff;border:1px solid var(--line);color:var(--ink);display:flex;gap:18px;flex-wrap:wrap;align-items:center}.brief b{color:var(--acc)}
+.blk{margin:0 0 18px}.blk>h3{margin:0 0 8px;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.blk>h3 small{font-weight:500;color:var(--mut)}
+.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:10px}
+.ins{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:10px;padding:10px 12px;font-size:13px}
+.ins .k{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;border-radius:99px;padding:1px 8px;margin-bottom:4px;background:#e0e7ff;color:#3730a3}
+.ins.model{border-left-color:#7c3aed}.ins.model .k{background:#ede9fe;color:#5b21b6}.ins.assume{border-left-color:#d97706}.ins.assume .k{background:#fef3c7;color:#92400e}
+.ins .d{color:var(--mut);font-size:12px;margin-top:3px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px;box-shadow:0 1px 2px rgba(15,23,42,.04);transition:.2s;cursor:pointer}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,99,235,.12);border-color:#bfdbfe}
+.kpi .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}.kpi .v{font-size:27px;font-weight:800;letter-spacing:-.6px;margin:1px 0}
 .kpi .w{color:var(--acc);font-weight:650}.kpi .s{color:var(--mut);font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:16px}.grid .wide{grid-column:1/-1}
+.scs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.sc{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:.2s;position:relative}
+.sc:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(15,23,42,.1)}.sc h4{margin:0 0 2px;font-size:15px;display:flex;justify-content:space-between;gap:6px}
+.sc .big{font-size:26px;font-weight:800;letter-spacing:-.5px}.sc .big small{font-size:11px;color:var(--mut);font-weight:600}
+.sc .row{display:flex;gap:12px;font-size:12px;color:var(--mut);flex-wrap:wrap}.sc .row b{color:var(--ink)}.sc svg{width:100%;height:46px;margin:4px 0}
+.rk{font-size:10px;font-weight:700;background:#ecfdf5;color:#047857;border-radius:99px;padding:2px 8px;white-space:nowrap}.rk.low{background:#f1f5f9;color:#475569}
+.sc .open{position:absolute;right:12px;bottom:10px;font-size:11px;color:var(--acc);opacity:0;transition:.2s}.sc:hover .open{opacity:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(540px,1fr));gap:14px}.grid .wide{grid-column:1/-1}
 @media(max-width:640px){.grid{grid-template-columns:1fr}main,.bar,nav{padding-left:12px;padding-right:12px}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px 12px;box-shadow:0 1px 2px rgba(15,23,42,.04);min-width:0}
-.ch{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 4px}.badge{font-size:10px;font-weight:700;border-radius:99px;padding:2px 8px;background:#eef2ff;color:#4338ca}
-.badge.full{background:#f1f5f9;color:#475569}.cap{color:var(--mut);font-size:12px;padding:2px 6px}.ins{color:#1d4ed8;font-size:12.5px;font-weight:600;padding:2px 6px 4px}
-.tblcard{margin-top:16px}.tbh{display:flex;gap:10px;align-items:center;padding:4px 6px 8px;flex-wrap:wrap}.tbh h3{margin:0;font-size:15px;flex:1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px 12px 12px;box-shadow:0 1px 2px rgba(15,23,42,.04);min-width:0}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 2px 0;flex-wrap:wrap}.ch .tools{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.ico{padding:2px 8px;font-size:13px;border-radius:7px;line-height:1.5}.badge{font-size:10px;font-weight:700;border-radius:99px;padding:2px 8px;background:#eef2ff;color:#4338ca}.badge.full{background:#f1f5f9;color:#475569}
+.cap{color:var(--mut);font-size:12px;padding:2px 6px}.ins2{color:#1d4ed8;font-size:12.5px;font-weight:600;padding:2px 6px}
+.how{display:none;margin:6px 4px 2px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:8px 10px;font-size:12.5px;color:#334155}.how.show{display:block}.how b{color:var(--acc)}
+.tblcard{margin-top:12px}.tbh{display:flex;gap:10px;align-items:center;padding:4px 6px 8px;flex-wrap:wrap}.tbh h3{margin:0;font-size:15px;flex:1}.tbh label{font-size:12px;color:var(--mut);display:flex;gap:4px;align-items:center}
 .tw{overflow:auto;max-height:520px;border:1px solid var(--line);border-radius:10px}table{border-collapse:collapse;width:100%;font-size:12.5px}
-th{position:sticky;top:0;background:#0f172a;color:#fff;text-align:right;padding:7px 10px;cursor:pointer;white-space:nowrap}th:first-child,td:first-child{text-align:left}
-td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}tr:hover td{background:#f8fafc}td.t{white-space:normal;text-align:left;min-width:220px;max-width:640px}
-td.neg{color:var(--bad)}td.pos{color:var(--ok)}.msg{padding:30px;text-align:center;color:var(--mut)}.err{color:var(--bad)}
-h2.sec{margin:6px 0 14px;font-size:20px;letter-spacing:-.3px}.dl{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:14px}summary{cursor:pointer;font-weight:650}
+th{position:sticky;top:0;background:#0f172a;color:#fff;text-align:right;padding:7px 10px;cursor:pointer;white-space:nowrap;user-select:none}th:first-child,td:first-child{text-align:left}th:hover{background:#1e293b}
+td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}tr:hover td{background:#f8fafc}td.t{white-space:normal;text-align:left;min-width:220px;max-width:640px}td.neg{color:var(--bad)}
+[data-term]{border-bottom:1px dotted #94a3b8;cursor:help}
+.msg{padding:28px;text-align:center;color:var(--mut)}.msg.sk{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 37%,#f1f5f9 63%);background-size:400% 100%;animation:sk 1.3s infinite;border-radius:10px;min-height:120px}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}.err{color:var(--bad)}
+#tip{position:fixed;z-index:80;max-width:340px;background:#0f172a;color:#e2e8f0;border-radius:10px;padding:10px 12px;font-size:12.5px;box-shadow:0 10px 30px rgba(0,0,0,.25);pointer-events:none;display:none}
+#tip b{color:#fff}#tip code{display:block;margin-top:4px;color:#93c5fd;font-size:11.5px}#tip em{display:block;margin-top:4px;color:#cbd5e1}
+.ovl{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:50;display:none}.ovl.show{display:block}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(720px,100%);background:var(--bg);z-index:60;box-shadow:-12px 0 40px rgba(15,23,42,.2);transform:translateX(105%);transition:transform .28s;overflow-y:auto;padding:16px 18px 40px}
+#drawer.show{transform:none}#drawer h2{margin:0;font-size:22px}.dh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}.mi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.mi .l{font-size:11px;color:var(--mut);font-weight:700;text-transform:uppercase}.mi .v{font-size:18px;font-weight:800}.mi .r{font-size:11px;color:var(--ok);font-weight:600}.mi .d{font-size:11px;color:var(--mut)}
+ul.bl{margin:6px 0 10px;padding-left:18px}ul.bl li{margin:3px 0}
+#modal{position:fixed;inset:3vh 3vw;background:#fff;z-index:70;border-radius:16px;display:none;padding:12px 16px;box-shadow:0 20px 60px rgba(0,0,0,.35)}#modal.show{display:block}#modalplot{height:calc(94vh - 80px)}
+.lab{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:14px}@media(max-width:900px){.lab{grid-template-columns:1fr}}
+.sl{display:grid;grid-template-columns:120px 1fr 40px;gap:8px;align-items:center;margin:7px 0;font-size:13px}.sl input[type=range]{width:100%;accent-color:var(--acc)}.sl span:last-child{text-align:right;font-weight:700}
+.pb{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.pb button{font-size:12px;padding:4px 10px;border-radius:99px}
+.mc{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:8px}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}.gt{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px}.gt h4{margin:0 0 3px}.gt code{display:block;background:#f1f5f9;border-radius:6px;padding:3px 6px;margin:4px 0;font-size:11.5px}
+.nb{border:1px solid var(--line);background:#fff;border-radius:10px;padding:0 12px}.nb>div{padding:8px 0;border-bottom:1px solid var(--line)}.nb>div:last-child{border:0}
 </style></head><body>
 <div class="top">
  <div class="bar">
   <div class="brand">Quantitative Portfolio Intelligence<small id="sub">loading…</small></div>
-  <div class="chips" id="chips"></div><div class="sp"></div>
-  <div class="dates"><label>From <input type="date" id="d0"></label><label>To <input type="date" id="d1"></label><button id="reset">Reset</button></div>
+  <div class="chips" id="chips" title="Toggle strategies"></div><div class="sp"></div>
+  <div class="dates"><span class="presets" id="presets"></span><label>From <input type="date" id="d0"></label><label>To <input type="date" id="d1"></label><button id="reset" title="Reset filters">Reset</button></div>
   <button class="pri" id="xl">Download Excel</button><button id="rp">HTML report</button>
  </div>
  <nav id="nav"></nav>
 </div>
 <main id="main"></main>
+<div class="ovl" id="ovl"></div>
+<aside id="drawer" aria-label="Strategy detail"></aside>
+<div id="modal"><div class="dh"><b id="modalt"></b><span class="sp"></span><button id="modalx">Close ✕</button></div><div id="modalplot"></div></div>
+<div id="tip"></div>
 <script>
-const API='api/';const S={meta:null,sel:new Set(),start:'',end:'',section:'overview',param:{}};
-const SECTIONS={
- overview:{t:'Executive overview',kpi:true,charts:['equity','drawdown','metric_bars'],tables:['perf']},
- performance:{t:'Performance & benchmark',charts:['excess','risk_return','annual_bars','monthly_heatmap'],tables:['benchmark']},
- rolling:{t:'Rolling analytics',charts:['rolling_sharpe','rolling_vol','rolling_return','rolling_beta']},
- optimization:{t:'Optimization & allocation',charts:['frontier','static_allocation','allocation_area','weight_distribution','turnover','cost_drag'],tables:['static_opt','weights_latest','cost'],wide:['frontier']},
- risk:{t:'Risk analytics',charts:['corr_heatmap','cov_heatmap','risk_contrib','var_bars','return_dist','mc_dist'],tables:['risk','drawdowns']},
- robustness:{t:'Robustness & walk-forward',charts:['sens_heat','sens_lookback','sens_cost','sens_maxw','sens_rebal','wf_year','wf_select'],tables:['sensitivity','wf_year','wf_select']},
- stress:{t:'Regimes & stress testing',charts:['regimes','regime_timeline','stress_hist','stress_hypo'],tables:['regimes','stress_hist','stress_hypo']},
- findings:{t:'Findings & diagnostics',charts:[],tables:['findings','recs','diagnostics','quality']}
-};
+const API='api/';
+const S={meta:null,sel:new Set(),start:'',end:'',section:'overview',param:{},gl:{},cache:{},tok:0};
 const PAL=['#2563eb','#059669','#d97706','#7c3aed','#db2777','#0891b2','#65a30d','#ea580c'];
-const $=s=>document.querySelector(s);
+const SECTIONS={
+ overview:{t:'Overview',lead:'Headline results for the selected window. Click any KPI or strategy card to drill down; hover underlined terms for definitions.',
+  blocks:[{k:'brief'},{k:'insights'},{k:'kpis'},{k:'scorecards'},{k:'charts',list:['equity','drawdown'],replay:'equity'},{k:'charts',list:['metric_bars'],wide:['metric_bars']},{k:'tables',list:['perf']}]},
+ performance:{t:'Performance',lead:'Return, risk and benchmark-relative behaviour. Use the metric explorer to plot any two measures against each other.',
+  blocks:[{k:'insights'},{k:'charts',list:['excess','risk_return','annual_bars','monthly_heatmap']},{k:'explorer'},{k:'tables',list:['benchmark']}]},
+ rolling:{t:'Rolling',lead:'How performance and risk evolved through time, not just on average.',blocks:[{k:'insights'},{k:'charts',list:['rolling_sharpe','rolling_vol','rolling_return','rolling_beta']}]},
+ optimization:{t:'Optimization',lead:'How each method allocates capital, how concentrated it is, and what trading costs.',
+  blocks:[{k:'insights'},{k:'charts',list:['frontier','static_allocation','allocation_area','weight_distribution','turnover','cost_drag'],wide:['frontier']},{k:'tables',list:['static_opt','weights_latest','cost']}]},
+ risk:{t:'Risk',lead:'Tail risk by four VaR methods, risk concentration by holding, and diversification.',
+  blocks:[{k:'insights'},{k:'charts',list:['corr_heatmap','cov_heatmap','risk_contrib','var_bars','return_dist','mc_dist']},{k:'tables',list:['risk','drawdowns']}]},
+ robustness:{t:'Robustness',lead:'Do the results survive different lookbacks, costs, weight caps and rebalancing frequencies?',
+  blocks:[{k:'insights'},{k:'charts',list:['sens_heat','sens_lookback','sens_cost','sens_maxw','sens_rebal','wf_year','wf_select']},{k:'tables',list:['sensitivity','wf_year','wf_select']}]},
+ stress:{t:'Stress',lead:'Market regimes, historical crises and hypothetical shocks. Use the simulator to explore your own shock size.',
+  blocks:[{k:'insights'},{k:'charts',list:['regimes','regime_timeline','stress_hist','stress_hypo']},{k:'shock'},{k:'tables',list:['regimes','stress_hist','stress_hypo']}]},
+ lab:{t:'Portfolio lab',lead:'Blend strategies with sliders and see the resulting performance instantly, computed on the server from the real net returns.',blocks:[{k:'blender'}]},
+ findings:{t:'Findings',lead:'Every automatically generated finding, tagged by evidence type, with diagnostics and data quality.',
+  blocks:[{k:'insights',all:true},{k:'tables',list:['findings','recs','diagnostics','quality']}]},
+ about:{t:'About & glossary',lead:'Where the numbers come from, how they are calculated, and what they cannot tell you.',blocks:[{k:'about'}]}
+};
+const LOWER_BETTER=/vol|var|cvar|turnover|cost|tracking|deviation|loss|days to/i;
+const $=s=>document.querySelector(s);const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const q=()=>{const p=new URLSearchParams();p.set('strategies',[...S.sel].join(','));if(S.start)p.set('start',S.start);if(S.end)p.set('end',S.end);return p};
 async function get(u){const r=await fetch(u);const j=await r.json();if(!r.ok)throw new Error(j.error||r.statusText);return j}
-function fmt(v,k){if(v===null||v===undefined||v==='')return '–';if(typeof v==='boolean')return v?'Yes':'No';
- const n=Number(v);if(k==='text'||isNaN(n)&&typeof v==='string')return String(v);
+function cached(u){if(!S.cache[u])S.cache[u]=get(u);return S.cache[u]}
+function guessFmt(c){if(/date/i.test(c))return'text';if(/days|rank|observations|rebalances|^year$/i.test(c))return'int';if(/sharpe|sortino|calmar|beta|ratio|capture|kurt|skew|turnover|effective/i.test(c))return'num2';if(/return|cagr|vol|drawdown|var|cvar|weight|contribution|depth|cost|%|loss|deviation|alpha|error/i.test(c))return'pct2';return'num3'}
+function fmt(v,k){if(v===null||v===undefined||v==='')return'–';if(typeof v==='boolean')return v?'Yes':'No';const n=Number(v);if(k==='text'||(isNaN(n)&&typeof v==='string'))return String(v);
  switch(k){case'pct1':return(n*100).toFixed(1)+'%';case'pct2':return(n*100).toFixed(2)+'%';case'num2':return n.toFixed(2);case'num3':return n.toFixed(3);case'num4':return n.toFixed(4);case'int':return Math.round(n).toLocaleString();default:return String(v)}}
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+const colOf=k=>{if(k==='Benchmark')return'#64748b';const i=S.meta.series.filter(s=>!s.benchmark).findIndex(x=>x.key===k);return PAL[(i<0?0:i)%PAL.length]};
+const keyOf=label=>(S.meta.series.find(s=>s.label===label)||{}).key;
+function term(t){const keys=Object.keys(S.gl),l=String(t).toLowerCase();return keys.find(x=>x.toLowerCase()===l)||keys.find(x=>l.startsWith(x.toLowerCase()))}
+function T(label,txt){const k=term(label);return k?`<span data-term="${esc(k)}">${esc(txt||label)}</span>`:esc(txt||label)}
+
+const tip=$('#tip');
+document.addEventListener('mouseover',e=>{const el=e.target.closest('[data-term]');if(!el){tip.style.display='none';return}const g=S.gl[el.dataset.term];if(!g)return;
+ tip.innerHTML=`<b>${esc(el.dataset.term)}</b><br>${esc(g.def)}<code>${esc(g.formula)}</code><em>${esc(g.read)}</em>`;tip.style.display='block';
+ const r=el.getBoundingClientRect();tip.style.left=Math.max(8,Math.min(r.left,innerWidth-360))+'px';tip.style.top=(r.bottom+8+tip.offsetHeight>innerHeight?r.top-tip.offsetHeight-8:r.bottom+8)+'px'});
+
+function ymd(d){return d.toISOString().slice(0,10)}
 async function init(){
- try{S.meta=await get(API+'meta')}catch(e){$('#main').innerHTML='<div class="msg err">'+esc(e.message)+'</div>';return}
+ try{[S.meta,S.gl]=await Promise.all([get(API+'meta'),get(API+'glossary')])}catch(e){$('#main').innerHTML='<div class="msg err">'+esc(e.message)+'</div>';return}
  const m=S.meta;$('#sub').textContent=`${m.meta.start} → ${m.meta.end} · ${m.meta.n_obs.toLocaleString()} days · cost ${m.cost_bps} bps · rf ${(m.rf*100).toFixed(1)}%`;
- m.series.forEach((s,i)=>{S.sel.add(s.key);const c=document.createElement('div');c.className='chip';c.dataset.k=s.key;
-  c.innerHTML=`<i style="background:${s.benchmark?'#64748b':PAL[i%PAL.length]}"></i>${esc(s.label)}`;c.onclick=()=>{if(S.sel.has(s.key)&&S.sel.size>1){S.sel.delete(s.key);c.classList.add('off')}else if(!S.sel.has(s.key)){S.sel.add(s.key);c.classList.remove('off')}refresh()};$('#chips').appendChild(c)});
- ['d0','d1'].forEach(id=>{const el=$('#'+id);el.min=m.start;el.max=m.end});$('#d0').value=m.start;$('#d1').value=m.end;
- $('#d0').onchange=()=>{S.start=$('#d0').value===m.start?'':$('#d0').value;refresh()};$('#d1').onchange=()=>{S.end=$('#d1').value===m.end?'':$('#d1').value;refresh()};
- $('#reset').onclick=()=>{S.start=S.end='';$('#d0').value=m.start;$('#d1').value=m.end;document.querySelectorAll('.chip').forEach(c=>{c.classList.remove('off');S.sel.add(c.dataset.k)});refresh()};
+ m.series.forEach(s=>{S.sel.add(s.key);const c=document.createElement('div');c.className='chip';c.dataset.k=s.key;c.title='Click to hide or show';
+  c.innerHTML=`<i style="background:${colOf(s.key)}"></i>${esc(s.label)}`;c.onclick=()=>{if(S.sel.has(s.key)&&S.sel.size>1){S.sel.delete(s.key);c.classList.add('off')}else if(!S.sel.has(s.key)){S.sel.add(s.key);c.classList.remove('off')}refresh()};$('#chips').appendChild(c)});
+ ['d0','d1'].forEach(id=>{const el=$('#'+id);el.min=m.start;el.max=m.end});setDates('','');
+ $('#d0').onchange=()=>setDates($('#d0').value===m.start?'':$('#d0').value,S.end,1);$('#d1').onchange=()=>setDates(S.start,$('#d1').value===m.end?'':$('#d1').value,1);
+ $('#reset').onclick=()=>{setDates('','');document.querySelectorAll('.presets button').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.chip').forEach(c=>{c.classList.remove('off');S.sel.add(c.dataset.k)});refresh(0)};
  $('#xl').onclick=()=>location.href='download/excel';$('#rp').onclick=()=>location.href='download/report';
+ const end=new Date(m.end);const P=[['1Y',-1],['3Y',-3],['5Y',-5]].map(([n,y])=>{const d=new Date(end);d.setFullYear(d.getFullYear()+y);return[n,ymd(d),m.end]});
+ P.push(['YTD',m.end.slice(0,4)+'-01-01',m.end],['Max','',''],...m.presets.map(p=>[p.name,p.start,p.end]));
+ P.forEach(([n,a,b])=>{const bt=document.createElement('button');bt.textContent=n;bt.title=a?`${a} → ${b}`:'Full period';bt.onclick=()=>{setDates(a<m.start?'':a,b>=m.end?'':b);document.querySelectorAll('.presets button').forEach(x=>x.classList.toggle('on',x===bt));refresh(0)};$('#presets').appendChild(bt)});
  Object.entries(SECTIONS).forEach(([k,v])=>{const a=document.createElement('a');a.href='#'+k;a.textContent=v.t;a.dataset.k=k;$('#nav').appendChild(a)});
+ $('#ovl').onclick=closeAll;$('#modalx').onclick=closeAll;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
  window.onhashchange=route;route()}
-function route(){const k=(location.hash||'#overview').slice(1);S.section=SECTIONS[k]?k:'overview';
- document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.k===S.section));render()}
-let tm;function refresh(){clearTimeout(tm);tm=setTimeout(render,250)}
+function setDates(a,b,manual){S.start=a;S.end=b;$('#d0').value=a||S.meta.start;$('#d1').value=b||S.meta.end;if(manual){document.querySelectorAll('.presets button').forEach(x=>x.classList.remove('on'));refresh()}}
+function route(){const k=(location.hash||'#overview').slice(1);S.section=SECTIONS[k]?k:'overview';document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.k===S.section));scrollTo(0,0);render()}
+let tm;function refresh(d=250){clearTimeout(tm);tm=setTimeout(()=>{S.cache={};render()},d)}
+function closeAll(){$('#drawer').classList.remove('show');$('#modal').classList.remove('show');$('#ovl').classList.remove('show');Plotly.purge('modalplot')}
+
 async function render(){
- const sec=SECTIONS[S.section],main=$('#main');const tok=S.tok=(S.tok||0)+1;
- let h='';if(S.meta.meta.synthetic)h+='<div class="banner warn">SYNTHETIC DEMO DATA: no figure on this page describes real markets.</div>';
- h+=`<h2 class="sec">${sec.t}</h2>`;
- h+='<div class="banner info">Backtest results are historical, net of transaction costs and not a guarantee of future returns. Charts marked <b>Full sample</b> do not respond to the date filter.</div>';
- if(S.meta.meta.universe_note)h+=`<div class="banner warn" style="font-weight:500"><b>Selection bias:</b> ${esc(S.meta.meta.universe_note)}</div>`;
- if(S.meta.warnings.length)h+=`<div class="banner info">${S.meta.warnings.length} optimiser fallback(s) occurred (backtest: ${S.meta.n_fallbacks.backtest}, robustness sweep: ${S.meta.n_fallbacks.sweep}); previous weights were kept. First: ${esc(S.meta.warnings[0])}</div>`;
- if(sec.kpi)h+='<div class="kpis" id="kpis"></div>';
- h+='<div class="grid" id="grid"></div><div id="tables"></div>';
- if(S.section==='findings')h+='<details open><summary>Methodology</summary><p>Walk-forward backtests: weights estimated at close t from the preceding lookback window, applied from t+1; costs = turnover × bps. Evidence types: <b>Historical observation</b>, <b>Model estimate</b>, <b>Forward-looking assumption</b>.</p></details>';
+ const sec=SECTIONS[S.section],tok=++S.tok,main=$('#main');
+ let h=`<h2 class="sec">${sec.t}</h2><p class="lead">${esc(sec.lead)}</p>`;
+ if(S.meta.meta.synthetic)h+='<div class="banner warn"><b>SYNTHETIC DEMO DATA:</b> no figure here describes real markets.</div>';
+ if(S.meta.meta.universe_note&&['overview','performance','findings','about'].includes(S.section))h+=`<div class="banner warn"><b>Selection bias:</b> ${esc(S.meta.meta.universe_note)}</div>`;
  main.innerHTML=h;
- if(sec.kpi)loadKpis(tok);
- const grid=$('#grid');
- sec.charts.filter(n=>S.meta.charts[n]).forEach(n=>{const spec=S.meta.charts[n];const d=document.createElement('div');d.className='card'+((sec.wide||[]).includes(n)?' wide':'');d.id='c_'+n;
-  let sel='';if(spec.param){const opts=spec.param==='series'?S.meta.series.filter(s=>S.sel.has(s.key)):S.meta.series.filter(s=>!s.benchmark);
-   const cur=S.param[n]&&opts.find(o=>o.key===S.param[n])?S.param[n]:opts[0].key;S.param[n]=cur;
-   sel=`<select data-n="${n}">${opts.map(o=>`<option value="${o.key}" ${o.key===cur?'selected':''}>${esc(o.label)}</option>`).join('')}</select>`}
-  d.innerHTML=`<div class="ch"><span class="badge ${spec.windowed?'':'full'}">${spec.windowed?'Selected window':'Full sample'}</span>${sel}</div><div class="msg">Loading…</div>`;grid.appendChild(d);
-  const s=d.querySelector('select');if(s)s.onchange=()=>{S.param[n]=s.value;loadChart(n,tok)};loadChart(n,tok)});
- const tw=$('#tables');(sec.tables||[]).forEach(n=>loadTable(n,tw,tok))}
-async function loadKpis(tok){try{const j=await get(API+'kpis?'+q());if(tok!==S.tok)return;
- $('#kpis').innerHTML=j.kpis.map(k=>`<div class="kpi"><div class="l">${esc(k.label)}</div><div class="v">${fmt(k.value,k.kind)}</div><div class="w">${esc(k.who)}</div><div class="s">${esc(k.sub)}</div></div>`).join('')}catch(e){$('#kpis').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}}
-async function loadChart(n,tok){const box=$('#c_'+n);if(!box)return;const p=q();if(S.param[n])p.set('param',S.param[n]);
- try{const j=await get(API+'figure/'+n+'?'+p);if(tok!==S.tok)return;
+ sec.blocks.forEach((b,i)=>{const d=document.createElement('div');d.className='blk';d.id='blk'+i;main.appendChild(d);const f=BLOCKS[b.k];if(f)f(d,b,tok)});
+ const nf=S.meta.n_fallbacks;if(nf&&(nf.backtest+nf.sweep)>0&&['robustness','optimization'].includes(S.section))
+  main.insertAdjacentHTML('beforeend',`<div class="banner info">${nf.backtest+nf.sweep} optimiser fallback(s) occurred (backtest ${nf.backtest}, sweep ${nf.sweep}); previous weights were kept.</div>`)}
+
+const BLOCKS={
+ async brief(d,b,tok){d.innerHTML='<div class="banner brief">Loading window…</div>';try{const j=await cached(API+'kpis?'+q());if(tok!==S.tok)return;
+  const leader=j.kpis[0];d.innerHTML=`<div class="banner brief"><span>Window <b>${j.window[0]} → ${j.window[1]}</b> (${j.n.toLocaleString()} trading days)</span><span>${S.sel.size} series selected</span><span>Best Sharpe here: <b>${esc(leader.who)}</b> (${leader.value.toFixed(2)})</span>${j.short?`<span style="color:#b45309;font-weight:700">⚠ Short window (${j.n} days): ratios and tail estimates are noisy</span>`:''}<span style="color:var(--mut)">All returns net of trading costs. Filters apply to windowed charts and tables.</span></div>`}catch(e){d.innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}},
+ async insights(d,b,tok){try{const j=await get(API+'insights?section='+(b.all?'findings':S.section));if(tok!==S.tok)return;if(!j.insights.length){d.remove();return}
+  const cls=k=>/Model/.test(k)?'model':/Forward/.test(k)?'assume':'';
+  d.innerHTML=`<h3>Key insights <small>auto-generated from the full sample, each tagged by evidence type</small></h3><div class="insights">${j.insights.slice(0,b.all?99:8).map(r=>`<div class="ins ${cls(r.kind)}"><span class="k">${esc(r.kind)}</span><div>${esc(r.finding)}</div>${r.detail?`<div class="d">${esc(r.detail)}</div>`:''}</div>`).join('')}</div>`}catch(e){d.remove()}},
+ async kpis(d,b,tok){d.innerHTML='<div class="kpis" id="kp"><div class="msg sk"></div></div>';try{const j=await cached(API+'kpis?'+q());if(tok!==S.tok)return;
+  const map={'Best Sharpe ratio':'Sharpe','Highest CAGR':'CAGR','Shallowest max drawdown':'Max drawdown','Lowest volatility':'Volatility','Best information ratio':'Information ratio'};
+  $('#kp').innerHTML=j.kpis.map(k=>`<div class="kpi" data-s="${esc(keyOf(k.who)||'')}" title="Click to open ${esc(k.who)}"><div class="l">${T(map[k.label]||'Historical CVaR',k.label)}</div><div class="v">${fmt(k.value,k.kind)}</div><div class="w">${esc(k.who)}</div><div class="s">${esc(k.sub)}</div></div>`).join('');
+  document.querySelectorAll('.kpi').forEach(el=>el.onclick=()=>el.dataset.s&&openDrawer(el.dataset.s))}catch(e){$('#kp').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}},
+ async scorecards(d,b,tok){d.innerHTML='<h3>Strategies <small>click a card for the full drill-down</small></h3><div class="scs" id="scs"><div class="msg sk"></div></div>';
+  try{const[t,eq]=await Promise.all([cached(API+'table/perf?'+q()),cached(API+'figure/equity?'+q())]);if(tok!==S.tok)return;
+   const rows=t.rows.filter(r=>r.Strategy!=='Benchmark');const sh=rows.map(r=>r.Sharpe).sort((a,b)=>b-a);const tr={};eq.figure.data.forEach(x=>tr[x.name]=x);
+   $('#scs').innerHTML=rows.map(r=>{const k=keyOf(r.Strategy),c=colOf(k),x=tr[r.Strategy];let sp='';
+    if(x){const y=x.y,st=Math.max(1,Math.floor(y.length/90)),pts=y.filter((_,i)=>i%st===0),mn=Math.min(...pts),mx=Math.max(...pts);
+     sp=`<svg viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" stroke="${c}" stroke-width="1.6" vector-effect="non-scaling-stroke" points="${pts.map((v,i)=>`${(i/(pts.length-1)*100).toFixed(1)},${(38-(v-mn)/(mx-mn||1)*36).toFixed(1)}`).join(' ')}"/></svg>`}
+    const rank=sh.indexOf(r.Sharpe)+1;
+    return`<div class="sc" style="--c:${c}" data-s="${k}"><h4>${esc(r.Strategy)}<span class="rk ${rank>1?'low':''}">#${rank} Sharpe</span></h4><div class="big">${r.Sharpe.toFixed(2)} <small>${T('Sharpe')}</small></div>${sp}
+     <div class="row"><span>${T('CAGR')} <b>${fmt(r.CAGR,'pct1')}</b></span><span>${T('Volatility','Vol')} <b>${fmt(r.Volatility,'pct1')}</b></span><span>${T('Max drawdown','MaxDD')} <b>${fmt(r['Max drawdown'],'pct1')}</b></span></div><span class="open">Open drill-down →</span></div>`}).join('');
+   document.querySelectorAll('.sc').forEach(el=>el.onclick=()=>openDrawer(el.dataset.s))}catch(e){$('#scs').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}},
+ charts(d,b,tok){d.innerHTML='<div class="grid"></div>';const g=d.firstChild;
+  b.list.filter(n=>S.meta.charts[n]).forEach(n=>g.appendChild(chartCard(n,tok,{wide:(b.wide||[]).includes(n),replay:b.replay===n})))},
+ tables(d,b,tok){b.list.forEach(n=>d.appendChild(tableCard(n,tok)))},
+ async explorer(d,b,tok){d.innerHTML='<div class="card"><h3 style="margin:6px 8px">Metric explorer <small style="font-weight:500;color:var(--mut)">choose any two measures</small></h3><div class="tbh"><label>X <select id="ex"></select></label><label>Y <select id="ey"></select></label><label>Bubble size <select id="ez"></select></label></div><div id="explot" style="height:420px"></div><div class="cap" id="excap"></div></div>';
+  try{const t=await cached(API+'table/perf?'+q());if(tok!==S.tok)return;const cols=t.columns.filter(c=>c!=='Strategy'&&c!=='Observations'&&typeof t.rows[0][c]==='number');
+   ['ex','ey','ez'].forEach((id,i)=>{$('#'+id).innerHTML=cols.map(c=>`<option>${esc(c)}</option>`).join('');$('#'+id).value=['Volatility','CAGR','Sharpe'][i]||cols[i]});
+   const draw=()=>{const X=$('#ex').value,Y=$('#ey').value,Z=$('#ez').value,zm=Math.max(...t.rows.map(r=>Math.abs(r[Z])))||1;
+    Plotly.react('explot',t.rows.map(r=>({x:[r[X]],y:[r[Y]],name:r.Strategy,mode:'markers+text',text:[r.Strategy],textposition:'top center',marker:{size:[18+38*Math.abs(r[Z])/zm],color:colOf(keyOf(r.Strategy)),line:{width:1.5,color:'#fff'}},hovertemplate:`${esc(r.Strategy)}<br>${esc(X)}: %{x:.3f}<br>${esc(Y)}: %{y:.3f}<br>${esc(Z)}: ${r[Z].toFixed(3)}<extra></extra>`})),
+     {template:'plotly_white',margin:{l:60,r:20,t:20,b:50},showlegend:false,xaxis:{title:X,gridcolor:'#eef2f7'},yaxis:{title:Y,gridcolor:'#eef2f7'},hovermode:'closest',font:{family:'Inter,sans-serif'}},{displaylogo:false,responsive:true});
+    $('#excap').textContent=`Bubble size = |${Z}|. Values are for the selected window.${LOWER_BETTER.test(X)?' On the X axis lower is better.':''}${LOWER_BETTER.test(Y)?' On the Y axis lower is better.':''}`};
+   ['ex','ey','ez'].forEach(id=>$('#'+id).onchange=draw);draw()}catch(e){$('#explot').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}},
+ async shock(d,b,tok){d.innerHTML='<div class="card"><h3 style="margin:6px 8px">Market-shock simulator <small style="font-weight:500;color:var(--mut)">model estimate: shock × beta</small></h3><div class="tbh"><label style="flex:1;min-width:260px">If SPY moves <b id="shv" style="margin:0 6px;color:var(--acc)">-20%</b><input type="range" id="sh" min="-50" max="30" step="1" value="-20" style="flex:1;accent-color:var(--acc)"></label><span class="pb"><button data-v="-10">-10%</button><button data-v="-20">-20%</button><button data-v="-34">Worst SPY drawdown</button><button data-v="10">+10%</button></span></div><div id="shplot" style="height:320px"></div><div class="cap">Implied move = <span data-term="Beta">beta</span> × SPY move, using each strategy\'s beta over the selected window. A linear approximation: it ignores asset-specific moves and correlations rising in a crisis.</div></div>';
+  try{const t=await cached(API+'table/perf?'+q());if(tok!==S.tok)return;const rows=t.rows.filter(r=>r.Strategy!=='Benchmark');
+   const draw=()=>{const s=+$('#sh').value/100;$('#shv').textContent=(s*100).toFixed(0)+'%';Plotly.react('shplot',[{type:'bar',x:rows.map(r=>r.Strategy),y:rows.map(r=>r.Beta*s),marker:{color:rows.map(r=>colOf(keyOf(r.Strategy)))},text:rows.map(r=>(r.Beta*s*100).toFixed(1)+'%'),textposition:'outside',hovertemplate:'%{x}<br>Implied: %{y:.1%}<extra></extra>'}],
+    {template:'plotly_white',margin:{l:60,r:20,t:20,b:50},yaxis:{tickformat:'.0%',range:[Math.min(-0.5,s*1.6),Math.max(0.4,s*0.2+0.05)],title:'Implied portfolio move',gridcolor:'#eef2f7'},font:{family:'Inter,sans-serif'}},{displaylogo:false,responsive:true})};
+   $('#sh').oninput=draw;d.querySelectorAll('.pb button').forEach(bt=>bt.onclick=()=>{$('#sh').value=bt.dataset.v;draw()});draw()}catch(e){$('#shplot').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}},
+ async blender(d,b,tok){d.innerHTML='<div class="lab"><div class="card"><h3 style="margin:6px 4px">Blend strategies</h3><div id="sls"></div><div class="pb" id="pbs"></div><div class="cap" id="wsum"></div></div><div class="card"><div class="mc" id="bm"></div><div id="bplot" style="height:520px"></div><div class="cap" id="bnote"></div></div></div>';
+  const series=S.meta.series;let t;try{t=await cached(API+'table/perf?'+q())}catch(e){d.innerHTML='<div class="msg err">'+esc(e.message)+'</div>';return}if(tok!==S.tok)return;
+  const strat=t.rows.filter(r=>r.Strategy!=='Benchmark');if(strat.length<1){d.innerHTML='<div class="msg">Select at least one strategy.</div>';return}
+  const W={};series.forEach(s=>W[s.key]=0);strat.forEach(r=>W[keyOf(r.Strategy)]=100/strat.length);
+  $('#sls').innerHTML=series.map(s=>`<div class="sl"><span style="color:${colOf(s.key)};font-weight:600">${esc(s.label)}</span><input type="range" min="0" max="100" step="1" data-k="${s.key}" value="${W[s.key]}"><span id="v_${s.key}">${Math.round(W[s.key])}</span></div>`).join('');
+  const sync=()=>document.querySelectorAll('#sls input').forEach(i=>{i.value=W[i.dataset.k];$('#v_'+i.dataset.k).textContent=Math.round(W[i.dataset.k])});
+  let bt;const run=async()=>{const tot=Object.values(W).reduce((a,b)=>a+b,0);$('#wsum').textContent=tot>0?`Weights are normalised to 100% (raw total ${Math.round(tot)}).`:'Set at least one weight above zero.';if(tot<=0)return;
+   const p=q();p.delete('strategies');p.set('w',Object.entries(W).filter(([,v])=>v>0).map(([k,v])=>k+':'+v).join(','));
+   try{const j=await get(API+'mix?'+p);if(tok!==S.tok)return;const m=j.metrics,best=Math.max(...strat.map(r=>r.Sharpe));
+    $('#bm').innerHTML=[['CAGR',m.CAGR,'pct1'],['Volatility',m.Volatility,'pct1'],['Sharpe',m.Sharpe,'num2'],['Max drawdown',m['Max drawdown'],'pct1'],['Beta',m.Beta,'num2'],['Information ratio',m['Information ratio'],'num2']].map(([l,v,k])=>`<div class="mi"><div class="l">${T(l)}</div><div class="v">${fmt(v,k)}</div>${l==='Sharpe'?`<div class="d">best single: ${best.toFixed(2)}</div>`:''}</div>`).join('');
+    Plotly.react('bplot',[{x:j.dates,y:j.equity,name:'Your blend',line:{color:'#2563eb',width:2.8},xaxis:'x',yaxis:'y'},{x:j.dates,y:j.benchmark,name:'SPY',line:{color:'#64748b',dash:'dash'},xaxis:'x',yaxis:'y'},{x:j.dates,y:j.drawdown,name:'Blend drawdown',fill:'tozeroy',line:{color:'#dc2626',width:1},fillcolor:'rgba(220,38,38,.18)',xaxis:'x2',yaxis:'y2'}],
+     {template:'plotly_white',margin:{l:60,r:20,t:20,b:40},yaxis:{domain:[.35,1],title:'Growth of 1.00',gridcolor:'#eef2f7'},yaxis2:{domain:[0,.25],tickformat:'.0%',title:'Drawdown',gridcolor:'#eef2f7',anchor:'x2'},xaxis:{matches:'x2',showticklabels:false,anchor:'y'},xaxis2:{anchor:'y2'},legend:{orientation:'h',y:1.08},hovermode:'x unified',font:{family:'Inter,sans-serif'}},{displaylogo:false,responsive:true});
+    $('#bnote').textContent=j.note}catch(e){$('#bplot').innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}};
+  const preset=(n,w)=>{const bt2=document.createElement('button');bt2.textContent=n;bt2.onclick=()=>{series.forEach(s=>W[s.key]=w[s.key]||0);sync();run()};$('#pbs').appendChild(bt2)};
+  const byS=[...strat].sort((a,b)=>b.Sharpe-a.Sharpe),byV=[...strat].sort((a,b)=>a.Volatility-b.Volatility);
+  preset('Equal mix',Object.fromEntries(strat.map(r=>[keyOf(r.Strategy),100/strat.length])));
+  preset('Best Sharpe + lowest vol',{[keyOf(byS[0].Strategy)]:50,[keyOf(byV[0].Strategy)]:50});
+  preset('50% SPY + 50% best Sharpe',{Benchmark:50,[keyOf(byS[0].Strategy)]:50});
+  preset('100% best Sharpe',{[keyOf(byS[0].Strategy)]:100});
+  document.querySelectorAll('#sls input').forEach(i=>i.oninput=()=>{W[i.dataset.k]=+i.value;$('#v_'+i.dataset.k).textContent=i.value;clearTimeout(bt);bt=setTimeout(run,180)});run()},
+ async about(d,b,tok){const m=S.meta.meta;const gl=Object.entries(S.gl);
+  d.innerHTML=`<div class="grid"><div class="card"><h3 style="margin:6px 8px">Data lineage</h3><div class="nb"><div><b>Strategy returns, weights, turnover, costs</b><br>reports/walk_forward_comparison/strategy_daily_results.csv (read unchanged)</div><div><b>Benchmark</b><br>SPY simple returns, data/processed/us_benchmarks_simple_returns.csv</div><div><b>Covariance, correlation, expected returns, frontier</b><br>reports/tables/* (Ledoit-Wolf covariance, project estimators)</div><div><b>Robustness, regimes, stress</b><br>reports/robustness_analysis/*, reports/stress_testing/*</div><div><b>Computed here from those files</b><br>Metrics, four VaR methods, risk contributions, diagnostics, insights</div></div></div>
+  <div class="card"><h3 style="margin:6px 8px">What this cannot tell you</h3><div class="nb">${[m.universe_note,...(m.data_notes||[])].filter(Boolean).map(x=>`<div>${esc(x)}</div>`).join('')}<div>Results are historical backtests, not forecasts. Expected returns are past means with large estimation error.</div><div>Hypothetical scenarios are model estimates, not observed outcomes.</div></div></div></div>
+  <div class="blk" style="margin-top:16px"><h3>Glossary <small>${gl.length} terms</small><input type="search" id="gls" placeholder="Search terms…" style="margin-left:auto"></h3><div class="gl" id="gll"></div></div>`;
+  const draw=t=>$('#gll').innerHTML=gl.filter(([k,v])=>!t||(k+v.def).toLowerCase().includes(t)).map(([k,v])=>`<div class="gt"><h4>${esc(k)}</h4><div>${esc(v.def)}</div><code>${esc(v.formula)}</code><div style="color:var(--mut);font-size:12.5px">${esc(v.read)}</div></div>`).join('');
+  draw('');$('#gls').oninput=e=>draw(e.target.value.toLowerCase())}
+};
+
+function chartCard(n,tok,opt){const spec=S.meta.charts[n];const d=document.createElement('div');d.className='card'+(opt.wide?' wide':'');
+ let sel='';if(spec.param){const o=spec.param==='series'?S.meta.series.filter(s=>S.sel.has(s.key)):S.meta.series.filter(s=>!s.benchmark);const cur=S.param[n]&&o.find(x=>x.key===S.param[n])?S.param[n]:o[0].key;S.param[n]=cur;
+  sel=opt.fixed?'':`<select title="Choose series">${o.map(x=>`<option value="${x.key}" ${x.key===cur?'selected':''}>${esc(x.label)}</option>`).join('')}</select>`}
+ d.innerHTML=`<div class="ch"><span class="badge ${spec.windowed?'':'full'}">${spec.windowed?'Selected window':'Full sample'}</span><span class="tools">${sel}${opt.replay?'<button class="ico" data-a="replay" title="Replay growth over time">▶ Replay</button>':''}<button class="ico" data-a="how" title="How to read this chart">ⓘ How to read</button><button class="ico" data-a="exp" title="Expand">⤢</button><button class="ico" data-a="png" title="Download PNG">⬇</button></span></div><div class="msg sk"></div>`;
+ const s=d.querySelector('select');if(s)s.onchange=()=>{S.param[n]=s.value;load(n,d,tok)};
+ d.querySelector('[data-a=how]').onclick=()=>d.querySelector('.how')?.classList.toggle('show');
+ d.querySelector('[data-a=exp]').onclick=()=>{if(!d._fig)return;$('#modalt').textContent=(d._fig.layout.title&&d._fig.layout.title.text)||n;$('#ovl').classList.add('show');$('#modal').classList.add('show');
+  const f=JSON.parse(JSON.stringify(d._fig));f.layout.height=null;f.layout.autosize=true;Plotly.newPlot('modalplot',f.data,f.layout,{responsive:true,displaylogo:false})};
+ d.querySelector('[data-a=png]').onclick=()=>d.querySelector('.plot')&&Plotly.downloadImage(d.querySelector('.plot'),{format:'png',filename:'qpi_'+n,scale:2});
+ const rp=d.querySelector('[data-a=replay]');if(rp)rp.onclick=()=>replay(d);
+ load(n,d,tok);return d}
+async function load(n,box,tok){const p=q();if(S.param[n])p.set('param',S.param[n]);
+ try{const j=await cached(API+'figure/'+n+'?'+p);if(tok!==S.tok&&!box.closest('#drawer'))return;
   let area=box.querySelector('.plot');if(!area){box.querySelector('.msg')?.remove();area=document.createElement('div');area.className='plot';box.appendChild(area);
-   const c=document.createElement('div');c.className='cap';c.id='cap_'+n;box.appendChild(c);const i=document.createElement('div');i.className='ins';i.id='ins_'+n;box.appendChild(i)}
-  const f=j.figure;f.layout.autosize=true;await Plotly.react(area,f.data,f.layout,{responsive:true,displaylogo:false,toImageButtonOptions:{filename:'qpi_'+n,scale:2}});
-  $('#cap_'+n).textContent=j.caption;$('#ins_'+n).textContent=j.insight?'▸ '+j.insight:''}
- catch(e){if(tok!==S.tok)return;box.querySelector('.plot')?.remove();let m=box.querySelector('.msg');if(!m){m=document.createElement('div');m.className='msg';box.appendChild(m)}m.className='msg err';m.textContent=e.message}}
-async function loadTable(n,host,tok){const card=document.createElement('div');card.className='card tblcard';card.innerHTML='<div class="msg">Loading…</div>';host.appendChild(card);
- try{const j=await get(API+'table/'+n+'?'+q());if(tok!==S.tok)return;let rows=j.rows.slice(),sort=null,dir=1,term='';
-  const draw=()=>{let r=rows.filter(x=>!term||JSON.stringify(Object.values(x)).toLowerCase().includes(term));
+   box.insertAdjacentHTML('beforeend','<div class="cap"></div><div class="ins2"></div><div class="how"></div>')}
+  const f=JSON.parse(JSON.stringify(j.figure));f.layout.autosize=true;box._fig=j.figure;await Plotly.react(area,f.data,f.layout,{responsive:true,displaylogo:false});
+  box.querySelector('.cap').textContent=j.caption;box.querySelector('.ins2').textContent=j.insight?'▸ '+j.insight:'';box.querySelector('.how').innerHTML=j.how_to?`<b>How to read:</b> ${esc(j.how_to)}`:''}
+ catch(e){if(tok!==S.tok&&!box.closest('#drawer'))return;box.querySelector('.plot')?.remove();let m=box.querySelector('.msg');if(!m){m=document.createElement('div');box.appendChild(m)}m.className='msg err';m.textContent=e.message}}
+async function replay(box){const gd=box.querySelector('.plot'),f=box._fig;if(!gd||!f)return;const tr=f.data,n=tr[0].x.length,step=Math.ceil(n/110);
+ const all=tr.flatMap(t=>t.y),lo=Math.min(...all),hi=Math.max(...all),frames=[];
+ for(let k=step;k<n+step;k+=step){const e=Math.min(k,n);frames.push({name:'f'+e,data:tr.map(t=>({x:t.x.slice(0,e),y:t.y.slice(0,e)}))})}
+ const lay=JSON.parse(JSON.stringify(f.layout));lay.xaxis={...(lay.xaxis||{}),range:[tr[0].x[0],tr[0].x[n-1]],autorange:false};lay.yaxis={...(lay.yaxis||{}),range:[Math.min(lo*0.95,1),hi*1.05],autorange:false};
+ await Plotly.react(gd,tr.map(t=>({...t,x:t.x.slice(0,1),y:t.y.slice(0,1)})),lay,{responsive:true,displaylogo:false});await Plotly.addFrames(gd,frames);
+ await Plotly.animate(gd,frames.map(x=>x.name),{frame:{duration:35,redraw:false},transition:{duration:0},mode:'immediate'});
+ await Plotly.react(gd,JSON.parse(JSON.stringify(tr)),JSON.parse(JSON.stringify(f.layout)),{responsive:true,displaylogo:false})}
+
+function tableCard(n,tok){const card=document.createElement('div');card.className='card tblcard';card.innerHTML='<div class="msg sk"></div>';
+ cached(API+'table/'+n+'?'+q()).then(j=>{if(tok!==S.tok)return;const rows=j.rows.slice();let sort=null,dir=1,flt='',heat=false;
+  const numCols=j.columns.filter(c=>rows.some(r=>typeof r[c]==='number')&&!['int','text'].includes(j.formats[c]));const rng={};
+  numCols.forEach(c=>{const v=rows.map(r=>r[c]).filter(x=>typeof x==='number');rng[c]=[Math.min(...v),Math.max(...v)]});
+  const heatOK=rows.length>=2&&rows.length<=14&&numCols.length>0;
+  const draw=()=>{const r=rows.filter(x=>!flt||JSON.stringify(Object.values(x)).toLowerCase().includes(flt));
    if(sort)r.sort((a,b)=>{const x=a[sort],y=b[sort];return(x==null)-(y==null)||(typeof x==='number'?x-y:String(x).localeCompare(String(y)))*dir});
-   const body=r.map(x=>'<tr>'+j.columns.map(c=>{const v=x[c],k=j.formats[c];const long=typeof v==='string'&&v.length>40;
-    return`<td class="${long?'t':''} ${typeof v==='number'&&k!=='int'&&(k||'').startsWith('pct')?(v<0?'neg':''):''}">${esc(fmt(v,k))}</td>`}).join('')+'</tr>').join('');
-   card.querySelector('tbody').innerHTML=body||'<tr><td colspan="99" class="msg">No rows</td></tr>'};
-  card.innerHTML=`<div class="tbh"><h3>${esc(j.title)}</h3><input type="search" placeholder="Filter…"><button data-csv>CSV</button></div><div class="tw"><table><thead><tr>${j.columns.map(c=>`<th data-c="${esc(c)}">${esc(c)}</th>`).join('')}</tr></thead><tbody></tbody></table></div>`;
+   card.querySelector('tbody').innerHTML=r.map(x=>'<tr>'+j.columns.map(c=>{const v=x[c],k=j.formats[c],long=typeof v==='string'&&v.length>40;let st='';
+     if(heat&&rng[c]&&typeof v==='number'&&rng[c][1]>rng[c][0]){let t=(v-rng[c][0])/(rng[c][1]-rng[c][0]);if(LOWER_BETTER.test(c))t=1-t;st=`style="background:rgba(${t<.5?'220,38,38':'5,150,105'},${(Math.abs(t-.5)*0.7).toFixed(2)})"`}
+     return`<td class="${long?'t':''} ${typeof v==='number'&&String(k).startsWith('pct')&&v<0?'neg':''}" ${st}>${esc(fmt(v,k))}</td>`}).join('')+'</tr>').join('')||'<tr><td colspan="99" class="msg">No rows</td></tr>'};
+  card.innerHTML=`<div class="tbh"><h3>${esc(j.title)}</h3>${heatOK?'<label><input type="checkbox" class="hm"> Heatmap</label>':''}<input type="search" placeholder="Filter…"><button data-csv>CSV</button></div><div class="tw"><table><thead><tr>${j.columns.map(c=>`<th data-c="${esc(c)}" ${term(c)?`data-term="${esc(term(c))}"`:''}>${esc(c)}</th>`).join('')}</tr></thead><tbody></tbody></table></div>`;
   card.querySelectorAll('th').forEach(th=>th.onclick=()=>{const c=th.dataset.c;dir=sort===c?-dir:1;sort=c;draw()});
-  card.querySelector('input').oninput=e=>{term=e.target.value.toLowerCase();draw()};
-  card.querySelector('[data-csv]').onclick=()=>location.href='download/csv/'+n+'?'+q();draw()}
- catch(e){if(tok!==S.tok)return;card.innerHTML='<div class="msg err">'+esc(e.message)+'</div>'}}
+  card.querySelector('input[type=search]').oninput=e=>{flt=e.target.value.toLowerCase();draw()};const hc=card.querySelector('.hm');if(hc)hc.onchange=()=>{heat=hc.checked;draw()};
+  card.querySelector('[data-csv]').onclick=()=>location.href='download/csv/'+n+'?'+q();draw()}).catch(e=>{if(tok===S.tok)card.innerHTML='<div class="msg err">'+esc(e.message)+'</div>'});return card}
+
+function miniTable(title,cols,rows,fmtFn){return`<div class="card tblcard"><div class="tbh"><h3>${esc(title)}</h3></div><div class="tw"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>'<tr>'+cols.map(c=>`<td>${esc(fmt(r[c],fmtFn?fmtFn(r,c):guessFmt(c)))}</td>`).join('')+'</tr>').join('')}</tbody></table></div></div>`}
+async function openDrawer(key){const dr=$('#drawer');dr.innerHTML='<div class="msg sk" style="margin-top:40px"></div>';dr.classList.add('show');$('#ovl').classList.add('show');
+ try{const j=await get(API+'strategy/'+key+'?'+q());const p=j.perf,col=colOf(key);
+  const cards=[['CAGR','pct1'],['Volatility','pct1'],['Sharpe','num2'],['Sortino','num2'],['Max drawdown','pct1'],['Calmar','num2'],['Beta','num2'],['Alpha (ann.)','pct1'],['Information ratio','num2'],['Tracking error','pct1']].filter(([k])=>p[k]!=null);
+  const riskRows=['Historical VaR','Historical CVaR','Parametric VaR','Cornish-Fisher VaR','Monte Carlo VaR','Monte Carlo CVaR'].filter(k=>j.risk[k]!=null).map(k=>({Method:k,Loss:j.risk[k]}));
+  dr.innerHTML=`<div class="dh"><span style="width:12px;height:12px;border-radius:50%;background:${col}"></span><h2>${esc(j.label)}</h2><span class="sp"></span><button id="dx">Close ✕</button></div>
+  <div style="color:var(--mut);font-size:12px">Window ${j.window[0]} → ${j.window[1]} · net of costs</div>
+  ${Object.keys(j.ranks).length?`<div style="margin:8px 0;display:flex;gap:6px;flex-wrap:wrap">${['Sharpe','CAGR','Max drawdown','Volatility'].filter(k=>j.ranks[k]).map(k=>`<span class="rk ${j.ranks[k]>1?'low':''}">#${j.ranks[k]} of ${j.n_ranked} ${k}</span>`).join('')}</div>`:''}
+  <ul class="bl">${j.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
+  <div class="mg">${cards.map(([k,f])=>`<div class="mi"><div class="l">${T(k)}</div><div class="v">${fmt(p[k],f)}</div>${j.ranks[k]?`<div class="r">#${j.ranks[k]} of ${j.n_ranked}</div>`:''}</div>`).join('')}</div>
+  ${miniTable('Tail risk (1-day, 95%)',['Method','Loss'],riskRows,()=>'pct2')}
+  <div id="dch" class="grid" style="grid-template-columns:1fr;margin-top:12px"></div>
+  ${j.weights.length?miniTable('Latest holdings and risk contribution',['Asset','Weight','% of portfolio risk'],j.weights,(r,c)=>c==='Asset'?'text':'pct1'):''}
+  ${j.episodes.length?miniTable('Largest drawdown episodes',['Peak date','Trough date','Recovery date','Depth','Days to trough','Days to recover'],j.episodes):''}
+  ${Object.keys(j.cost).length?miniTable('Trading costs',['Metric','Value'],Object.entries(j.cost).map(([a,b])=>({Metric:a,Value:b})),(r,c)=>c==='Metric'?'text':guessFmt(r.Metric)):''}`;
+  $('#dx').onclick=closeAll;
+  const tok=S.tok;['allocation_area','return_dist','monthly_heatmap','mc_dist'].filter(n=>S.meta.charts[n]&&!(key==='Benchmark'&&['allocation_area','mc_dist'].includes(n))).forEach(n=>{S.param[n]=key;$('#dch').appendChild(chartCard(n,tok,{fixed:true}))})}
+ catch(e){dr.innerHTML=`<div class="dh"><h2>Error</h2><span class="sp"></span><button id="dx">Close ✕</button></div><div class="msg err">${esc(e.message)}</div>`;$('#dx').onclick=closeAll}}
 init();
 </script></body></html>

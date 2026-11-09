@@ -5,6 +5,7 @@ from __future__ import annotations
 import html
 import json
 import logging
+import shutil
 from pathlib import Path
 
 import pandas as pd
@@ -163,6 +164,7 @@ def export_all(res, out_dir: str | Path | None = None) -> dict[str, object]:
     xl = build_workbook(res, xlsx)
     logger.info("Writing HTML report")
     n_charts = build_html_report(res, out / "enhanced_report.html")
+    shutil.copyfile(out / "enhanced_report.html", out / "index.html")  # GitHub Pages entry point
     csvs = export_csvs(res, out / "tables")
     res.artifacts = {
         "excel": str(xlsx),

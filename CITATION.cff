@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Quantitative Portfolio Intelligence & Risk Optimization Platform"
+type: software
+version: 0.1.0
+date-released: 2026-11-08
+license: MIT
+repository-code: "https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization"
+authors:
+  - family-names: Singh
+    given-names: Amit
+    alias: nasaamit005
+keywords: [portfolio optimization, hierarchical risk parity, value at risk, backtesting, Black-Litterman]

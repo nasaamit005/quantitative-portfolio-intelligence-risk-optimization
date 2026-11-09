@@ -1,161 +1,161 @@
 ,Scenario,Strategy,Impact,Method
-0,Market shock -5%,equal_weight,-0.049999999999999996,Hypothetical: Broad market
-1,Market shock -10%,equal_weight,-0.09999999999999999,Hypothetical: Broad market
-2,Market shock -20%,equal_weight,-0.19999999999999998,Hypothetical: Broad market
+0,Market shock -5%,equal_weight,-0.0499999999999999,Hypothetical: Broad market
+1,Market shock -10%,equal_weight,-0.0999999999999999,Hypothetical: Broad market
+2,Market shock -20%,equal_weight,-0.1999999999999999,Hypothetical: Broad market
 3,Market shock -30%,equal_weight,-0.3,Hypothetical: Broad market
-4,AAPL falls 30%,equal_weight,-0.02466875018550368,Hypothetical: Individual asset
-5,MSFT falls 30%,equal_weight,-0.024416740659446327,Hypothetical: Individual asset
-6,NVDA falls 30%,equal_weight,-0.024812034092324055,Hypothetical: Individual asset
+4,AAPL falls 30%,equal_weight,-0.0246687501855036,Hypothetical: Individual asset
+5,MSFT falls 30%,equal_weight,-0.0244167406594463,Hypothetical: Individual asset
+6,NVDA falls 30%,equal_weight,-0.024812034092324,Hypothetical: Individual asset
 7,GOOGL falls 30%,equal_weight,-0.0250525182335654,Hypothetical: Individual asset
-8,META falls 30%,equal_weight,-0.02479133762402594,Hypothetical: Individual asset
-9,AMZN falls 30%,equal_weight,-0.025680875832354105,Hypothetical: Individual asset
-10,COST falls 30%,equal_weight,-0.025830621555324288,Hypothetical: Individual asset
-11,KO falls 30%,equal_weight,-0.02559627284558041,Hypothetical: Individual asset
-12,JPM falls 30%,equal_weight,-0.025392778160713735,Hypothetical: Individual asset
-13,XOM falls 30%,equal_weight,-0.02411161434462437,Hypothetical: Individual asset
-14,JNJ falls 30%,equal_weight,-0.024886018725764614,Hypothetical: Individual asset
-15,CAT falls 30%,equal_weight,-0.024760437740773047,Hypothetical: Individual asset
-16,Communication Services falls 20%,equal_weight,-0.03322923723839423,Hypothetical: Sector
-17,Consumer Discretionary falls 20%,equal_weight,-0.017120583888236073,Hypothetical: Sector
+8,META falls 30%,equal_weight,-0.0247913376240259,Hypothetical: Individual asset
+9,AMZN falls 30%,equal_weight,-0.0256808758323541,Hypothetical: Individual asset
+10,COST falls 30%,equal_weight,-0.0258306215553242,Hypothetical: Individual asset
+11,KO falls 30%,equal_weight,-0.0255962728455804,Hypothetical: Individual asset
+12,JPM falls 30%,equal_weight,-0.0253927781607137,Hypothetical: Individual asset
+13,XOM falls 30%,equal_weight,-0.0241116143446243,Hypothetical: Individual asset
+14,JNJ falls 30%,equal_weight,-0.0248860187257646,Hypothetical: Individual asset
+15,CAT falls 30%,equal_weight,-0.024760437740773,Hypothetical: Individual asset
+16,Communication Services falls 20%,equal_weight,-0.0332292372383942,Hypothetical: Sector
+17,Consumer Discretionary falls 20%,equal_weight,-0.017120583888236,Hypothetical: Sector
 18,Consumer Staples falls 20%,equal_weight,-0.0342845962672698,Hypothetical: Sector
-19,Energy falls 20%,equal_weight,-0.016074409563082915,Hypothetical: Sector
-20,Financials falls 20%,equal_weight,-0.016928518773809156,Hypothetical: Sector
-21,Healthcare falls 20%,equal_weight,-0.016590679150509744,Hypothetical: Sector
-22,Industrials falls 20%,equal_weight,-0.016506958493848697,Hypothetical: Sector
-23,Technology falls 20%,equal_weight,-0.049265016624849375,Hypothetical: Sector
+19,Energy falls 20%,equal_weight,-0.0160744095630829,Hypothetical: Sector
+20,Financials falls 20%,equal_weight,-0.0169285187738091,Hypothetical: Sector
+21,Healthcare falls 20%,equal_weight,-0.0165906791505097,Hypothetical: Sector
+22,Industrials falls 20%,equal_weight,-0.0165069584938486,Hypothetical: Sector
+23,Technology falls 20%,equal_weight,-0.0492650166248493,Hypothetical: Sector
 24,Market -10% + Communication Services incremental -15%,equal_weight,-0.1224297351359161,Hypothetical: Combined
-25,Market -10% + Consumer Discretionary incremental -15%,equal_weight,-0.11155639412455934,Hypothetical: Combined
+25,Market -10% + Consumer Discretionary incremental -15%,equal_weight,-0.1115563941245593,Hypothetical: Combined
 26,Market -10% + Consumer Staples incremental -15%,equal_weight,-0.1231421024804071,Hypothetical: Combined
-27,Market -10% + Energy incremental -15%,equal_weight,-0.11085022645508096,Hypothetical: Combined
-28,Market -10% + Financials incremental -15%,equal_weight,-0.11142675017232118,Hypothetical: Combined
-29,Market -10% + Healthcare incremental -15%,equal_weight,-0.11119870842659407,Hypothetical: Combined
-30,Market -10% + Industrials incremental -15%,equal_weight,-0.11114219698334786,Hypothetical: Combined
+27,Market -10% + Energy incremental -15%,equal_weight,-0.1108502264550809,Hypothetical: Combined
+28,Market -10% + Financials incremental -15%,equal_weight,-0.1114267501723211,Hypothetical: Combined
+29,Market -10% + Healthcare incremental -15%,equal_weight,-0.111198708426594,Hypothetical: Combined
+30,Market -10% + Industrials incremental -15%,equal_weight,-0.1111421969833478,Hypothetical: Combined
 31,Market -10% + Technology incremental -15%,equal_weight,-0.1332538862217733,Hypothetical: Combined
 32,Market shock -5%,hrp,-0.05,Hypothetical: Broad market
 33,Market shock -10%,hrp,-0.1,Hypothetical: Broad market
 34,Market shock -20%,hrp,-0.2,Hypothetical: Broad market
 35,Market shock -30%,hrp,-0.3,Hypothetical: Broad market
-36,AAPL falls 30%,hrp,-0.03402428757158274,Hypothetical: Individual asset
-37,MSFT falls 30%,hrp,-0.015195606442569376,Hypothetical: Individual asset
-38,NVDA falls 30%,hrp,-0.00935682346034358,Hypothetical: Individual asset
-39,GOOGL falls 30%,hrp,-0.009410498373066916,Hypothetical: Individual asset
-40,META falls 30%,hrp,-0.009869448149488957,Hypothetical: Individual asset
-41,AMZN falls 30%,hrp,-0.00905056727993867,Hypothetical: Individual asset
-42,COST falls 30%,hrp,-0.052167953646009665,Hypothetical: Individual asset
-43,KO falls 30%,hrp,-0.047897317163484616,Hypothetical: Individual asset
-44,JPM falls 30%,hrp,-0.04655195951110924,Hypothetical: Individual asset
-45,XOM falls 30%,hrp,-0.02215798197968981,Hypothetical: Individual asset
-46,JNJ falls 30%,hrp,-0.03684581007193237,Hypothetical: Individual asset
-47,CAT falls 30%,hrp,-0.0074717463507840655,Hypothetical: Individual asset
-48,Communication Services falls 20%,hrp,-0.012853297681703915,Hypothetical: Sector
-49,Consumer Discretionary falls 20%,hrp,-0.006033711519959114,Hypothetical: Sector
-50,Consumer Staples falls 20%,hrp,-0.06671018053966285,Hypothetical: Sector
-51,Energy falls 20%,hrp,-0.014771987986459872,Hypothetical: Sector
-52,Financials falls 20%,hrp,-0.031034639674072828,Hypothetical: Sector
-53,Healthcare falls 20%,hrp,-0.024563873381288247,Hypothetical: Sector
-54,Industrials falls 20%,hrp,-0.0049811642338560445,Hypothetical: Sector
-55,Technology falls 20%,hrp,-0.03905114498299713,Hypothetical: Sector
-56,Market -10% + Communication Services incremental -15%,hrp,-0.10867597593515015,Hypothetical: Combined
+36,AAPL falls 30%,hrp,-0.0340242875715827,Hypothetical: Individual asset
+37,MSFT falls 30%,hrp,-0.0151956064425693,Hypothetical: Individual asset
+38,NVDA falls 30%,hrp,-0.0093568234603435,Hypothetical: Individual asset
+39,GOOGL falls 30%,hrp,-0.0094104983730669,Hypothetical: Individual asset
+40,META falls 30%,hrp,-0.0098694481494889,Hypothetical: Individual asset
+41,AMZN falls 30%,hrp,-0.0090505672799386,Hypothetical: Individual asset
+42,COST falls 30%,hrp,-0.0521679536460096,Hypothetical: Individual asset
+43,KO falls 30%,hrp,-0.0478973171634846,Hypothetical: Individual asset
+44,JPM falls 30%,hrp,-0.0465519595111092,Hypothetical: Individual asset
+45,XOM falls 30%,hrp,-0.0221579819796898,Hypothetical: Individual asset
+46,JNJ falls 30%,hrp,-0.0368458100719323,Hypothetical: Individual asset
+47,CAT falls 30%,hrp,-0.007471746350784,Hypothetical: Individual asset
+48,Communication Services falls 20%,hrp,-0.0128532976817039,Hypothetical: Sector
+49,Consumer Discretionary falls 20%,hrp,-0.0060337115199591,Hypothetical: Sector
+50,Consumer Staples falls 20%,hrp,-0.0667101805396628,Hypothetical: Sector
+51,Energy falls 20%,hrp,-0.0147719879864598,Hypothetical: Sector
+52,Financials falls 20%,hrp,-0.0310346396740728,Hypothetical: Sector
+53,Healthcare falls 20%,hrp,-0.0245638733812882,Hypothetical: Sector
+54,Industrials falls 20%,hrp,-0.004981164233856,Hypothetical: Sector
+55,Technology falls 20%,hrp,-0.0390511449829971,Hypothetical: Sector
+56,Market -10% + Communication Services incremental -15%,hrp,-0.1086759759351501,Hypothetical: Combined
 57,Market -10% + Consumer Discretionary incremental -15%,hrp,-0.1040727552759724,Hypothetical: Combined
-58,Market -10% + Consumer Staples incremental -15%,hrp,-0.14502937186427242,Hypothetical: Combined
-59,Market -10% + Energy incremental -15%,hrp,-0.10997109189086042,Hypothetical: Combined
-60,Market -10% + Financials incremental -15%,hrp,-0.12094838177999917,Hypothetical: Combined
-61,Market -10% + Healthcare incremental -15%,hrp,-0.11658061453236956,Hypothetical: Combined
-62,Market -10% + Industrials incremental -15%,hrp,-0.10336228585785283,Hypothetical: Combined
-63,Market -10% + Technology incremental -15%,hrp,-0.12635952286352306,Hypothetical: Combined
+58,Market -10% + Consumer Staples incremental -15%,hrp,-0.1450293718642724,Hypothetical: Combined
+59,Market -10% + Energy incremental -15%,hrp,-0.1099710918908604,Hypothetical: Combined
+60,Market -10% + Financials incremental -15%,hrp,-0.1209483817799991,Hypothetical: Combined
+61,Market -10% + Healthcare incremental -15%,hrp,-0.1165806145323695,Hypothetical: Combined
+62,Market -10% + Industrials incremental -15%,hrp,-0.1033622858578528,Hypothetical: Combined
+63,Market -10% + Technology incremental -15%,hrp,-0.126359522863523,Hypothetical: Combined
 64,Market shock -5%,maximum_sharpe,-0.05,Hypothetical: Broad market
 65,Market shock -10%,maximum_sharpe,-0.1,Hypothetical: Broad market
 66,Market shock -20%,maximum_sharpe,-0.2,Hypothetical: Broad market
 67,Market shock -30%,maximum_sharpe,-0.3,Hypothetical: Broad market
-68,AAPL falls 30%,maximum_sharpe,-0.03202006043783963,Hypothetical: Individual asset
-69,MSFT falls 30%,maximum_sharpe,-0.01221459548689182,Hypothetical: Individual asset
-70,NVDA falls 30%,maximum_sharpe,-0.017260250767662525,Hypothetical: Individual asset
+68,AAPL falls 30%,maximum_sharpe,-0.0320200604378396,Hypothetical: Individual asset
+69,MSFT falls 30%,maximum_sharpe,-0.0122145954868918,Hypothetical: Individual asset
+70,NVDA falls 30%,maximum_sharpe,-0.0172602507676625,Hypothetical: Individual asset
 71,GOOGL falls 30%,maximum_sharpe,0.0,Hypothetical: Individual asset
-72,META falls 30%,maximum_sharpe,-3.7696312745711245e-17,Hypothetical: Individual asset
-73,AMZN falls 30%,maximum_sharpe,-0.017161461818691957,Hypothetical: Individual asset
+72,META falls 30%,maximum_sharpe,-3.769631274571125e-17,Hypothetical: Individual asset
+73,AMZN falls 30%,maximum_sharpe,-0.0171614618186919,Hypothetical: Individual asset
 74,COST falls 30%,maximum_sharpe,-7.122572187502544e-17,Hypothetical: Individual asset
-75,KO falls 30%,maximum_sharpe,-0.04947433860949967,Hypothetical: Individual asset
+75,KO falls 30%,maximum_sharpe,-0.0494743386094996,Hypothetical: Individual asset
 76,JPM falls 30%,maximum_sharpe,0.0,Hypothetical: Individual asset
-77,XOM falls 30%,maximum_sharpe,-0.07515055020314454,Hypothetical: Individual asset
-78,JNJ falls 30%,maximum_sharpe,-0.07358501016707324,Hypothetical: Individual asset
-79,CAT falls 30%,maximum_sharpe,-0.023133732509196505,Hypothetical: Individual asset
+77,XOM falls 30%,maximum_sharpe,-0.0751505502031445,Hypothetical: Individual asset
+78,JNJ falls 30%,maximum_sharpe,-0.0735850101670732,Hypothetical: Individual asset
+79,CAT falls 30%,maximum_sharpe,-0.0231337325091965,Hypothetical: Individual asset
 80,Communication Services falls 20%,maximum_sharpe,-2.5130875163807498e-17,Hypothetical: Sector
-81,Consumer Discretionary falls 20%,maximum_sharpe,-0.011440974545794638,Hypothetical: Sector
-82,Consumer Staples falls 20%,maximum_sharpe,-0.03298289240633316,Hypothetical: Sector
-83,Energy falls 20%,maximum_sharpe,-0.05010036680209637,Hypothetical: Sector
+81,Consumer Discretionary falls 20%,maximum_sharpe,-0.0114409745457946,Hypothetical: Sector
+82,Consumer Staples falls 20%,maximum_sharpe,-0.0329828924063331,Hypothetical: Sector
+83,Energy falls 20%,maximum_sharpe,-0.0501003668020963,Hypothetical: Sector
 84,Financials falls 20%,maximum_sharpe,0.0,Hypothetical: Sector
-85,Healthcare falls 20%,maximum_sharpe,-0.049056673444715496,Hypothetical: Sector
-86,Industrials falls 20%,maximum_sharpe,-0.015422488339464338,Hypothetical: Sector
-87,Technology falls 20%,maximum_sharpe,-0.04099660446159598,Hypothetical: Sector
-88,Market -10% + Communication Services incremental -15%,maximum_sharpe,-0.10000000000000002,Hypothetical: Combined
-89,Market -10% + Consumer Discretionary incremental -15%,maximum_sharpe,-0.10772265781841138,Hypothetical: Combined
+85,Healthcare falls 20%,maximum_sharpe,-0.0490566734447154,Hypothetical: Sector
+86,Industrials falls 20%,maximum_sharpe,-0.0154224883394643,Hypothetical: Sector
+87,Technology falls 20%,maximum_sharpe,-0.0409966044615959,Hypothetical: Sector
+88,Market -10% + Communication Services incremental -15%,maximum_sharpe,-0.1,Hypothetical: Combined
+89,Market -10% + Consumer Discretionary incremental -15%,maximum_sharpe,-0.1077226578184113,Hypothetical: Combined
 90,Market -10% + Consumer Staples incremental -15%,maximum_sharpe,-0.1222634523742749,Hypothetical: Combined
-91,Market -10% + Energy incremental -15%,maximum_sharpe,-0.13381774759141504,Hypothetical: Combined
+91,Market -10% + Energy incremental -15%,maximum_sharpe,-0.133817747591415,Hypothetical: Combined
 92,Market -10% + Financials incremental -15%,maximum_sharpe,-0.1,Hypothetical: Combined
-93,Market -10% + Healthcare incremental -15%,maximum_sharpe,-0.13311325457518294,Hypothetical: Combined
-94,Market -10% + Industrials incremental -15%,maximum_sharpe,-0.11041017962913843,Hypothetical: Combined
+93,Market -10% + Healthcare incremental -15%,maximum_sharpe,-0.1331132545751829,Hypothetical: Combined
+94,Market -10% + Industrials incremental -15%,maximum_sharpe,-0.1104101796291384,Hypothetical: Combined
 95,Market -10% + Technology incremental -15%,maximum_sharpe,-0.1276727080115773,Hypothetical: Combined
 96,Market shock -5%,minimum_volatility,-0.05,Hypothetical: Broad market
 97,Market shock -10%,minimum_volatility,-0.1,Hypothetical: Broad market
 98,Market shock -20%,minimum_volatility,-0.2,Hypothetical: Broad market
 99,Market shock -30%,minimum_volatility,-0.3,Hypothetical: Broad market
-100,AAPL falls 30%,minimum_volatility,-0.01779702038414186,Hypothetical: Individual asset
-101,MSFT falls 30%,minimum_volatility,-0.02360118330815464,Hypothetical: Individual asset
-102,NVDA falls 30%,minimum_volatility,-0.02099577366415799,Hypothetical: Individual asset
-103,GOOGL falls 30%,minimum_volatility,-0.008130422268500935,Hypothetical: Individual asset
-104,META falls 30%,minimum_volatility,-0.010166585936296083,Hypothetical: Individual asset
-105,AMZN falls 30%,minimum_volatility,-0.006346196430423373,Hypothetical: Individual asset
-106,COST falls 30%,minimum_volatility,-0.03594117671859607,Hypothetical: Individual asset
-107,KO falls 30%,minimum_volatility,-0.050112150347321915,Hypothetical: Individual asset
+100,AAPL falls 30%,minimum_volatility,-0.0177970203841418,Hypothetical: Individual asset
+101,MSFT falls 30%,minimum_volatility,-0.0236011833081546,Hypothetical: Individual asset
+102,NVDA falls 30%,minimum_volatility,-0.0209957736641579,Hypothetical: Individual asset
+103,GOOGL falls 30%,minimum_volatility,-0.0081304222685009,Hypothetical: Individual asset
+104,META falls 30%,minimum_volatility,-0.010166585936296,Hypothetical: Individual asset
+105,AMZN falls 30%,minimum_volatility,-0.0063461964304233,Hypothetical: Individual asset
+106,COST falls 30%,minimum_volatility,-0.035941176718596,Hypothetical: Individual asset
+107,KO falls 30%,minimum_volatility,-0.0501121503473219,Hypothetical: Individual asset
 108,JPM falls 30%,minimum_volatility,-0.0279218728579534,Hypothetical: Individual asset
 109,XOM falls 30%,minimum_volatility,-0.0460314811945469,Hypothetical: Individual asset
-110,JNJ falls 30%,minimum_volatility,-0.03954917547836891,Hypothetical: Individual asset
-111,CAT falls 30%,minimum_volatility,-0.01340696141153793,Hypothetical: Individual asset
-112,Communication Services falls 20%,minimum_volatility,-0.01219800546986468,Hypothetical: Sector
-113,Consumer Discretionary falls 20%,minimum_volatility,-0.00423079762028225,Hypothetical: Sector
-114,Consumer Staples falls 20%,minimum_volatility,-0.057368884710611995,Hypothetical: Sector
-115,Energy falls 20%,minimum_volatility,-0.030687654129697935,Hypothetical: Sector
-116,Financials falls 20%,minimum_volatility,-0.018614581905302265,Hypothetical: Sector
-117,Healthcare falls 20%,minimum_volatility,-0.026366116985579276,Hypothetical: Sector
-118,Industrials falls 20%,minimum_volatility,-0.00893797427435862,Hypothetical: Sector
-119,Technology falls 20%,minimum_volatility,-0.041595984904302996,Hypothetical: Sector
-120,Market -10% + Communication Services incremental -15%,minimum_volatility,-0.10823365369215866,Hypothetical: Combined
-121,Market -10% + Consumer Discretionary incremental -15%,minimum_volatility,-0.10285578839369053,Hypothetical: Combined
+110,JNJ falls 30%,minimum_volatility,-0.0395491754783689,Hypothetical: Individual asset
+111,CAT falls 30%,minimum_volatility,-0.0134069614115379,Hypothetical: Individual asset
+112,Communication Services falls 20%,minimum_volatility,-0.0121980054698646,Hypothetical: Sector
+113,Consumer Discretionary falls 20%,minimum_volatility,-0.0042307976202822,Hypothetical: Sector
+114,Consumer Staples falls 20%,minimum_volatility,-0.0573688847106119,Hypothetical: Sector
+115,Energy falls 20%,minimum_volatility,-0.0306876541296979,Hypothetical: Sector
+116,Financials falls 20%,minimum_volatility,-0.0186145819053022,Hypothetical: Sector
+117,Healthcare falls 20%,minimum_volatility,-0.0263661169855792,Hypothetical: Sector
+118,Industrials falls 20%,minimum_volatility,-0.0089379742743586,Hypothetical: Sector
+119,Technology falls 20%,minimum_volatility,-0.0415959849043029,Hypothetical: Sector
+120,Market -10% + Communication Services incremental -15%,minimum_volatility,-0.1082336536921586,Hypothetical: Combined
+121,Market -10% + Consumer Discretionary incremental -15%,minimum_volatility,-0.1028557883936905,Hypothetical: Combined
 122,Market -10% + Consumer Staples incremental -15%,minimum_volatility,-0.1387239971796631,Hypothetical: Combined
-123,Market -10% + Energy incremental -15%,minimum_volatility,-0.12071416653754612,Hypothetical: Combined
-124,Market -10% + Financials incremental -15%,minimum_volatility,-0.11256484278607903,Hypothetical: Combined
-125,Market -10% + Healthcare incremental -15%,minimum_volatility,-0.11779712896526602,Hypothetical: Combined
-126,Market -10% + Industrials incremental -15%,minimum_volatility,-0.10603313263519208,Hypothetical: Combined
-127,Market -10% + Technology incremental -15%,minimum_volatility,-0.12807728981040453,Hypothetical: Combined
+123,Market -10% + Energy incremental -15%,minimum_volatility,-0.1207141665375461,Hypothetical: Combined
+124,Market -10% + Financials incremental -15%,minimum_volatility,-0.112564842786079,Hypothetical: Combined
+125,Market -10% + Healthcare incremental -15%,minimum_volatility,-0.117797128965266,Hypothetical: Combined
+126,Market -10% + Industrials incremental -15%,minimum_volatility,-0.106033132635192,Hypothetical: Combined
+127,Market -10% + Technology incremental -15%,minimum_volatility,-0.1280772898104045,Hypothetical: Combined
 128,Market shock -5%,risk_parity,-0.05,Hypothetical: Broad market
 129,Market shock -10%,risk_parity,-0.1,Hypothetical: Broad market
 130,Market shock -20%,risk_parity,-0.2,Hypothetical: Broad market
 131,Market shock -30%,risk_parity,-0.3,Hypothetical: Broad market
-132,AAPL falls 30%,risk_parity,-0.023325924329393538,Hypothetical: Individual asset
-133,MSFT falls 30%,risk_parity,-0.021559626666456912,Hypothetical: Individual asset
-134,NVDA falls 30%,risk_parity,-0.018651055701347282,Hypothetical: Individual asset
-135,GOOGL falls 30%,risk_parity,-0.015129375416489529,Hypothetical: Individual asset
-136,META falls 30%,risk_parity,-0.014797801804018955,Hypothetical: Individual asset
-137,AMZN falls 30%,risk_parity,-0.015043509133245241,Hypothetical: Individual asset
-138,COST falls 30%,risk_parity,-0.03340282444173966,Hypothetical: Individual asset
+132,AAPL falls 30%,risk_parity,-0.0233259243293935,Hypothetical: Individual asset
+133,MSFT falls 30%,risk_parity,-0.0215596266664569,Hypothetical: Individual asset
+134,NVDA falls 30%,risk_parity,-0.0186510557013472,Hypothetical: Individual asset
+135,GOOGL falls 30%,risk_parity,-0.0151293754164895,Hypothetical: Individual asset
+136,META falls 30%,risk_parity,-0.0147978018040189,Hypothetical: Individual asset
+137,AMZN falls 30%,risk_parity,-0.0150435091332452,Hypothetical: Individual asset
+138,COST falls 30%,risk_parity,-0.0334028244417396,Hypothetical: Individual asset
 139,KO falls 30%,risk_parity,-0.0389857651093012,Hypothetical: Individual asset
-140,JPM falls 30%,risk_parity,-0.024895901828286313,Hypothetical: Individual asset
-141,XOM falls 30%,risk_parity,-0.04272446111363238,Hypothetical: Individual asset
-142,JNJ falls 30%,risk_parity,-0.03478586104262283,Hypothetical: Individual asset
-143,CAT falls 30%,risk_parity,-0.016697893413466166,Hypothetical: Individual asset
-144,Communication Services falls 20%,risk_parity,-0.019951451480338993,Hypothetical: Sector
-145,Consumer Discretionary falls 20%,risk_parity,-0.010029006088830162,Hypothetical: Sector
-146,Consumer Staples falls 20%,risk_parity,-0.04825905970069391,Hypothetical: Sector
-147,Energy falls 20%,risk_parity,-0.02848297407575492,Hypothetical: Sector
-148,Financials falls 20%,risk_parity,-0.01659726788552421,Hypothetical: Sector
-149,Healthcare falls 20%,risk_parity,-0.02319057402841522,Hypothetical: Sector
-150,Industrials falls 20%,risk_parity,-0.011131928942310777,Hypothetical: Sector
-151,Technology falls 20%,risk_parity,-0.042357737798131824,Hypothetical: Sector
-152,Market -10% + Communication Services incremental -15%,risk_parity,-0.11346722974922882,Hypothetical: Combined
-153,Market -10% + Consumer Discretionary incremental -15%,risk_parity,-0.10676957910996036,Hypothetical: Combined
+140,JPM falls 30%,risk_parity,-0.0248959018282863,Hypothetical: Individual asset
+141,XOM falls 30%,risk_parity,-0.0427244611136323,Hypothetical: Individual asset
+142,JNJ falls 30%,risk_parity,-0.0347858610426228,Hypothetical: Individual asset
+143,CAT falls 30%,risk_parity,-0.0166978934134661,Hypothetical: Individual asset
+144,Communication Services falls 20%,risk_parity,-0.0199514514803389,Hypothetical: Sector
+145,Consumer Discretionary falls 20%,risk_parity,-0.0100290060888301,Hypothetical: Sector
+146,Consumer Staples falls 20%,risk_parity,-0.0482590597006939,Hypothetical: Sector
+147,Energy falls 20%,risk_parity,-0.0284829740757549,Hypothetical: Sector
+148,Financials falls 20%,risk_parity,-0.0165972678855242,Hypothetical: Sector
+149,Healthcare falls 20%,risk_parity,-0.0231905740284152,Hypothetical: Sector
+150,Industrials falls 20%,risk_parity,-0.0111319289423107,Hypothetical: Sector
+151,Technology falls 20%,risk_parity,-0.0423577377981318,Hypothetical: Sector
+152,Market -10% + Communication Services incremental -15%,risk_parity,-0.1134672297492288,Hypothetical: Combined
+153,Market -10% + Consumer Discretionary incremental -15%,risk_parity,-0.1067695791099603,Hypothetical: Combined
 154,Market -10% + Consumer Staples incremental -15%,risk_parity,-0.1325748652979684,Hypothetical: Combined
-155,Market -10% + Energy incremental -15%,risk_parity,-0.11922600750113457,Hypothetical: Combined
-156,Market -10% + Financials incremental -15%,risk_parity,-0.11120315582272886,Hypothetical: Combined
-157,Market -10% + Healthcare incremental -15%,risk_parity,-0.11565363746918028,Hypothetical: Combined
-158,Market -10% + Industrials incremental -15%,risk_parity,-0.10751405203605978,Hypothetical: Combined
+155,Market -10% + Energy incremental -15%,risk_parity,-0.1192260075011345,Hypothetical: Combined
+156,Market -10% + Financials incremental -15%,risk_parity,-0.1112031558227288,Hypothetical: Combined
+157,Market -10% + Healthcare incremental -15%,risk_parity,-0.1156536374691802,Hypothetical: Combined
+158,Market -10% + Industrials incremental -15%,risk_parity,-0.1075140520360597,Hypothetical: Combined
 159,Market -10% + Technology incremental -15%,risk_parity,-0.128591473013739,Hypothetical: Combined

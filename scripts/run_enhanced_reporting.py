@@ -4,7 +4,7 @@ Reads reports/ and data/processed (nothing is re-optimised), then writes to repo
   quantitative_portfolio_analytics_enhanced.xlsx   formula-driven workbook with native charts
   enhanced_report.html                              34 interactive Plotly charts with captions
   tables/*.csv                                      every analytical table
-  results.pkl                                       consumed by the Flask dashboard (/analytics/)
+  results.pkl                                       consumed by the Flask dashboard (/qpi/)
 
 Usage:  python scripts/run_enhanced_reporting.py
 """
