@@ -17,6 +17,9 @@
 
 ### [Open the Quantitative Portfolio Intelligence Dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/)
 
+**Interactive dashboard view:** [Open the interactive dashboard](https://nasaamit005.github.io/quantitative-portfolio-intelligence-risk-optimization/dashboard.html) with strategy filters, crisis-window presets, ten analysis tabs, strategy drill-downs and Excel and HTML report downloads.
+
+
 Explore performance, optimization strategies, risk analytics, robustness experiments, stress tests and findings across ten tabs: **Overview, Performance, Rolling, Optimization, Risk, Robustness, Stress, Portfolio lab, Findings** and **About & glossary**. No Python installation is needed.
 
 > **Public dashboard vs. local application:** GitHub Pages hosts the static HTML dashboard. The full Python Flask application runs on your own computer, and its `127.0.0.1` address is not a public website. See [Section 8](#8-public-dashboard-vs-local-flask-application).
