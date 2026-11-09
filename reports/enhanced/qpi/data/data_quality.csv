@@ -1,0 +1,4 @@
+,dataset,rows,columns,instruments,missing_cells,status
+0,us_equities,2976,60,12,0,PASS
+1,us_benchmarks,2976,15,3,0,PASS
+2,market_indicators,2978,10,2,15,PASS

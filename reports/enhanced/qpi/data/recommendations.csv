@@ -1,0 +1,6 @@
+,Area,Recommendation,Rationale / caveat
+0,Strategy selection,"Primary candidate on risk-adjusted basis: Maximum Sharpe. Defensive candidate (lowest volatility): Minimum Volatility. Maximum drawdowns are within 1.2% of each other, so volatility, not drawdown depth, separates the strategies.",Based on realised backtest; verify out-of-sample before capital allocation.
+1,Stability,Most rank-stable strategy across parameter grids: Minimum Volatility.,Rank stability is preferred over a single best-parameter result.
+2,Costs,Review rebalancing frequency and cost assumptions against actual execution costs.,See Transaction Costs sheet for the net vs gross comparison.
+3,Risk limits,Monitor 95% CVaR and component risk contributions at each rebalance.,Concentration in risk can differ markedly from concentration in capital.
+4,Governance,Re-run the pipeline when new data arrives; compare against stored results for drift.,All outputs regenerate from data + config.

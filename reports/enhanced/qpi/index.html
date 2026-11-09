@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description"
+content="Quantitative Portfolio Intelligence: portfolio optimization,
+performance analytics, risk measurement, stress testing and robustness.">
+<title>Quantitative Portfolio Intelligence | QPI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+:root {
+  --bg:#f4f7fc;
+  --surface:#fff;
+  --text:#182230;
+  --muted:#667085;
+  --border:#e6eaf2;
+  --blue:#4263eb;
+  --purple:#845ef7;
+  --teal:#0ca678;
+  --orange:#f08c32;
+  --red:#e85959;
+  --shadow:0 8px 28px rgba(35,55,90,.06);
+}
+
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"DM Sans",sans-serif;
+  font-size:14px;
+}
+
+button,select,input {font:inherit}
+
+.layout {min-height:100vh}
+
+.sidebar {
+  position:fixed;
+  inset:0 auto 0 0;
+  width:245px;
+  padding:25px 17px;
+  background:white;
+  border-right:1px solid var(--border);
+  z-index:10;
+  overflow-y:auto;
+}
+
+.brand {
+  padding:0 10px 30px;
+  font-family:Manrope,sans-serif;
+  font-size:21px;
+  font-weight:800;
+}
+
+.brand span {color:var(--blue)}
+
+.brand small {
+  display:block;
+  margin-top:4px;
+  color:#98a2b3;
+  font:700 9px "DM Sans",sans-serif;
+  letter-spacing:1.4px;
+}
+
+.nav-label {
+  margin:15px 10px 10px;
+  color:#98a2b3;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.4px;
+}
+
+.nav {
+  display:grid;
+  gap:5px;
+}
+
+.nav a {
+  padding:12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-weight:600;
+  text-decoration:none;
+}
+
+.nav a:hover,.nav a.active {
+  background:#edf2ff;
+  color:var(--blue);
+}
+
+.main {
+  margin-left:245px;
+  min-height:100vh;
+}
+
+.topbar {
+  position:sticky;
+  top:0;
+  z-index:5;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:20px 34px;
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+}
+
+.topbar h1 {
+  margin:0;
+  font:800 20px Manrope,sans-serif;
+}
+
+.status {
+  color:var(--teal);
+  font-size:11px;
+  font-weight:800;
+}
+
+.content {
+  width:min(1450px,100%);
+  margin:auto;
+  padding:30px 34px 55px;
+}
+
+.hero {
+  padding:34px;
+  border-radius:20px;
+  background:linear-gradient(115deg,#edf3ff,#f5f0ff,#e9fbf7);
+}
+
+.eyebrow {
+  color:var(--blue);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+}
+
+.hero h2 {
+  margin:12px 0;
+  font:800 clamp(27px,4vw,42px) Manrope,sans-serif;
+  letter-spacing:-1px;
+}
+
+.hero h2 span {color:var(--blue)}
+
+.hero p {
+  max-width:720px;
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.hero-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:20px;
+}
+
+.button {
+  display:inline-block;
+  padding:11px 17px;
+  border:0;
+  border-radius:9px;
+  background:var(--blue);
+  color:white;
+  font-weight:700;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.button.light {
+  background:white;
+  color:var(--blue);
+  border:1px solid var(--border);
+}
+
+.metrics {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin:22px 0 30px;
+}
+
+.metric,.panel {
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  box-shadow:var(--shadow);
+}
+
+.metric {padding:20px}
+
+.metric span {
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.metric strong {
+  display:block;
+  margin:10px 0 5px;
+  font:800 27px Manrope,sans-serif;
+}
+
+.metric small {color:#98a2b3}
+
+.section-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:15px;
+  margin:34px 0 15px;
+}
+
+.section-title h2 {
+  margin:0;
+  font:800 21px Manrope,sans-serif;
+}
+
+.section-title p {
+  margin:5px 0 0;
+  color:var(--muted);
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:17px;
+}
+
+.panel {padding:21px;min-width:0}
+
+.panel h3 {
+  margin:0 0 6px;
+  font:700 15px Manrope,sans-serif;
+}
+
+.panel p {
+  margin:0 0 15px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.chart {min-height:310px;width:100%}
+
+.controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:15px 0;
+}
+
+select,input {
+  min-width:180px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:white;
+  color:var(--text);
+}
+
+.table-wrap {
+  overflow:auto;
+  max-height:540px;
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  white-space:nowrap;
+  font-size:12px;
+}
+
+th,td {
+  padding:11px 13px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+}
+
+th {
+  position:sticky;
+  top:0;
+  background:#f6f8fc;
+  color:#475467;
+  z-index:1;
+}
+
+tr:hover td {background:#f8faff}
+
+.notice {
+  padding:14px 17px;
+  border-radius:10px;
+  background:#edf7ff;
+  color:#365a80;
+  line-height:1.7;
+}
+
+footer {
+  margin-top:35px;
+  padding:24px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  text-align:center;
+  font-size:12px;
+}
+
+@media(max-width:1000px) {
+  .metrics {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:760px) {
+  .sidebar {
+    position:relative;
+    width:100%;
+    padding:14px;
+  }
+  .brand {padding-bottom:10px}
+  .nav {
+    display:flex;
+    overflow-x:auto;
+  }
+  .nav a {white-space:nowrap}
+  .main {margin-left:0}
+  .topbar {padding:16px}
+  .content {padding:18px}
+  .grid {grid-template-columns:1fr}
+  .metrics {gap:9px}
+  .metric {padding:14px}
+  .metric strong {font-size:21px}
+  .hero {padding:24px}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">
+    Quant<span>IQ</span>
+    <small>PORTFOLIO INTELLIGENCE</small>
+  </div>
+
+  <div class="nav-label">RESEARCH WORKSPACE</div>
+
+  <nav class="nav">
+    <a class="active" href="#overview">Overview</a>
+    <a href="#performance">Performance</a>
+    <a href="#risk">Risk analytics</a>
+    <a href="#optimization">Optimization</a>
+    <a href="#robustness">Robustness</a>
+    <a href="#stress">Stress testing</a>
+    <a href="#walkforward">Walk-forward</a>
+    <a href="#explorer">Data explorer</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <h1>Quantitative Portfolio Intelligence</h1>
+  <span class="status" id="status">LOADING RESEARCH DATA</span>
+</header>
+
+<div class="content">
+
+<section class="hero" id="overview">
+  <div class="eyebrow">QUANTITATIVE FINANCE · PORTFOLIO ANALYTICS</div>
+  <h2>Portfolio intelligence.<br><span>Risk-aware decisions.</span></h2>
+  <p>
+    An integrated quantitative investment research platform for portfolio
+    optimization, historical performance evaluation, financial risk
+    measurement, stress testing and strategy robustness analysis.
+    Explore saved research outputs through interactive charts and tables.
+  </p>
+  <div class="hero-actions">
+    <a class="button" href="#performance">Explore analytics</a>
+    <a class="button light"
+       href="https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization">
+       Source repository
+    </a>
+    <a class="button light" href="../enhanced_report.html">
+       Enhanced research report
+    </a>
+  </div>
+</section>
+
+<section class="metrics">
+  <article class="metric">
+    <span>Best strategy CAGR</span>
+    <strong id="bestCagr">—</strong>
+    <small>From saved performance report</small>
+  </article>
+  <article class="metric">
+    <span>Best Sharpe ratio</span>
+    <strong id="bestSharpe">—</strong>
+    <small>Risk-adjusted performance</small>
+  </article>
+  <article class="metric">
+    <span>Research strategies</span>
+    <strong id="strategyCount">—</strong>
+    <small>Performance records</small>
+  </article>
+  <article class="metric">
+    <span>Analytical datasets</span>
+    <strong id="tableCount">—</strong>
+    <small>Published CSV tables</small>
+  </article>
+</section>
+
+<section id="performance">
+  <div class="section-title">
+    <div>
+      <h2>Performance analytics</h2>
+      <p>Historical strategy comparison from your saved research results.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <article class="panel">
+      <h3>Annualized return comparison</h3>
+      <p>Compound annual growth rate by strategy.</p>
+      <div class="chart" id="cagrChart"></div>
+    </article>
+    <article class="panel">
+      <h3>Risk-adjusted performance</h3>
+      <p>Sharpe ratio comparison by strategy.</p>
+      <div class="chart" id="sharpeChart"></div>
+    </article>
+  </div>
+
+  <article class="panel" style="margin-top:17px">
+    <h3>Performance report</h3>
+    <p>All available performance metrics.</p>
+    <div class="table-wrap" id="performanceTable"></div>
+  </article>
+</section>
+
+<section id="risk">
+  <div class="section-title">
+    <div>
+      <h2>Risk analytics</h2>
+      <p>Historical, parametric and Monte Carlo risk measures.</p>
+    </div>
+  </div>
+  <div class="grid">
+    <article class="panel">
+      <h3>Historical and parametric VaR</h3>
+      <p>Risk estimates by portfolio strategy.</p>
+      <div class="chart" id="varChart"></div>
+    </article>
+    <article class="panel">
+      <h3>Maximum drawdown</h3>
+      <p>Historical peak-to-trough losses.</p>
+      <div class="chart" id="drawdownChart"></div>
+    </article>
+  </div>
+  <article class="panel" style="margin-top:17px">
+    <h3>Risk report</h3>
+    <div class="table-wrap" id="riskTable"></div>
+  </article>
+</section>
+
+<section id="optimization">
+  <div class="section-title">
+    <div>
+      <h2>Portfolio optimization</h2>
+      <p>Efficient frontier, portfolio allocations and strategy weights.</p>
+    </div>
+  </div>
+  <div class="grid">
+    <article class="panel">
+      <h3>Efficient frontier</h3>
+      <p>Saved frontier observations.</p>
+      <div class="chart" id="frontierChart"></div>
+    </article>
+    <article class="panel">
+      <h3>Portfolio allocation</h3>
+      <p>Saved maximum-Sharpe portfolio weights.</p>
+      <div class="chart" id="weightsChart"></div>
+    </article>
+  </div>
+</section>
+
+<section id="robustness">
+  <div class="section-title">
+    <div>
+      <h2>Robustness and sensitivity</h2>
+      <p>Compare strategy behaviour across research configurations.</p>
+    </div>
+  </div>
+  <article class="panel">
+    <h3>Sharpe ratio sensitivity</h3>
+    <p>Results across lookback periods, allocation constraints and rebalancing frequencies.</p>
+    <div class="chart" id="sensitivityChart"></div>
+    <div class="table-wrap" id="sensitivityTable"></div>
+  </article>
+</section>
+
+<section id="stress">
+  <div class="section-title">
+    <div>
+      <h2>Stress testing</h2>
+      <p>Historical and hypothetical scenario results.</p>
+    </div>
+  </div>
+  <div class="grid">
+    <article class="panel">
+      <h3>Historical stress scenarios</h3>
+      <div class="table-wrap" id="historicalStressTable"></div>
+    </article>
+    <article class="panel">
+      <h3>Hypothetical stress scenarios</h3>
+      <div class="table-wrap" id="hypotheticalStressTable"></div>
+    </article>
+  </div>
+</section>
+
+<section id="walkforward">
+  <div class="section-title">
+    <div>
+      <h2>Walk-forward evaluation</h2>
+      <p>Saved sequential evaluation and annual strategy selection.</p>
+    </div>
+  </div>
+  <div class="grid">
+    <article class="panel">
+      <h3>Yearly walk-forward results</h3>
+      <div class="table-wrap" id="walkYearTable"></div>
+    </article>
+    <article class="panel">
+      <h3>Walk-forward selection</h3>
+      <div class="table-wrap" id="walkSelectionTable"></div>
+    </article>
+  </div>
+</section>
+
+<section id="explorer">
+  <div class="section-title">
+    <div>
+      <h2>Research data explorer</h2>
+      <p>Inspect and download all published analytical CSV datasets.</p>
+    </div>
+  </div>
+  <article class="panel">
+    <div class="controls">
+      <select id="datasetSelect" aria-label="Choose analytical dataset"></select>
+      <input id="searchInput" type="search" placeholder="Search table rows">
+      <button class="button" id="downloadButton">Download CSV</button>
+    </div>
+    <div class="table-wrap" id="dataTable"></div>
+  </article>
+</section>
+
+<div class="notice" style="margin-top:25px">
+  <strong>Research data disclosure:</strong>
+  This public GitHub Pages dashboard displays saved analytical outputs.
+  It does not execute the Flask backend or perform live portfolio
+  optimization. Results reflect the datasets committed to this repository.
+</div>
+
+<footer>
+  Quantitative Portfolio Intelligence &amp; Risk Optimization Platform
+  <br>Python · Quantitative Finance · Portfolio Analytics
+  <br><a href="https://github.com/nasaamit005/quantitative-portfolio-intelligence-risk-optimization">GitHub repository</a>
+</footer>
+
+</div>
+</main>
+</div>
+
+<script>
+"use strict";
+
+const DATA_PATH = "./data/";
+let datasets = {};
+let selectedDataset = null;
+
+const $ = (id) => document.getElementById(id);
+
+function parseCSV(text) {
+  return Papa.parse(text, {
+    skipEmptyLines: true
+  }).data;
+}
+
+function numberAt(row, headers, name) {
+  const index = headers.findIndex(
+    value => String(value).trim().toLowerCase() === name.toLowerCase()
+  );
+  if (index < 0) return NaN;
+  return Number(row[index]);
+}
+
+function formatPercent(value) {
+  return Number.isFinite(value) ? (value * 100).toFixed(2) + "%" : "—";
+}
+
+function formatNumber(value, digits=3) {
+  return Number.isFinite(value) ? value.toFixed(digits) : "—";
+}
+
+function renderTable(element, rows, maxRows=250) {
+  if (!rows || rows.length < 2) {
+    element.innerHTML = "<p>No records available.</p>";
+    return;
+  }
+
+  const headers = rows[0];
+  const body = rows.slice(1, maxRows + 1);
+
+  let html = "<table><thead><tr>";
+  headers.forEach(h => {
+    html += "<th>" + escapeHTML(h) + "</th>";
+  });
+  html += "</tr></thead><tbody>";
+
+  body.forEach(row => {
+    html += "<tr>";
+    headers.forEach((_, index) => {
+      html += "<td>" + escapeHTML(row[index] ?? "") + "</td>";
+    });
+    html += "</tr>";
+  });
+
+  html += "</tbody></table>";
+  element.innerHTML = html;
+}
+
+function escapeHTML(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function chartLayout(title) {
+  return {
+    title: {text:title, font:{size:14}},
+    paper_bgcolor:"white",
+    plot_bgcolor:"white",
+    margin:{l:55,r:20,t:48,b:65},
+    font:{family:"DM Sans, sans-serif",color:"#475467"},
+    xaxis:{gridcolor:"#edf1f7"},
+    yaxis:{gridcolor:"#edf1f7"},
+    legend:{orientation:"h",y:-0.25}
+  };
+}
+
+function drawBar(element, labels, values, title, suffix="") {
+  const valid = values.map((v,i) => ({v,i}))
+    .filter(item => Number.isFinite(item.v));
+
+  if (!valid.length) {
+    $(element).innerHTML = "<p>Chart data is unavailable.</p>";
+    return;
+  }
+
+  Plotly.newPlot(element, [{
+    type:"bar",
+    x:valid.map(item => labels[item.i]),
+    y:valid.map(item => item.v),
+    text:valid.map(item => item.v.toFixed(3) + suffix),
+    textposition:"auto",
+    marker:{color:"#4263eb"}
+  }], chartLayout(title), {responsive:true,displaylogo:false});
+}
+
+function getDataset(name) {
+  return datasets[name] || null;
+}
+
+function renderPerformance() {
+  const rows = getDataset("performance.csv");
+  if (!rows || rows.length < 2) return;
+
+  const headers = rows[0];
+  const data = rows.slice(1).filter(row => row[0]);
+
+  const cagr = data.map(row =>
+    numberAt(row,headers,"CAGR")
+  );
+
+  const sharpe = data.map(row =>
+    numberAt(row,headers,"Sharpe")
+  );
+
+  const labels = data.map(row => row[0]);
+
+  const validCagr = cagr.filter(Number.isFinite);
+  const validSharpe = sharpe.filter(Number.isFinite);
+
+  $("bestCagr").textContent = validCagr.length
+    ? formatPercent(Math.max(...validCagr)) : "—";
+
+  $("bestSharpe").textContent = validSharpe.length
+    ? formatNumber(Math.max(...validSharpe)) : "—";
+
+  $("strategyCount").textContent = String(data.length);
+
+  drawBar("cagrChart",labels,cagr,"Annualized CAGR","%");
+  drawBar("sharpeChart",labels,sharpe,"Sharpe ratio");
+
+  renderTable($("performanceTable"),rows);
+}
+
+function renderRisk() {
+  const rows = getDataset("risk.csv");
+  if (rows && rows.length > 1) {
+    const headers = rows[0];
+    const data = rows.slice(1).filter(row => row[0]);
+    const labels = data.map(row => row[0]);
+    const values = data.map(row =>
+      numberAt(row,headers,"Historical VaR")
+    );
+
+    drawBar("varChart",labels,values,"Historical VaR","%");
+    renderTable($("riskTable"),rows);
+  }
+
+  const performance = getDataset("performance.csv");
+  if (performance && performance.length > 1) {
+    const headers = performance[0];
+    const data = performance.slice(1).filter(row => row[0]);
+    drawBar(
+      "drawdownChart",
+      data.map(row => row[0]),
+      data.map(row => numberAt(row,headers,"Max drawdown")),
+      "Maximum drawdown",
+      "%"
+    );
+  }
+}
+
+function renderOptimization() {
+  const frontier = getDataset("frontier.csv");
+
+  if (frontier && frontier.length > 1) {
+    const headers = frontier[0];
+    const data = frontier.slice(1);
+
+    const findIndex = (...names) => headers.findIndex(h =>
+      names.includes(String(h).trim().toLowerCase())
+    );
+
+    const xIndex = findIndex("volatility","annual_volatility",
+      "annualized volatility");
+    const yIndex = findIndex("return","expected_annual_return",
+      "expected return");
+
+    if (xIndex >= 0 && yIndex >= 0) {
+      const x = data.map(row => Number(row[xIndex]) * 100);
+      const y = data.map(row => Number(row[yIndex]) * 100);
+
+      Plotly.newPlot("frontierChart", [{
+        x,y,type:"scatter",mode:"lines+markers",
+        name:"Efficient frontier",
+        line:{color:"#4263eb",width:3}
+      }], {
+        ...chartLayout("Efficient frontier"),
+        xaxis:{title:"Annualized volatility (%)"},
+        yaxis:{title:"Expected annual return (%)"}
+      },{responsive:true,displaylogo:false});
+    } else {
+      $("frontierChart").innerHTML =
+        "<p>Frontier column names require review.</p>";
+    }
+  }
+
+  const weights = getDataset("weights_maximum_sharpe.csv");
+
+  if (weights && weights.length > 1) {
+    const headers = weights[0];
+    const data = weights.slice(1);
+    const numericColumns = headers.map((h,i) => ({
+      name:h,index:i,
+      numeric:data.some(row => Number.isFinite(Number(row[i])))
+    })).filter(item => item.numeric);
+
+    if (numericColumns.length) {
+      const first = numericColumns[0];
+      const labels = data.map((row,i) => row[0] || "Row " + (i+1));
+      const values = data.map(row => Number(row[first.index]));
+
+      Plotly.newPlot("weightsChart", [{
+        type:"bar",x:labels,y:values,
+        marker:{color:"#0ca678"}
+      }],chartLayout("Maximum-Sharpe weights"),
+      {responsive:true,displaylogo:false});
+    }
+  }
+}
+
+function renderSensitivity() {
+  const rows = getDataset("sensitivity.csv");
+  if (!rows || rows.length < 2) return;
+
+  const headers = rows[0];
+  const data = rows.slice(1);
+  const strategyIndex = headers.indexOf("Strategy");
+  const sharpeIndex = headers.indexOf("Sharpe");
+
+  if (strategyIndex >= 0 && sharpeIndex >= 0) {
+    const strategies = [...new Set(
+      data.map(row => row[strategyIndex]).filter(Boolean)
+    )];
+
+    const traces = strategies.map(strategy => {
+      const subset = data.filter(row => row[strategyIndex] === strategy);
+      return {
+        x:subset.map((row,i) => String(i+1)),
+        y:subset.map(row => Number(row[sharpeIndex])),
+        type:"scatter",mode:"lines+markers",name:strategy
+      };
+    });
+
+    Plotly.newPlot("sensitivityChart",traces,
+      chartLayout("Sensitivity analysis"),
+      {responsive:true,displaylogo:false});
+  }
+
+  renderTable($("sensitivityTable"),rows);
+}
+
+function renderOtherTables() {
+  const mappings = {
+    "stress_historical.csv":"historicalStressTable",
+    "stress_hypothetical.csv":"hypotheticalStressTable",
+    "walk_forward_yearly.csv":"walkYearTable",
+    "walk_forward_selection.csv":"walkSelectionTable"
+  };
+
+  for (const [file,element] of Object.entries(mappings)) {
+    const rows = getDataset(file);
+    if (rows) renderTable($(element),rows);
+  }
+}
+
+function renderExplorer() {
+  const select = $("datasetSelect");
+  select.innerHTML = "";
+
+  Object.keys(datasets).sort().forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    select.appendChild(option);
+  });
+
+  if (!select.options.length) return;
+
+  selectedDataset = select.value;
+  showSelectedDataset();
+
+  select.addEventListener("change",() => {
+    selectedDataset = select.value;
+    showSelectedDataset();
+  });
+
+  $("searchInput").addEventListener("input",showSelectedDataset);
+
+  $("downloadButton").addEventListener("click",() => {
+    if (!selectedDataset) return;
+    const link = document.createElement("a");
+    link.href = DATA_PATH + encodeURIComponent(selectedDataset);
+    link.download = selectedDataset;
+    link.click();
+  });
+}
+
+function showSelectedDataset() {
+  const rows = getDataset(selectedDataset);
+  if (!rows) return;
+
+  const term = $("searchInput").value.trim().toLowerCase();
+  const filtered = term
+    ? [rows[0],...rows.slice(1).filter(row =>
+        row.join(" ").toLowerCase().includes(term))]
+    : rows;
+
+  renderTable($("dataTable"),filtered,500);
+}
+
+async function loadDashboard() {
+  try {
+    const response = await fetch("./manifest.json");
+    if (!response.ok) throw new Error("Dashboard manifest could not be loaded.");
+
+    const manifest = await response.json();
+
+    await Promise.all(manifest.csv_tables.map(async filename => {
+      const result = await fetch(DATA_PATH + encodeURIComponent(filename));
+      if (!result.ok) throw new Error("Could not load " + filename);
+      datasets[filename] = parseCSV(await result.text());
+    }));
+
+    $("tableCount").textContent = String(Object.keys(datasets).length);
+
+    renderPerformance();
+    renderRisk();
+    renderOptimization();
+    renderSensitivity();
+    renderOtherTables();
+    renderExplorer();
+
+    $("status").textContent = "RESEARCH DATA LOADED";
+  } catch (error) {
+    $("status").textContent = "DATA LOADING ERROR";
+    console.error(error);
+    document.querySelector(".content").insertAdjacentHTML(
+      "afterbegin",
+      '<div class="notice">Unable to load dashboard data. Check that ' +
+      'the published data folder and manifest.json are present. ' +
+      escapeHTML(error.message) + '</div>'
+    );
+  }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

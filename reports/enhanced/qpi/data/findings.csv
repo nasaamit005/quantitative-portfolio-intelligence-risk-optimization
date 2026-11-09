@@ -1,0 +1,25 @@
+,Section,Finding,Evidence type,Detail
+0,Performance,Highest risk-adjusted return: Maximum Sharpe (Sharpe 1.12); Benchmark Sharpe 0.64.,Historical observation,"Backtest 2016-01-05 to 2026-11-02, net of 7 bps costs, rf=4.0%."
+1,Performance,Highest CAGR: Maximum Sharpe (30.9%) vs benchmark 14.8%.,Historical observation,
+2,Downside,Shallowest maximum drawdown: Maximum Sharpe (-29.0%); benchmark -33.7%. Lowest volatility: Minimum Volatility (14.2%).,Historical observation,
+3,Benchmark,"4 of 5 strategies beat the benchmark on CAGR: Equal Weight, Maximum Sharpe, Risk Parity, HRP.",Historical observation,
+4,Benchmark,Best information ratio: Equal Weight (1.56); tracking error 6.1%.,Historical observation,
+5,Risk contribution,Equal Weight: largest risk contributor is NVDA with 14.9% of risk on 8.3% of capital.,Model estimate,"Latest target weights, shrunk covariance."
+6,Risk contribution,Minimum Volatility: largest risk contributor is XOM with 16.7% of risk on 15.9% of capital.,Model estimate,"Latest target weights, shrunk covariance."
+7,Risk contribution,Maximum Sharpe: largest risk contributor is XOM with 32.0% of risk on 25.8% of capital.,Model estimate,"Latest target weights, shrunk covariance."
+8,Risk contribution,Risk Parity: largest risk contributor is XOM with 14.3% of risk on 14.8% of capital.,Model estimate,"Latest target weights, shrunk covariance."
+9,Risk contribution,HRP: largest risk contributor is JPM with 18.5% of risk on 15.4% of capital.,Model estimate,"Latest target weights, shrunk covariance."
+10,Diversification,"Effective number of holdings (1/sum w^2), full-sample optimisation: Minimum Volatility=4.2; Maximum Sharpe=3.7.",Model estimate,In-sample and hypothetical; weights are not tradeable results.
+11,Transaction costs,Cost drag is largest for Maximum Sharpe: 0.20% per year at 2.8x annual turnover.,Historical observation,
+12,Regimes,Best strategy in bearish trend regimes: Equal Weight (30.0% annualised over 327 days).,Historical observation,Regime label uses only information up to the prior day.
+13,Regimes,Weakest Sharpe in high-volatility regimes: Minimum Volatility (0.31).,Historical observation,
+14,Robustness,Most parameter-sensitive result: Maximum Sharpe to 'Lookback (days)' (Sharpe range 0.24). Median Sharpe range across all cells: 0.04.,Historical observation,Wide ranges signal estimation risk; prefer strategies whose ranking is stable.
+15,Stress (historical),"COVID-19 Crash: worst Equal Weight (-29.5%), best Maximum Sharpe (-24.8%), benchmark -33.4%.",Historical observation,
+16,Stress (historical),"COVID-19 Recovery: worst Minimum Volatility (61.6%), best Maximum Sharpe (95.1%), benchmark 69.8%.",Historical observation,
+17,Stress (historical),"2022 Bear Market: worst Equal Weight (-23.7%), best Maximum Sharpe (-5.5%), benchmark -24.1%.",Historical observation,
+18,Stress (hypothetical),Largest hypothetical loss among scenarios that differentiate strategies: HRP under 'Market -10% + Consumer Staples incremental -15%' (-14.5%).,Model estimate,"Method: Hypothetical: Combined. Model estimate, not an observed outcome."
+19,Stress (hypothetical),"4 scenario(s) apply the same loss to every strategy (uniform broad-market shocks), so they do not rank strategies.",Model estimate,
+20,Diagnostics,"6 of 6 return series reject normality (Jarque-Bera, 5%); parametric VaR may understate tail risk. Cornish-Fisher and historical VaR are reported alongside.",Historical observation,
+21,Diagnostics,"Strategies with >95% probabilistic Sharpe (vs 0): Equal Weight, Minimum Volatility, Maximum Sharpe, Risk Parity, HRP.",Historical observation,Sample-length dependent; not a forecast.
+22,Caveat,"The universe is 12 large US stocks selected with hindsight (e.g. NVDA, META, AAPL), so all strategies and the benchmark comparison carry survivorship and selection bias; absolute returns overstate what an investor could have known ex ante.",Forward-looking assumption,Selection bias affects every strategy and the benchmark comparison; treat absolute returns with caution.
+23,Caveat,"All performance figures are historical, in-sample for the choice of strategy set and parameters. Expected returns are estimated from past means and carry large estimation error. Past results do not guarantee future returns.",Forward-looking assumption,
